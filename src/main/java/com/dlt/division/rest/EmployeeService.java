@@ -30,7 +30,7 @@ public class EmployeeService implements DivisionService{
 
 
         @DivisionService(ServiceType.EP)
-        @PersistenceContext(unitName="Emp", type=PersistenceContextType.EXTENDED)
+        @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
         private EntityManager emEmployee;
 
 
