@@ -49,7 +49,7 @@ public class ProviderService implements DivisionService{
         public List<Provider> getProviders()
         {
 
-                Query query = emProvider.createQuery("FROM com.dlt.division.model.Provider order by last_name, first_name");
+                Query query = emProvider.createQuery("FROM com.dlt.division.model.Provider order by name");
                 @SuppressWarnings("unchecked")
                 List <Provider> provider = query.getResultList();
 
