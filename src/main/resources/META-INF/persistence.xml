@@ -10,7 +10,7 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
             <!-- Properties for Hibernate -->
             <property name="hibernate.hbm2ddl.auto" value="create" />
             <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.hbm2ddl.import_files" value="import.sql" />
+            <property name="hibernate.hbm2ddl.import_files" value="init_data.sql" />
         </properties>
     </persistence-unit>
 </persistence>
