@@ -23,8 +23,8 @@ public class Resources {
     // use @SuppressWarnings to tell IDE to ignore warnings about field not being referenced directly
     
     @Produces
-    @PersistenceContext(unitName="division", type=PersistenceContextType.EXTENDED)
-    private EntityManager emStation;
+    @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
+    private EntityManager emEmployee;
     
     @Produces
     @RequestScoped
