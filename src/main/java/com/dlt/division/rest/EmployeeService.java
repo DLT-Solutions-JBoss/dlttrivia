@@ -4,15 +4,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.lang.annotation.Annotation;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -39,11 +31,11 @@ public class EmployeeService implements DivisionService{
         @Path("employee/{employeeId}")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
-        public List<Employee> getEmployee(@PathParam("employeeId") String sEmployeeId)
+        public List<Employee> getEmployee(@PathParam("employeeId") int iEmployeeId)
         {
 
                 Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee where id = ?1");
-                query.setParameter(1,sEmployeeId);
+                query.setParameter(1,iEmployeeId);
                 @SuppressWarnings("unchecked")
                 List <Employee> employee = query.getResultList();
 

@@ -31,11 +31,11 @@ public class ScheduleService implements DivisionService{
         @Path("schedule/{ScheduleId}")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
-        public List<Schedule> getSchedule(@PathParam("ScheduleId") String sScheduleId)
+        public List<Schedule> getSchedule(@PathParam("ScheduleId") int iScheduleId)
         {
 
                 Query query = emSchedule.createQuery("FROM com.dlt.division.model.Schedule where id = ?1");
-                query.setParameter(1,sScheduleId);
+                query.setParameter(1,iScheduleId);
                 @SuppressWarnings("unchecked")
                 List <Schedule> Schedule = query.getResultList();
 
