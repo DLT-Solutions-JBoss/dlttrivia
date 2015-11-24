@@ -32,52 +32,37 @@ public class EmployeeService implements DivisionService{
 
         @DivisionService(ServiceType.EP)
         @PersistenceContext(unitName="Emp", type=PersistenceContextType.EXTENDED)
-        private EntityManager emStation;
+        private EntityManager emEmployee;
 
 
 
         @GET()
-        @Path("station/{stationId}")
+        @Path("employee/{employeeId}")
         @Produces("application/json")
         @DivisionService(ServiceType.Emp)
-        public List<Station> getStation(@PathParam("stationId") String sStationId)
+        public List<Employee> getEmployee(@PathParam("employeeId") String sEmployeeId)
         {
 
-                Query query = emStation.createQuery("FROM com.dlt.division.model.Station where id = ?1 order by name");
-                query.setParameter(1,sStationId);
+                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee where id = ?1 order by last_name,first_name");
+                query.setParameter(1,sEmployeeId);
                 @SuppressWarnings("unchecked")
-                List <Station> station = query.getResultList();
+                List <Employee> employee = query.getResultList();
 
-                return station;
+                return employee;
         }
 
         @GET()
-        @Path("station/state/{stateCode}")
-        @Produces("application/json")
-        @DivisionService(ServiceType.Emp)
-        public List<Station> getStationsByState(@PathParam("stateCode") String sStateCode)
-        {
-
-                Query query = emStation.createQuery("FROM com.dlt.division.model.Station where state = ?1 order by name");
-                query.setParameter(1,sStateCode);
-                @SuppressWarnings("unchecked")
-                List <Station> station = query.getResultList();
-
-                return station;
-        }
-
-        @GET()
-        @Path("stations")
+        @Path("employees")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
-        public List<Station> getStations()
+        public List<Employee> getEmployees()
         {
 
-                Query query = emStation.createQuery("FROM com.dlt.division.model.Station order by name");
+                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee order by name");
                 @SuppressWarnings("unchecked")
-                List <Station> station = query.getResultList();
+                List <Employee> employee = query.getResultList();
 
-                return station;
+                return employee;
         }
 
         @Override
