@@ -20,7 +20,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
-import com.dlt.division.model.Response;
 import com.dlt.division.model.Employee;
 
 
@@ -39,7 +38,7 @@ public class EmployeeService implements DivisionService{
         @GET()
         @Path("employee/{employeeId}")
         @Produces("application/json")
-        @DivisionService(ServiceType.Emp)
+        @DivisionService(ServiceType.EP)
         public List<Employee> getEmployee(@PathParam("employeeId") String sEmployeeId)
         {
 
