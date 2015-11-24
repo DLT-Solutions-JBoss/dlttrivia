@@ -57,7 +57,7 @@ public class EmployeeService implements DivisionService{
         public List<Employee> getEmployees()
         {
 
-                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee order by last_name, first_name");
+                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee order by lName, fName");
                 @SuppressWarnings("unchecked")
                 List <Employee> employee = query.getResultList();
 
