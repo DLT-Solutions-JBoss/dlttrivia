@@ -17,3 +17,5 @@ insert into employee (id, first_name, last_name) values (16,'Kevin','Corey');
 insert into employee (id, first_name, last_name) values (17,'Samantha','Hartle');
 insert into employee (id, first_name, last_name) values (18,'Justin','Robinson');
 insert into employee (id, first_name, last_name) values (19,'Michelle','Meadows');
+
+insert into schedule (id, emp_id, delivery_date) values (1,1,'2015-11-20');
