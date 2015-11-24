@@ -42,7 +42,7 @@ public class EmployeeService implements DivisionService{
         public List<Employee> getEmployee(@PathParam("employeeId") String sEmployeeId)
         {
 
-                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee where id = ?1 order by last_name,first_name");
+                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee where id = ?1");
                 query.setParameter(1,sEmployeeId);
                 @SuppressWarnings("unchecked")
                 List <Employee> employee = query.getResultList();
@@ -57,7 +57,7 @@ public class EmployeeService implements DivisionService{
         public List<Employee> getEmployees()
         {
 
-                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee order by name");
+                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee order by last_name, first_name");
                 @SuppressWarnings("unchecked")
                 List <Employee> employee = query.getResultList();
 
