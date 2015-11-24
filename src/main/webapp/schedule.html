@@ -34,19 +34,19 @@ window.onload = function () {
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
-			text: "Basic Column Chart - CanvasJS"              
+			text: "Breakfast Provider Favorable Ratings"              
 		},
-		animationEnabled: false,   // change to true
+		animationEnabled: true,   // change to true
 		data: [              
 		{
 			// Change type to "bar", "area", "spline", "pie",etc.
 			type: "column",
 			dataPoints: [
-				{ label: "apple",  y: 10  },
-				{ label: "orange", y: 15  },
-				{ label: "banana", y: 25  },
-				{ label: "mango",  y: 30  },
-				{ label: "grape",  y: 28  }
+				{ label: "Bagel Cafe",  y: 90  },
+				{ label: "Anitas", y: 25  },
+				{ label: "Tropical Smoothie", y: 50  },
+				{ label: "McDonalds",  y: 10  },
+				{ label: "Chik Fil A",  y: 22  }
 			]
 		}
 		]
@@ -101,9 +101,7 @@ window.onload = function () {
           <h1 class="page-header">Dashboard</h1>
 
           <div class="row placeholders">
-            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
+            <div id="chartContainer" style="height: 150px; width: 75%;"></div>
             </div>
           </div>
 
