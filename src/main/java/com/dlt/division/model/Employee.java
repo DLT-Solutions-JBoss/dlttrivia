@@ -16,10 +16,10 @@ public class Employee {
     int id;
     
     @Column(name = "first_name")
-    String firstName;
+    String first_name;
     
     @Column(name = "last_name")
-    String lastName;
+    String last_name;
 
     public int getId() {
       return id;
@@ -30,18 +30,18 @@ public class Employee {
     }
 
     public String getFirstName() {
-      return this.firstName;
+      return this.first_name;
     }
 
     public void setFirstName(String fname) {
-      this.firstName = fname;
+      this.first_name = fname;
     }
 
     public String getLastName() {
-      return this.lastName;
+      return this.last_name;
     }
 
     public void setLastName(String lname) {
-      this.lastName = lname;
+      this.last_name = lname;
     }
 }
