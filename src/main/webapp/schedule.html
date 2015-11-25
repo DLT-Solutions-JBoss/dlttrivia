@@ -53,7 +53,18 @@ window.onload = function () {
 	});
 	chart.render();
 
-	alert("Nest Friday is "+ Date.today().next().friday());
+	alert("Next Friday's date is "+ getNextFriday());
+}
+</script>
+
+<script>
+function getNextFriday() 
+{
+	  dayOfWeek = 6;
+	  date = new Date();
+	  date.setDate(date.getDate() + (dayOfWeek + 7 - date.getDay()) % 7));
+
+	  return date;
 }
 </script>
 
@@ -74,7 +85,7 @@ window.onload = function () {
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Breakfast</a></li>
+            <li><a href="/schedule.html">Breakfast</a></li>
             <li><a href="#">Settings</a></li>
             <li><a href="#">Profile</a></li>
             <li><a href="#">Help</a></li>
