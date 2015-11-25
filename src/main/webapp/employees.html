@@ -60,7 +60,7 @@ function loadEmployees()
       if (restStationsHttp.readyState==4 && restStationsHttp.status==200)
       {
           var jsonData = JSON.parse(restStationsHttp.responseText);
-          var empDiv   = document.getElementById('EmpRows');
+          var empDiv   = document.getElementById('empRows');
 
           for (var i = 0; i < jsonData.length; i++)
           {
