@@ -60,17 +60,15 @@ function loadEmployees()
       if (restStationsHttp.readyState==4 && restStationsHttp.status==200)
       {
           var jsonData = JSON.parse(restStationsHttp.responseText);
-          var strTableRows = "";
+          var empDiv   = document.getElementById('EmpRows');
 
           for (var i = 0; i < jsonData.length; i++)
           {
-              strTableRows.append("<tr>"+
+              empDiv.appendChild("<tr>"+
               "<td>"+jsonData[i].firstName+"</td>"+
               "<td>"+jsonData[i].lastName+"</td>"+
               "</tr>");
           }
-
-          document.getElementById('EmpRows') = strTableRows;
        }
     }
 
