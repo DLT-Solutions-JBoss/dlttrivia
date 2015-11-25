@@ -62,7 +62,7 @@ function loadEmployees()
           var jsonData = JSON.parse(restStationsHttp.responseText);
           var strTableRows = "";
 
-          for (var i = x.length; i > 0; i--)
+          for (var i = 0; i < jsonData.length; i++)
           {
               strTableRows.append("<tr>"+
               "<td>"+jsonData[i].firstName+"</td>"+
