@@ -60,16 +60,53 @@ window.onload = function () {
 		]
 	});
 	chart.render();
-
-	//alert("Next Friday's date is "+ getNextFriday());
 }
+
+function loadSchedule()
+{
+   var restStationsHttp;
+
+   if (window.XMLHttpRequest)
+   {
+       // code for IE7+, Firefox, Chrome, Opera, Safari
+       restStationsHttp=new XMLHttpRequest();
+       restStationsHttp.overrideMimeType("application/json");
+   }
+   else
+   {
+       // code for IE6, IE5
+       restStationsHttp=new ActiveXObject("Microsoft.XMLHTTP");
+   }
+
+   var jsonRows = '';
+
+   restStationsHttp.onreadystatechange=function()
+   {
+      if (restStationsHttp.readyState==4 && restStationsHttp.status==200)
+      {
+          var jsonData = JSON.parse(restStationsHttp.responseText);
+          var tbody    = '';
+
+          for (var i = 0; i < jsonData.length; i++)
+          {
+              tbody += "<tr>"+
+              "<td>"+jsonData[i].deliveryDate+"</td>"+
+              "<td>"+jsonData[i].employeeId+"</td>"+
+              "</tr>";
+          }
+
+          $('#schedRows').html(tbody);
+       }
+    }
+
+    restStationsHttp.open("GET","/rest/EP/schedules",true);
+    restStationsHttp.send();
+ }
 </script>
-
-
 
   </head>
 
-  <body>
+  <body onload='loadSchedule()'>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
@@ -129,25 +166,9 @@ window.onload = function () {
                 <tr>
                   <th>Date</th>
                   <th>Assignee</th>
-                  <th>Preferred Provider</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>11/13/2015</td>
-                  <td>Rick Stewart</td>
-                  <td>Bagel Cafe</td>
-                </tr>
-                <tr>
-                  <td>11/20/2015</td>
-                  <td>Samantha Hartle</td>
-                  <td>McDonalds</td>
-                </tr>
-                <tr>
-                  <td>11/24/2015</td>
-                  <td>Dana Suarez</td>
-                  <td>Anitas</td>
-                </tr>
+              <tbody id='schedRows'>
               </tbody>
             </table>
           </div>

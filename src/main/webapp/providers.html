@@ -53,11 +53,62 @@ window.onload = function () {
 	});
 	chart.render();
 }
+
+<script>
+function getNextFriday() 
+{
+	  dayOfWeek = 6;
+	  date = new Date();
+	  date.setDate(date.getDate() + (dayOfWeek + 6 - date.getDay()) % 7);
+	  return date;
+}
+
+function loadProviders()
+{
+   var restStationsHttp;
+
+   if (window.XMLHttpRequest)
+   {
+       // code for IE7+, Firefox, Chrome, Opera, Safari
+       restStationsHttp=new XMLHttpRequest();
+       restStationsHttp.overrideMimeType("application/json");
+   }
+   else
+   {
+       // code for IE6, IE5
+       restStationsHttp=new ActiveXObject("Microsoft.XMLHTTP");
+   }
+
+   var jsonRows = '';
+
+   restStationsHttp.onreadystatechange=function()
+   {
+      if (restStationsHttp.readyState==4 && restStationsHttp.status==200)
+      {
+          var jsonData = JSON.parse(restStationsHttp.responseText);
+          var tbody    = '';
+
+          for (var i = 0; i < jsonData.length; i++)
+          {
+              tbody += "<tr>"+
+              "<td>"+"<a href='"+jsonData[i].webSiteUrl+"'>+jsonData[i].Name+"</a></td>"+
+              "</tr>";
+          }
+
+          $('#provRows').html(tbody);
+       }
+    }
+
+    restStationsHttp.open("GET","/rest/EP/providers",true);
+    restStationsHttp.send();
+ }
+
+</script>
 </script>
 
   </head>
 
-  <body>
+  <body onload="loadProviders()">
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
@@ -118,16 +169,7 @@ window.onload = function () {
                   <th>Provider</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><a href="http://www.bagelcafe.com/">Bagel Cafe</a></td>
-                </tr>
-                <tr>
-                  <td><a href="http://www.mcdonalds.com/">McDonalds</a></td>
-                </tr>
-                <tr>
-                  <td><a href="http://www.anitas.com/">Anitas</a></td>
-                </tr>
+              <tbody id='provRows'>
               </tbody>
             </table>
           </div>
