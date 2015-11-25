@@ -30,7 +30,8 @@
 <script src="js/canvasjs.min.js"></script>
 <script type="text/javascript">
 
-window.onload = function () {
+function renderFavorites()
+{
 	var chart = new CanvasJS.Chart("chartContainer", {
 		theme: "theme2",//theme1
 		title:{
@@ -90,7 +91,7 @@ function loadProviders()
           for (var i = 0; i < jsonData.length; i++)
           {
               tbody += "<tr>"+
-              "<td>"+"<a href='"+jsonData[i].webSiteUrl+"'>"+jsonData[i].Name+"</a></td>"+
+              "<td>"+"<a href='"+jsonData[i].webSiteUrl+"'>"+jsonData[i].name+"</a></td>"+
               "</tr>";
           }
 
@@ -106,7 +107,7 @@ function loadProviders()
 
   </head>
 
-  <body onload='loadProviders()'>
+  <body onload='loadProviders(); renderFavorites()'>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
