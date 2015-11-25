@@ -31,8 +31,7 @@ function getNextFriday()
 {
 	  dayOfWeek = 6;
 	  date = new Date();
-	  date.setDate(date.getDate() + (dayOfWeek + 7 - date.getDay()) % 7));
-
+	  date.setDate(date.getDate() + (dayOfWeek + 6 - date.getDay()) % 7);
 	  return date;
 }
 </script>
@@ -62,7 +61,7 @@ window.onload = function () {
 	});
 	chart.render();
 
-	alert("Next Friday's date is "+ getNextFriday());
+	//alert("Next Friday's date is "+ getNextFriday());
 }
 </script>
 
