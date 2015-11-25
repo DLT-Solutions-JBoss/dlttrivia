@@ -60,15 +60,17 @@ function loadEmployees()
       if (restStationsHttp.readyState==4 && restStationsHttp.status==200)
       {
           var jsonData = JSON.parse(restStationsHttp.responseText);
-          var empDiv   = document.getElementById('empRows');
+          var tbody    = '';
 
           for (var i = 0; i < jsonData.length; i++)
           {
-              empDiv.innerHTML += "<tr>"+
+              tbody += "<tr>"+
               "<td>"+jsonData[i].firstName+"</td>"+
               "<td>"+jsonData[i].lastName+"</td>"+
               "</tr>";
           }
+
+          $('#empRows').html(tbody);
        }
     }
 
@@ -131,8 +133,7 @@ function loadEmployees()
                   <th>Last Name</th>
                 </tr>
               </thead>
-              <tbody>
-                <div id="empRows"></div>
+              <tbody id="empRows">
               </tbody>
             </table>
           </div>
