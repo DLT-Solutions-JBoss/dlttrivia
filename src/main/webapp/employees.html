@@ -64,7 +64,7 @@ function loadEmployees()
 
           for (var i = 0; i < jsonData.length; i++)
           {
-              empDiv.appendChild("<tr>"+
+              empDiv.innerHTML += "<tr>"+
               "<td>"+jsonData[i].firstName+"</td>"+
               "<td>"+jsonData[i].lastName+"</td>"+
               "</tr>");
