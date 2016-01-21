@@ -25,7 +25,6 @@ public class Schedule {
     @Column(name = "delivery_date")
     Date delivery_date;
 
-    @Column(name = "employee_name")
     String employee_name;
 
     public int getId() {
