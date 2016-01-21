@@ -21,8 +21,8 @@ public class Schedule {
     @Column(name = "id")
     int id;
     
-    @Column(name = "emp_id")
-    int emp_id;
+   // @Column(name = "emp_id")
+  //  int emp_id;
     
     @Column(name = "delivery_date")
     Date delivery_date;
