@@ -39,13 +39,13 @@ public class Schedule {
       this.id = id;
     }
 
-    public int getEmployeeId() {
-      return this.emp_id;
-    }
+ //   public int getEmployeeId() {
+ //     return this.emp_id;
+ //   }
 
-    public void setEmployeeId(int empId) {
-      this.emp_id = empId;
-    }
+ //   public void setEmployeeId(int empId) {
+//      this.emp_id = empId;
+ //   }
 
     public Date getDeliveryDate() {
       return this.delivery_date;
