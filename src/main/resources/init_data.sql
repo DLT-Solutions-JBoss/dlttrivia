@@ -18,6 +18,9 @@ insert into employee (id, first_name, last_name) values (17,'Samantha','Hartle')
 insert into employee (id, first_name, last_name) values (18,'Justin','Robinson');
 insert into employee (id, first_name, last_name) values (19,'Michelle','Meadows');
 insert into employee (id, first_name, last_name) values (20,'Kevin','Pence');
+insert into employee (id, first_name, last_name) values (21,'Sam','Biesenbach');
+insert into employee (id, first_name, last_name) values (22,'Chad','XXXX');
+insert into employee (id, first_name, last_name) values (23,'James','YYYY');
 
 insert into provider (id, name, website_url) values (1, 'Bagel Cafe', 'http://www.bagelcafe.com/');
 insert into provider (id, name, website_url) values (2, 'Anitas', 'http://www.anitascorp.com/');

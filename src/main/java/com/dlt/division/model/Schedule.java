@@ -21,9 +21,6 @@ public class Schedule {
     @Column(name = "id")
     int id;
     
-   // @Column(name = "emp_id")
-  //  int emp_id;
-    
     @Column(name = "delivery_date")
     Date delivery_date;
 
@@ -38,14 +35,6 @@ public class Schedule {
     public void setId(int id) {
       this.id = id;
     }
-
- //   public int getEmployeeId() {
- //     return this.emp_id;
- //   }
-
- //   public void setEmployeeId(int empId) {
-//      this.emp_id = empId;
- //   }
 
     public Date getDeliveryDate() {
       return this.delivery_date;
