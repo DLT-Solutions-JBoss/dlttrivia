@@ -52,4 +52,13 @@ public class Employee {
     public void setLastName(String lname) {
       this.last_name = lname;
     }
+
+	public Collection<Schedule> getSchedules() {
+		return schedules;
+	}
+
+	public void setSchedules(Collection<Schedule> schedules) {
+		this.schedules = schedules;
+	}
+    
 }

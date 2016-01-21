@@ -54,4 +54,13 @@ public class Schedule {
     public void setDeliveryDate(Date dDate) {
       this.delivery_date = dDate;
     }
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+    
 }
