@@ -25,12 +25,25 @@ public class Schedule {
     @Column(name = "delivery_date")
     Date delivery_date;
 
+    @Column(name = "employee_name")
+    String employee_name;
+
     public int getId() {
+      return id;
+        public int getId() {
       return id;
     }
 
     public void setId(int id) {
       this.id = id;
+    }
+
+    public String getEmployeeName() {
+      return this.emp_name;
+    }
+
+    public void setEmployeeName(String s) {
+      this.employee_name = s;
     }
 
     public int getEmployeeId() {
