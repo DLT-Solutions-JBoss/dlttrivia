@@ -1,6 +1,6 @@
 package com.dlt.division.model;
 
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +27,7 @@ public class Employee {
     String last_name;
 
     @OneToOne(mappedBy = "employee")
-    private Collection<Schedule> schedules;
+    private List<Schedule> schedules;
 
     public int getId() {
       return id;
@@ -53,11 +53,11 @@ public class Employee {
       this.last_name = lname;
     }
 
-	public Collection<Schedule> getSchedules() {
+	public List<Schedule> getSchedules() {
 		return schedules;
 	}
 
-	public void setSchedules(Collection<Schedule> schedules) {
+	public void setSchedules(List<Schedule> schedules) {
 		this.schedules = schedules;
 	}
     
