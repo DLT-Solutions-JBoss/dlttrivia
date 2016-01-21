@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -25,7 +26,8 @@ public class Schedule {
     @Column(name = "delivery_date")
     Date delivery_date;
 
-    String employee_name;
+    @ManyToOne
+    private Employee employee;
 
     public int getId() {
       return id;
@@ -33,14 +35,6 @@ public class Schedule {
 
     public void setId(int id) {
       this.id = id;
-    }
-
-    public String getEmployeeName() {
-      return this.employee_name;
-    }
-
-    public void setEmployeeName(String s) {
-      this.employee_name = s;
     }
 
     public int getEmployeeId() {

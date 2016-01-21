@@ -49,7 +49,7 @@ public class ScheduleService implements DivisionService{
         public List<Schedule> getSchedules()
         {
 
-                Query query = emSchedule.createQuery("select s.id, delivery_date, s.emp_id, concat(e.first_name,' ',e.last_name) 'employee_name' FROM schedule s, employee e where s.emp_id = e.id order by delivery_date");
+                Query query = emSchedule.createQuery("FROM com.dlt.division.model.Schedule order by delivery_date");
                 @SuppressWarnings("unchecked")
                 List <Schedule> Schedule = query.getResultList();
 
