@@ -37,7 +37,7 @@ public class Schedule {
     }
 
     public String getEmployeeName() {
-      return this.emp_name;
+      return this.employee_name;
     }
 
     public void setEmployeeName(String s) {
