@@ -30,8 +30,6 @@ public class Schedule {
 
     public int getId() {
       return id;
-        public int getId() {
-      return id;
     }
 
     public void setId(int id) {
