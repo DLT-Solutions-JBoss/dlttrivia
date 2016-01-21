@@ -1,13 +1,10 @@
 package com.dlt.division.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -25,9 +22,6 @@ public class Employee {
     
     @Column(name = "last_name")
     String last_name;
-
-    @OneToOne(mappedBy = "employee")
-    private List<Schedule> schedules;
 
     public int getId() {
       return id;
@@ -52,13 +46,5 @@ public class Employee {
     public void setLastName(String lname) {
       this.last_name = lname;
     }
-
-	public List<Schedule> getSchedules() {
-		return schedules;
-	}
-
-	public void setSchedules(List<Schedule> schedules) {
-		this.schedules = schedules;
-	}
-    
+   
 }
