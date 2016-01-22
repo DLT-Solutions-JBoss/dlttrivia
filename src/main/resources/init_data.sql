@@ -19,8 +19,8 @@ insert into employee (id, first_name, last_name, email) values (18,'Justin','Rob
 insert into employee (id, first_name, last_name, email) values (19,'Michelle','Meadows', 'michelle.meadows@dlt.com');
 insert into employee (id, first_name, last_name, email) values (20,'Kevin','Pence', 'kevin.pence@dlt.com');
 insert into employee (id, first_name, last_name, email) values (21,'Sam','Biesenbach', 'sam.biesenbach@dlt.com');
-insert into employee (id, first_name, last_name, email) values (22,'Chad','XXXX', 'chad.xxxx@dlt.com');
-insert into employee (id, first_name, last_name, email) values (23,'James','YYYY', 'james.yyyy@dlt.com');
+insert into employee (id, first_name, last_name, email) values (22,'Chad','Austin', 'chad.austin@dlt.com');
+insert into employee (id, first_name, last_name, email) values (23,'James','Kovach', 'james.kovach@dlt.com');
 
 insert into provider (id, name, website_url) values (1, 'Bagel Cafe', 'http://www.bagelcafe.com/');
 insert into provider (id, name, website_url) values (2, 'Anitas', 'http://www.anitascorp.com/');
