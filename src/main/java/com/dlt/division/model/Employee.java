@@ -23,6 +23,9 @@ public class Employee {
     @Column(name = "last_name")
     String last_name;
 
+    @Column(name = "email")
+    String email;
+    
     public int getId() {
       return id;
     }
@@ -46,5 +49,13 @@ public class Employee {
     public void setLastName(String lname) {
       this.last_name = lname;
     }
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
    
 }
