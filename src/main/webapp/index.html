@@ -91,7 +91,12 @@ function loadSchedule()
           {
               tbody += "<tr>"+
               "<td>"+jsonData[i].deliveryDate+"</td>"+
-              "<td>"+jsonData[i].employee.firstName+" "+jsonData[i].employee.lastName+"</td>"+
+              "<td>"+
+
+                 "<a href='mailto:"+jsonData[i].employee.email+"?Subect=DLT%20Breakfast' target='_top'>"+
+                 jsonData[i].employee.firstName+" "+jsonData[i].employee.lastName+
+                 "</a>"+
+              "</td>"+
               "</tr>";
           }
 
