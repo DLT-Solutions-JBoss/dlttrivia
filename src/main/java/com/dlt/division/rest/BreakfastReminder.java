@@ -68,11 +68,16 @@ public class BreakfastReminder implements DivisionService{
 
             			Message message = new MimeMessage(session);
             			message.setFrom(new InternetAddress(username));
+            			Schedule sched = Schedule.get(0);
             			message.setRecipients(Message.RecipientType.TO,
+            					//InternetAddress.parse(sched.getEmployee().getEmail()));
             				InternetAddress.parse("rickstewart0417@gmail.com"));
-            			message.setSubject("Testing Subject");
-            			message.setText("Dear Mail Crawler,"
-            				+ "\n\n No spam to my email, please!");
+            			message.setSubject("DLT EP Breakfast Reminder");
+            			message.setText("Dear "+sched.getEmployee().getFirstName()+","
+            				+ "\n\n This is a reminder you are scheduled to get breakfast on "
+            				+ sched.getDeliveryDate()
+            				+ "\n\nLove,"
+            				+ "\nDLT EP Breakfast Service");
 
             			Transport.send(message);
 
