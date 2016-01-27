@@ -3,7 +3,9 @@ package com.dlt.division.rest;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+
 import java.lang.annotation.Annotation;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -73,9 +75,13 @@ public class BreakfastReminder implements DivisionService{
             					//InternetAddress.parse(sched.getEmployee().getEmail()));
             				InternetAddress.parse("rickstewart0417@gmail.com"));
             			message.setSubject("DLT EP Breakfast Reminder");
+            			
+            			SimpleDateFormat ft = 
+            				      new SimpleDateFormat ("E, M/d/yyyy");
+            			
             			message.setText("Dear "+sched.getEmployee().getFirstName()+","
             				+ "\n\n This is a reminder you are scheduled to get breakfast on "
-            				+ sched.getDeliveryDate()
+            				+ ft.format(sched.getDeliveryDate()) + "."
             				+ "\n\nLove,"
             				+ "\nDLT EP Breakfast Service");
 
