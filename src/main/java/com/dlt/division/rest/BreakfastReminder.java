@@ -40,7 +40,8 @@ public class BreakfastReminder implements DivisionService{
         public List<Schedule> sendEmail()
         {
 
-                Query query = emSchedule.createQuery("FROM com.dlt.division.model.Schedule where delivery_date > now() limit 1");
+                Query query = emSchedule.createQuery("FROM com.dlt.division.model.Schedule where delivery_date > current_date()")
+                		.setMaxResults(1);
                 @SuppressWarnings("unchecked")
                 List <Schedule> Schedule = query.getResultList();
                 
