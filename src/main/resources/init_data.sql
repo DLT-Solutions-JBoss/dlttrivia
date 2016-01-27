@@ -26,7 +26,7 @@ insert into provider (id, name, website_url) values (1, 'Bagel Cafe', 'http://ww
 insert into provider (id, name, website_url) values (2, 'Anitas', 'http://www.anitascorp.com/');
 
 insert into schedule (id, emp_id, delivery_date) values (2,21,'2016-01-22');
-insert into schedule (id, emp_id, delivery_date) values (3,20,'2016-01-28');
+insert into schedule (id, emp_id, delivery_date) values (3,20,'2016-01-29');
 insert into schedule (id, emp_id, delivery_date) values (4,22,'2016-02-05');
 insert into schedule (id, emp_id, delivery_date) values (5,23,'2016-02-12');
 insert into schedule (id, emp_id, delivery_date) values (6,8,'2016-02-19');
