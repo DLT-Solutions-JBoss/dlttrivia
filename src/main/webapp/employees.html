@@ -67,6 +67,7 @@ function loadEmployees()
               tbody += "<tr>"+
               "<td>"+jsonData[i].firstName+"</td>"+
               "<td>"+jsonData[i].lastName+"</td>"+
+              "<td>"+jsonData[i].email+"</td>"+
               "</tr>";
           }
 
@@ -131,6 +132,7 @@ function loadEmployees()
                 <tr>
                   <th>First Name</th>
                   <th>Last Name</th>
+                  <th>Email</th>
                 </tr>
               </thead>
               <tbody id="empRows">
