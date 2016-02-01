@@ -67,7 +67,11 @@ function loadEmployees()
               tbody += "<tr>"+
               "<td>"+jsonData[i].firstName+"</td>"+
               "<td>"+jsonData[i].lastName+"</td>"+
-              "<td>"+jsonData[i].email+"</td>"+
+              "<td>"+
+                 "<a href='mailto:"+jsonData[i].employee.email+"' target='_top'>"+
+                 jsonData[i].email+
+                 "</a>"+
+              "</td>"+
               "</tr>";
           }
 
