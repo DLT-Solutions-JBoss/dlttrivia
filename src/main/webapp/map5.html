@@ -29,7 +29,7 @@
             var infoWindow = new google.maps.InfoWindow;
 
             // Change this depending on the name of your PHP file
-            downloadUrl("phpinfo.php?lat=37&lng=-122&radius=25", function(data) {
+            downloadUrl("http://ag-test-google-1345677402.us-west-2.elb.amazonaws.com/phpinfo.php?lat=37&lng=-122&radius=25", function(data) {
                 var xml = data.responseXML;
                 var markers = xml.documentElement.getElementsByTagName("marker");
                 for (var i = 0; i < markers.length; i++) {
