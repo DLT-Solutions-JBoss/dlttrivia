@@ -76,8 +76,8 @@ function loadSchedule()
    {
       if (restStationsHttp.readyState==4 && restStationsHttp.status==200)
       {
-          var nextImage =  "&nbsp; <img src='/images/Left_Arrow_Red.png' alt='Next Breakfast Deliverer' height='10' width='10'>"; 
-          var doneImage =  "&nbsp; <img src='/images/green_check.png' alt='Complete' height='10' width='10'>"; 
+          var nextImage =  "&nbsp; <img src='/images/Left_Arrow_Red.png' alt='Next Breakfast Deliverer' height='20' width='20'>"; 
+          var doneImage =  "&nbsp; <img src='/images/green_check.png' alt='Complete' height='20' width='20'>"; 
           var jsonData = JSON.parse(restStationsHttp.responseText);
           var tbody    = '';
           var tRowDef = '<tr>';
