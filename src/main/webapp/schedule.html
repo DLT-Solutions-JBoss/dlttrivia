@@ -76,10 +76,13 @@ function loadSchedule()
    {
       if (restStationsHttp.readyState==4 && restStationsHttp.status==200)
       {
+          var nextImage =  "&nbsp; <img src='/images/Left_Arrow_Red.png' alt='Next Breakfast Deliverer' height='10' width='10'>"; 
+          var doneImage =  "&nbsp; <img src='/images/green_check.png' alt='Complete' height='10' width='10'>"; 
           var jsonData = JSON.parse(restStationsHttp.responseText);
           var tbody    = '';
           var tRowDef = '<tr>';
-          var nextUpInd = ' &lt;&lt; Next!';
+          var nextUpInd = '';
+          var foundNext = false;
 
           var nextFriday = moment().day(5).format('YYYY-MM-DD');
 
@@ -87,11 +90,19 @@ function loadSchedule()
           {
               if (jsonData[i].deliveryDate === nextFriday)
               {
-                 nextUpInd = ' &lt;&lt; Next!';
+                 nextUpInd = nextImage;
+                 foundNext = true;
               }
               else
               {
-                 nextUpInd = '';
+                 if (foundNext)
+                 {
+                    nextUpInd = '';
+                 }
+                 else
+                 {
+                    nextUpInd = doneImage;
+                 }
               }
 
               tbody += tRowDef +
