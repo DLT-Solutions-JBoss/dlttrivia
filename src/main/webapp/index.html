@@ -27,15 +27,17 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script>
+
 function getNextFriday() 
 {
-	  dayOfWeek = 6;
+	  dayOfWeek = 5;
 	  date = new Date();
-	  date.setDate(date.getDate() + (dayOfWeek + 6 - date.getDay()) % 7);
+          date.setDate(date.getDate() + (dayOfWeek + 7 - date.getDay()) % 7));
 	  return date;
 }
 </script>
 <script src="js/canvasjs.min.js"></script>
+<script src="js/moment.js"></script>
 <script type="text/javascript">
 
 window.onload = function () {
@@ -86,10 +88,25 @@ function loadSchedule()
       {
           var jsonData = JSON.parse(restStationsHttp.responseText);
           var tbody    = '';
+          var nextDate = getNextFriday();
+          var tRowDef = '<tr>';
+
+          var nextFriday = moment().day(12).format('YYYY-MM-DD');
+
+          alert("Next friday is " + nextFriday);
 
           for (var i = 0; i < jsonData.length; i++)
           {
-              tbody += "<tr>"+
+              if (jsonData[i].deliveryDate == nextFriday)
+              {
+                 tRowDef = "<tr class='hover'>";
+              }
+              else
+              {
+                 tRowDef = "<tr>";
+              }
+
+              tbody += tRowDef +
               "<td>"+jsonData[i].deliveryDate+"</td>"+
               "<td>"+
 
