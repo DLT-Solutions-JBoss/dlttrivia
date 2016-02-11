@@ -80,15 +80,14 @@ function loadSchedule()
           var tbody    = '';
           var tRowDef = '<tr>';
 
-          var nextFriday = moment().day(12).format('YYYY-MM-DD');
-
-          alert("Next friday is " + nextFriday);
+          var nextFriday = moment().day(5).format('YYYY-MM-DD');
 
           for (var i = 0; i < jsonData.length; i++)
           {
-              if (jsonData[i].deliveryDate == nextFriday)
+              if (jsonData[i].deliveryDate === nextFriday)
               {
                  tRowDef = "<tr class='hover'>";
+                 alert("found a match on row with delivery date = "+ jsonData[i].deliveryDate);
               }
               else
               {
