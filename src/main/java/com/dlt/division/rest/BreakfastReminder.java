@@ -25,7 +25,7 @@ import javax.mail.internet.MimeMessage;
 
 import com.dlt.division.model.Schedule;
 
-//Dummy comment
+//Path to REST Service 
 @Path("/EP")
 public class BreakfastReminder implements DivisionService{
 
