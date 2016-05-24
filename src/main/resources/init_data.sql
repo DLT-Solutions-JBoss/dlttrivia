@@ -43,7 +43,7 @@ insert into schedule (id, emp_id, delivery_date) values (16,1,'2016-04-29');
 insert into schedule (id, emp_id, delivery_date) values (17,6,'2016-05-06');
 insert into schedule (id, emp_id, delivery_date) values (18,13,'2016-05-13');
 insert into schedule (id, emp_id, delivery_date) values (19,10,'2016-05-20');
-insert into schedule (id, emp_id, delivery_date) values (20,18,'2016-05-27');
+insert into schedule (id, emp_id, delivery_date) values (20,18,'2016-05-26');
 insert into schedule (id, emp_id, delivery_date) values (21,4,'2016-06-03');
 insert into schedule (id, emp_id, delivery_date) values (22,16,'2016-06-10');
 insert into schedule (id, emp_id, delivery_date) values (23,21,'2016-06-17');
