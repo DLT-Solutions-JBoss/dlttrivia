@@ -28,6 +28,7 @@ insert into employee (id, first_name, last_name, email) values (26,'Matt','Ludem
 insert into provider (id, name, website_url) values (1, 'Bagel Cafe', 'http://www.bagelcafe.com/');
 insert into provider (id, name, website_url) values (2, 'Anitas', 'http://www.anitascorp.com/');
 
+-- DLT EP Breakfast Schedule
 insert into schedule (id, emp_id, delivery_date) values (2,21,'2016-01-22');
 insert into schedule (id, emp_id, delivery_date) values (3,20,'2016-01-29');
 insert into schedule (id, emp_id, delivery_date) values (4,22,'2016-02-05');
