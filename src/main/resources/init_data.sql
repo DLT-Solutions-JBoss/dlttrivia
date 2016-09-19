@@ -64,7 +64,7 @@ insert into schedule (id, emp_id, delivery_date) values (33,1,'2016-08-26');
 insert into schedule (id, emp_id, delivery_date) values (34,9,'2016-09-02');
 insert into schedule (id, emp_id, delivery_date) values (35,16,'2016-09-09');
 insert into schedule (id, emp_id, delivery_date) values (36,2,'2016-09-16');
-insert into schedule (id, emp_id, delivery_date) values (37,17,'2016-09-22');
+insert into schedule (id, emp_id, delivery_date) values (37,17,'2016-09-23');
 insert into schedule (id, emp_id, delivery_date) values (38,20,'2016-09-30');
 insert into schedule (id, emp_id, delivery_date) values (39,10,'2016-10-07');
 insert into schedule (id, emp_id, delivery_date) values (40,18,'2016-10-14');
