@@ -84,12 +84,15 @@ function loadSchedule()
           var nextUpInd = '';
           var foundNext = false;
 
+          var scheduleDate        = new Date('2016-12-01');
           var scheduleDisplayDate = new Date('2016-12-01');
           var nextFriday = moment().day(5).format('YYYY-MM-DD');
 
           for (var i = 0; i < jsonData.length; i++)
           {
-              if (jsonData[i].deliveryDate > scheduleDisplayDate)
+              scheduleDate = new Date(jsonData[i].deliveryDate);
+
+              if (scheduleDate > scheduleDisplayDate)
               {
 
                 if (jsonData[i].deliveryDate === nextFriday)
