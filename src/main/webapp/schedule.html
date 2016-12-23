@@ -84,36 +84,40 @@ function loadSchedule()
           var nextUpInd = '';
           var foundNext = false;
 
+          var scheduleDisplayDate = new Date('2016-12-01');
           var nextFriday = moment().day(5).format('YYYY-MM-DD');
 
           for (var i = 0; i < jsonData.length; i++)
           {
-              if (jsonData[i].deliveryDate === nextFriday)
+              if (jsonData[i].deliveryDate > scheduleDisplayDate)
               {
-                 nextUpInd = nextImage;
-                 foundNext = true;
-              }
-              else
-              {
-                 if (foundNext)
-                 {
-                    nextUpInd = '';
-                 }
-                 else
-                 {
-                    nextUpInd = doneImage;
-                 }
-              }
 
-              tbody += tRowDef +
-              "<td>"+jsonData[i].deliveryDate+"</td>"+
-              "<td>"+
+                if (jsonData[i].deliveryDate === nextFriday)
+                {
+                   nextUpInd = nextImage;
+                   foundNext = true;
+                }
+                else
+                {
+                   if (foundNext)
+                   {
+                      nextUpInd = '';
+                   }
+                   else
+                   {
+                      nextUpInd = doneImage;
+                   }
+                }
 
-                 "<a href='mailto:"+jsonData[i].employee.email+"?Subect=DLT%20Breakfast' target='_top'>"+
-                 jsonData[i].employee.firstName+" "+jsonData[i].employee.lastName+
-                 "</a>"+ nextUpInd +
-              "</td>"+
-              "</tr>";
+                tbody += tRowDef +
+                "<td>"+jsonData[i].deliveryDate+"</td>"+
+                "<td>"+
+                   "<a href='mailto:"+jsonData[i].employee.email+"?Subect=DLT%20Breakfast' target='_top'>"+
+                   jsonData[i].employee.firstName+" "+jsonData[i].employee.lastName+
+                   "</a>"+ nextUpInd +
+                "</td>"+
+                "</tr>";
+            }
           }
 
           $('#schedRows').html(tbody);
