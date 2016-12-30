@@ -81,10 +81,10 @@ insert into schedule (id, emp_id, delivery_date) values (47,12,'2016-12-02');
 insert into schedule (id, emp_id, delivery_date) values (48,27,'2016-12-09'); 
 insert into schedule (id, emp_id, delivery_date) values (49,3,'2016-12-16');
 insert into schedule (id, emp_id, delivery_date) values (50,15,'2016-12-23');
-insert into schedule (id, emp_id, delivery_date) values (51,7,'2016-12-30');
+insert into schedule (id, emp_id, delivery_date) values (51,9,'2016-12-30');
 
 insert into schedule (id, emp_id, delivery_date) values (52,5,'2017-01-06');  -- new order
-insert into schedule (id, emp_id, delivery_date) values (53,9,'2017-01-13');
+insert into schedule (id, emp_id, delivery_date) values (53,7,'2017-01-13');
 insert into schedule (id, emp_id, delivery_date) values (54,6,'2017-01-20');
 insert into schedule (id, emp_id, delivery_date) values (55,20,'2017-02-03');
 insert into schedule (id, emp_id, delivery_date) values (56,3,'2017-02-10');
@@ -98,7 +98,7 @@ insert into schedule (id, emp_id, delivery_date) values (61,26,'2017-03-31');
 insert into schedule (id, emp_id, delivery_date) values (62,25,'2017-04-07');
 insert into schedule (id, emp_id, delivery_date) values (63,1,'2017-04-14');
 insert into schedule (id, emp_id, delivery_date) values (64,14,'2017-04-21');
-insert into schedule (id, emp_id, delivery_date) values (65,7,'2017-04-28');
+insert into schedule (id, emp_id, delivery_date) values (65,9,'2017-04-28');
 insert into schedule (id, emp_id, delivery_date) values (66,18,'2017-05-05');
 insert into schedule (id, emp_id, delivery_date) values (67,21,'2017-05-12');
 insert into schedule (id, emp_id, delivery_date) values (68,11,'2017-05-19');
