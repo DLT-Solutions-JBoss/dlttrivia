@@ -28,7 +28,6 @@ insert into employee (id, first_name, last_name, email) values (27,'Lakeisha','T
 insert into employee (id, first_name, last_name, email) values (28,'Patrick','Gavin', 'patrick.gavin@dlt.com');
 insert into employee (id, first_name, last_name, email) values (29,'Greg','Agana', 'greg.agana@dlt.com');
 
-
 insert into provider (id, name, website_url) values (1, 'Bagel Cafe', 'http://www.bagelcafe.com/');
 insert into provider (id, name, website_url) values (2, 'Anitas', 'http://www.anitascorp.com/');
 
