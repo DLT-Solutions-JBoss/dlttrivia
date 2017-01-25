@@ -87,6 +87,7 @@ insert into schedule (id, emp_id, delivery_date) values (51,9,'2016-12-30');
 insert into schedule (id, emp_id, delivery_date) values (52,5,'2017-01-06');  -- new order
 insert into schedule (id, emp_id, delivery_date) values (53,7,'2017-01-13');
 insert into schedule (id, emp_id, delivery_date) values (54,6,'2017-01-20');
+insert into schedule (id, emp_id, delivery_date) values (0,1,'2017-01-27');
 insert into schedule (id, emp_id, delivery_date) values (55,20,'2017-02-03');
 insert into schedule (id, emp_id, delivery_date) values (56,3,'2017-02-10');
 insert into schedule (id, emp_id, delivery_date) values (57,27,'2017-02-17');
