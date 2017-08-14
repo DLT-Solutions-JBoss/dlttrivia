@@ -31,6 +31,7 @@ insert into employee (id, first_name, last_name, email) values (30,'Mike','Fitzu
 insert into employee (id, first_name, last_name, email) values (31,'Doug','Logar', 'doug.logar@dlt.com');
 insert into employee (id, first_name, last_name, email) values (32,'Seth','Anderson', 'seth.anderson@dlt.com');
 insert into employee (id, first_name, last_name, email) values (33,'Thy','Williams', 'thy.williams@dlt.com');
+insert into employee (id, first_name, last_name, email) values (34,'Bryan','Little', 'bryan.little@dlt.com');
 
 insert into provider (id, name, website_url) values (1, 'Bagel Cafe', 'http://www.bagelcafe.com/');
 insert into provider (id, name, website_url) values (2, 'Anitas', 'http://www.anitascorp.com/');
@@ -120,8 +121,8 @@ insert into schedule (id, emp_id, delivery_date) values (77,10,'2017-07-21'); --
 insert into schedule (id, emp_id, delivery_date) values (78,5,'2017-07-28');
 insert into schedule (id, emp_id, delivery_date) values (79,7,'2017-08-04');
 insert into schedule (id, emp_id, delivery_date) values (80,6,'2017-08-11');
-insert into schedule (id, emp_id, delivery_date) values (81,1,'2017-08-18');
-insert into schedule (id, emp_id, delivery_date) values (82,20,'2017-08-25');
+insert into schedule (id, emp_id, delivery_date) values (81,34,'2017-08-18');
+insert into schedule (id, emp_id, delivery_date) values (82,1,'2017-08-25');
 insert into schedule (id, emp_id, delivery_date) values (83,3,'2017-09-01');
 insert into schedule (id, emp_id, delivery_date) values (84,27,'2017-09-08');
 insert into schedule (id, emp_id, delivery_date) values (85,17,'2017-09-15');
