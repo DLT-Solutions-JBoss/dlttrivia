@@ -44,7 +44,6 @@ installed version of EAP on the node hosting your application.  To determine
 the version of EAP running on the node, log into an example EAP application and
 look in the jbosseap/logs/server.log file for the line:
 
-... JBAS015874: JBoss EAP 6.1.1.GA (AS 7.2.1.Final-redhat-10) started ...
 
 To determine the correct value for <version>, download the maven repository zip
 file corresponding to the installed version of EAP from the customer service
