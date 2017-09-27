@@ -6,9 +6,9 @@
 	<packaging>war</packaging>
 	<version>1.0</version>
 	<name>dltepbreakfast</name>
-	<configuration>
-		<webXml>src\main\webapp\WEB-INF\web.xml</webXml>
-	</configuration>
+    <configuration>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+    </configuration>
 	<repositories>
 		<repository>
 			<id>eap</id>
