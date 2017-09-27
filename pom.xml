@@ -6,6 +6,9 @@
 	<packaging>war</packaging>
 	<version>1.0</version>
 	<name>dltepbreakfast</name>
+	<configuration>
+		<webXml>src\main\webapp\WEB-INF\web.xml</webXml>
+	</configuration>
 	<repositories>
 		<repository>
 			<id>eap</id>
@@ -30,26 +33,6 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-	
-	<build>
-		<directory>target</directory>
-		<outputDirectory>target/classes</outputDirectory>
-		<finalName>${artifactId}-${version}</finalName>
-		<testOutputDirectory>target/test-classes</testOutputDirectory>
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<scriptSourceDirectory>src/main/scripts</scriptSourceDirectory>
-		<testSourceDirectory>src/test/java</testSourceDirectory>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-		</resources>
-		<testResources>
-			<testResource>
-				<directory>src/test/resources</directory>
-			</testResource>
-		</testResources>
-	</build>
 	
 	
 	<properties>
