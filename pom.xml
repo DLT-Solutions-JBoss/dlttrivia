@@ -6,9 +6,7 @@
 	<packaging>war</packaging>
 	<version>1.0</version>
 	<name>dltepbreakfast</name>
-    <configuration>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
-    </configuration>
+
 	<repositories>
 		<repository>
 			<id>eap</id>
@@ -84,6 +82,7 @@ jboss-eap-*-maven-repository/org/jboss/spec/jboss-javaee-6.0
 						<configuration>
 							<outputDirectory>target</outputDirectory>
 							<warName>ROOT</warName>
+							<failOnMissingWebXml>false</failOnMissingWebXml>
 						</configuration>
 					</plugin>
 				</plugins>
