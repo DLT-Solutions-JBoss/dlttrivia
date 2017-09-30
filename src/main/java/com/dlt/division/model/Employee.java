@@ -25,7 +25,10 @@ public class Employee {
 
     @Column(name = "email")
     String email;
-    
+ 
+    @Column(name = "status")
+    String status;
+	
     public int getId() {
       return id;
     }
@@ -50,12 +53,19 @@ public class Employee {
       this.last_name = lname;
     }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+	return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-   
+    public void setEmail(String email) {
+	this.email = email;
+    }
+
+    public String getStatus() {
+	return status;
+    }
+
+    public void setStatus(String status) {
+	this.status = status;
+    }
 }
