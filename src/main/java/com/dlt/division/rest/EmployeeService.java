@@ -57,7 +57,7 @@ public class EmployeeService implements DivisionService{
         }
 
         @GET()
-        @Path("employees")
+        @Path("activeEmployees")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
         public List<Employee> getActiveEmployees()
