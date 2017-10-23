@@ -51,7 +51,7 @@ public class BreakfastReminder implements DivisionService{
                 {
                 	//Email scheduled employee
             		final String username = "DLT.JBoss@gmail.com";
-            		final String password = "DLTJBossMW";
+            		final String password = "r3dh4t!@#";
 
             		Properties props = new Properties();
             		props.put("mail.smtp.auth", "true");

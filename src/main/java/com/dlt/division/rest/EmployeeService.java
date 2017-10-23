@@ -56,6 +56,20 @@ public class EmployeeService implements DivisionService{
                 return employee;
         }
 
+        @GET()
+        @Path("activeEmployees")
+        @Produces("application/json")
+        @DivisionService(ServiceType.EP)
+        public List<Employee> getActiveEmployees()
+        {
+
+                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee where status = 'A' order by last_name, first_name");
+                @SuppressWarnings("unchecked")
+                List <Employee> employee = query.getResultList();
+
+                return employee;
+        }        
+        
         @Override
         public Class<? extends Annotation> annotationType() {
                 return null;
