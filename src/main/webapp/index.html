@@ -81,6 +81,12 @@ function loadSchedule()
           var tRowDef = '<tr>';
 
           var nextFriday = moment().day(5).format('YYYY-MM-DD');
+	  var thanksgivingFriday  = new Date('2017-11-24');
+
+          if (nextFriday == thanksgivingFriday )
+          {
+             nextFriday = new Date('2017-11-22');
+          }
 
           for (var i = 0; i < jsonData.length; i++)
           {
