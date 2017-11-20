@@ -136,7 +136,7 @@ insert into schedule (id, emp_id, delivery_date) values (91,31,'2017-10-27');
 insert into schedule (id, emp_id, delivery_date) values (92,35,'2017-11-03');
 insert into schedule (id, emp_id, delivery_date) values (93,18,'2017-11-10');
 insert into schedule (id, emp_id, delivery_date) values (94,21,'2017-11-17');
-insert into schedule (id, emp_id, delivery_date) values (95,28,'2017-11-24'); 
+insert into schedule (id, emp_id, delivery_date) values (95,28,'2017-11-22'); 
 insert into schedule (id, emp_id, delivery_date) values (96,11,'2017-12-01'); 
 insert into schedule (id, emp_id, delivery_date) values (97,15,'2017-12-08');
 insert into schedule (id, emp_id, delivery_date) values (98,10,'2017-12-15'); 
