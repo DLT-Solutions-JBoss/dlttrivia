@@ -89,7 +89,7 @@ function loadSchedule()
           var scheduleDisplayDate = new Date('2016-12-01');
           var nextFriday = moment().day(5).format('YYYY-MM-DD');
 
-	  if (nextFriday == thanksgivingFriday )
+	  if (nextFriday === thanksgivingFriday )
 	  {
              nextFriday = new Date('2017-11-22');
 	  }
