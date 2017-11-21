@@ -10,12 +10,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @Entity
-@Table(name="employee")
-public class Employee {
+@Table(name="user")
+public class User {
 
     @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "id")
-    int id;
+    @Column(name = "user_id")
+    int user_id;
     
     @Column(name = "first_name")
     String first_name;
@@ -29,12 +29,12 @@ public class Employee {
     @Column(name = "status")
     String status;
 	
-    public int getId() {
-      return id;
+    public int getUserId() {
+      return user_id;
     }
 
-    public void setId(int id) {
-      this.id = id;
+    public void setUserId(int id) {
+      this.user_id = id;
     }
 
     public String getFirstName() {
