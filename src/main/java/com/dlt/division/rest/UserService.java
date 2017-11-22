@@ -62,8 +62,9 @@ public class UserService implements DivisionService{
         @DivisionService(ServiceType.EP)
         public List<User> getActiveUsers()
         {
-
-                Query query = emUser.createQuery("FROM com.dlt.division.model.User where status = TRUE order by last_name, first_name");
+                boolean isActive = true;
+                Query query = emUser.createQuery("FROM com.dlt.division.model.User where status = ?1 order by last_name, first_name");
+                query.setParameter(1,isActive);
                 @SuppressWarnings("unchecked")
                 List <User> user = query.getResultList();
 
