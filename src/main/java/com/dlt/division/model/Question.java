@@ -30,6 +30,9 @@ public class Question {
     @Column(name = "updated", columnDefinition="DATETIME")
     private Date updated;
 
+    @Column(name = "question_value")
+    private int question_value;
+
     public int getQuestionId() {
       return question_id;
     }
@@ -52,6 +55,15 @@ public class Question {
 
     public void setAnswerText(String text) {
       this.answer_text = text;
+    }
+
+
+    public int getQuestionValue() {
+      return this.question_value;
+    }
+
+    public void setQuestionValue(int i) {
+      this.question_value = i;
     }
 
     public Date getCreated() {
