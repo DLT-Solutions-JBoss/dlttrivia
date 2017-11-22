@@ -18,10 +18,10 @@ public class Question {
     @Column(name = "question_id")
     int question_id;
     
-    @Column(name = "question_text")
+    @Column(name = "question_text", columnDefinition="varchar(5000)")
     String question_text;
 
-    @Column(name = "answer_text")
+    @Column(name = "answer_text", columnDefinition="varchar(5000)")
     String answer_text;
     
     @Column(name = "created", columnDefinition="DATETIME")

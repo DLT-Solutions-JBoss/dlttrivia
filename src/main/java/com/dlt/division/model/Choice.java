@@ -18,7 +18,7 @@ public class Choice {
     @Column(name = "choice_id")
     int choice_id;
     
-    @Column(name = "choice_text")
+    @Column(name = "choice_text", columnDefinition="varchar(5000)")
     String choice_text;
     
     @Column(name = "created", columnDefinition="DATETIME")
