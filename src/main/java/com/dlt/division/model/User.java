@@ -27,7 +27,7 @@ public class User {
     String email;
  
     @Column(name = "status")
-    String status;
+    boolean status;
 	
     public int getUserId() {
       return user_id;
@@ -61,11 +61,11 @@ public class User {
 	this.email = email;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
 	return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
 	this.status = status;
     }
 }
