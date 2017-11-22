@@ -1,19 +1,25 @@
 package com.dlt.division.model;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 
-@XmlRootElement
+@XmlRootElement 
 @Entity
 @Table(name="contestant")
 public class Contestant {
+
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "contestant_id")
+    int contestant_id;
 
     @JoinColumn(name="contest_id")
     private Contest contest;
@@ -22,15 +28,13 @@ public class Contestant {
     @JoinColumn(name="user_id")
     private User user;
 
-    @Column(name = "created", columnDefinition="DATETIME"))
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created", columnDefinition="DATETIME")
     private Date created;
 
-    @Column(name = "updated", columnDefinition="DATETIME"))
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated", columnDefinition="DATETIME")
     private Date updated;
 
-    public int getContest() {
+    public Contest getContest() {
       return contest;
     }
 

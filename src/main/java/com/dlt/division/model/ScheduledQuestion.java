@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,19 +31,16 @@ public class ScheduledQuestion {
     @Column(name = "has_been_asked")
     private boolean has_been_asked = false;
 
-    @Column(name = "scheduled", columnDefinition="DATETIME"))
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "scheduled", columnDefinition="DATETIME")
     private Date scheduled;
 
     @Column(name = "value")
     int value;
 
-    @Column(name = "created", columnDefinition="DATETIME"))
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created", columnDefinition="DATETIME")
     private Date created;
 
-    @Column(name = "updated", columnDefinition="DATETIME"))
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated", columnDefinition="DATETIME")
     private Date updated;
 
     public Question getQuestion() {
@@ -53,7 +51,7 @@ public class ScheduledQuestion {
       this.question = question;
     }
 
-   public Choice getValue() {
+   public int getValue() {
       return value;
     }
 
@@ -61,7 +59,7 @@ public class ScheduledQuestion {
       this.value = value;
    }
 
-    public Choice getContest() {
+    public Contest getContest() {
       return contest;
     }
 

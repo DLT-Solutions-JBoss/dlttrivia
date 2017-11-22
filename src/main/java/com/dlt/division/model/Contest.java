@@ -21,12 +21,10 @@ public class Contest {
     @Column(name = "contest_title")
     String contest_title;
     
-    @Column(name = "created", columnDefinition="DATETIME"))
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created", columnDefinition="DATETIME")
     private Date created;
 
-    @Column(name = "updated", columnDefinition="DATETIME"))
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated", columnDefinition="DATETIME")
     private Date updated;
 
     public int getContestId() {

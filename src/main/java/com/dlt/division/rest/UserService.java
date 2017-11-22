@@ -12,62 +12,62 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
-import com.dlt.division.model.Employee;
+import com.dlt.division.model.User;
 
 
 //Dummy comment
 @Path("/EP")
-public class EmployeeService implements DivisionService{
+public class UserService implements DivisionService {
 
 
 
         @DivisionService(ServiceType.EP)
         @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
-        private EntityManager emEmployee;
+        private EntityManager emUser;
 
 
 
         @GET()
-        @Path("employee/{employeeId}")
+        @Path("User/{UserId}")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
-        public List<Employee> getEmployee(@PathParam("employeeId") int iEmployeeId)
+        public List<User> getUser(@PathParam("UserId") int iUserId)
         {
 
-                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee where id = ?1");
-                query.setParameter(1,iEmployeeId);
+                Query query = emUser.createQuery("FROM com.dlt.division.model.User where id = ?1");
+                query.setParameter(1,iUserId);
                 @SuppressWarnings("unchecked")
-                List <Employee> employee = query.getResultList();
+                List <User> User = query.getResultList();
 
-                return employee;
+                return User;
         }
 
         @GET()
-        @Path("employees")
+        @Path("Users")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
-        public List<Employee> getEmployees()
+        public List<User> getUsers()
         {
 
-                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee order by last_name, first_name");
+                Query query = emUser.createQuery("FROM com.dlt.division.model.User order by last_name, first_name");
                 @SuppressWarnings("unchecked")
-                List <Employee> employee = query.getResultList();
+                List <User> User = query.getResultList();
 
-                return employee;
+                return User;
         }
 
         @GET()
-        @Path("activeEmployees")
+        @Path("activeUsers")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
-        public List<Employee> getActiveEmployees()
+        public List<User> getActiveUsers()
         {
 
-                Query query = emEmployee.createQuery("FROM com.dlt.division.model.Employee where status = 'A' order by last_name, first_name");
+                Query query = emUser.createQuery("FROM com.dlt.division.model.User where status = 'A' order by last_name, first_name");
                 @SuppressWarnings("unchecked")
-                List <Employee> employee = query.getResultList();
+                List <User> User = query.getResultList();
 
-                return employee;
+                return User;
         }        
         
         @Override

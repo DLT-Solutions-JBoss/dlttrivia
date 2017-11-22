@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,7 +15,11 @@ import java.sql.Date;
 @Entity
 @Table(name="question_choice")
 public class QuestionChoice {
-
+	
+    @Id @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "question_choice_id")
+    int question_choice_id;
+    
     @ManyToOne
     @JoinColumn(name="question_id")
     private Question question;
@@ -26,12 +31,10 @@ public class QuestionChoice {
     @Column(name = "is_correct")
     private boolean is_correct = false;
 
-    @Column(name = "created", columnDefinition="DATETIME"))
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created", columnDefinition="DATETIME")
     private Date created;
 
-    @Column(name = "updated", columnDefinition="DATETIME"))
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated", columnDefinition="DATETIME")
     private Date updated;
 
     public Question getQuestion() {

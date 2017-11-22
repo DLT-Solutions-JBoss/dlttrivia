@@ -24,12 +24,10 @@ public class Question {
     @Column(name = "answer_text")
     String answer_text;
     
-    @Column(name = "created", columnDefinition="DATETIME"))
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created", columnDefinition="DATETIME")
     private Date created;
 
-    @Column(name = "updated", columnDefinition="DATETIME"))
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated", columnDefinition="DATETIME")
     private Date updated;
 
     public int getQuestionId() {
@@ -45,7 +43,7 @@ public class Question {
     }
 
     public void setQuestionText(String text) {
-      this.question_text = title;
+      this.question_text = text;
     }
 
     public String getAnswerText() {
@@ -53,7 +51,7 @@ public class Question {
     }
 
     public void setAnswerText(String text) {
-      this.answer_text = title;
+      this.answer_text = text;
     }
 
     public Date getCreated() {
