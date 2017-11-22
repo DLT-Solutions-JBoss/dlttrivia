@@ -163,13 +163,13 @@ insert into question_choice (question_choice_id, question_id, choice_id, is_corr
 insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (36,10,36,TRUE);
 insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (37,10,37,FALSE);
 insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (38,10,34,FALSE);
-insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (3911,21,TRUE);
+insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (39,11,21,TRUE);
 insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (40,11,22,FALSE);
 insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (41,12,38,TRUE);
 insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (42,12,39,FALSE);
 insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (43,12,40,FALSE);
 insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (44,12,41,FALSE);
-insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (4513,42,FALSE);
+insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (45,13,42,FALSE);
 insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (46,13,43,FALSE);
 insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (47,13,44,FALSE);
 insert into question_choice (question_choice_id, question_id, choice_id, is_correct) values (48,13,45,TRUE);
