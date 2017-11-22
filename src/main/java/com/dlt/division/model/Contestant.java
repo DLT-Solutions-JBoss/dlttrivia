@@ -21,6 +21,7 @@ public class Contestant {
     @Column(name = "contestant_id")
     int contestant_id;
 
+    @ManyToOne
     @JoinColumn(name="contest_id")
     private Contest contest;
 
