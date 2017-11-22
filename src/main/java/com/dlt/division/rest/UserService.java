@@ -17,7 +17,7 @@ import com.dlt.division.model.User;
 
 //Dummy comment
 @Path("/EP")
-public class UserService implements DivisionService {
+public class UserService implements DivisionService{
 
 
 
@@ -28,22 +28,22 @@ public class UserService implements DivisionService {
 
 
         @GET()
-        @Path("User/{UserId}")
+        @Path("user/{user_id}")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
-        public List<User> getUser(@PathParam("UserId") int iUserId)
+        public List<User> getUser(@PathParam("user_id") int iUserId)
         {
 
-                Query query = emUser.createQuery("FROM com.dlt.division.model.User where id = ?1");
+                Query query = emUser.createQuery("FROM com.dlt.division.model.User where user_id = ?1");
                 query.setParameter(1,iUserId);
                 @SuppressWarnings("unchecked")
-                List <User> User = query.getResultList();
+                List <User> user = query.getResultList();
 
-                return User;
+                return user;
         }
 
         @GET()
-        @Path("Users")
+        @Path("users")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
         public List<User> getUsers()
@@ -51,9 +51,9 @@ public class UserService implements DivisionService {
 
                 Query query = emUser.createQuery("FROM com.dlt.division.model.User order by last_name, first_name");
                 @SuppressWarnings("unchecked")
-                List <User> User = query.getResultList();
+                List <User> user = query.getResultList();
 
-                return User;
+                return user;
         }
 
         @GET()
@@ -63,11 +63,11 @@ public class UserService implements DivisionService {
         public List<User> getActiveUsers()
         {
 
-                Query query = emUser.createQuery("FROM com.dlt.division.model.User where status = 'A' order by last_name, first_name");
+                Query query = emUser.createQuery("FROM com.dlt.division.model.User where status = TRUE order by last_name, first_name");
                 @SuppressWarnings("unchecked")
-                List <User> User = query.getResultList();
+                List <User> user = query.getResultList();
 
-                return User;
+                return user;
         }        
         
         @Override
