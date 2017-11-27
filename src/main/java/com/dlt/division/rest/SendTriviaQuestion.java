@@ -85,7 +85,7 @@ public class SendTriviaQuestion implements DivisionService {
             List <ScheduledQuestion> ScheduledQuestion = query.getResultList();
             
         	//Get Contestants for Contest
-            query = emContestant.createQuery("FROM com.dlt.division.model.Contestant where contest_id = $1");
+            query = emContestant.createQuery("FROM com.dlt.division.model.Contestant where contest_id = ?1");
             query.setParameter(1,iContestId);
             @SuppressWarnings("unchecked")
             List <Contestant> ContestantList = query.getResultList();           
@@ -128,7 +128,7 @@ public class SendTriviaQuestion implements DivisionService {
                     		Integer.toString(sched.getQuestion().getQuestionId()));
 
                     //Get Choices for Contest Question
-                    query = emContestant.createQuery("FROM com.dlt.division.model.QuestionChoice where question_id = $1");
+                    query = emContestant.createQuery("FROM com.dlt.division.model.QuestionChoice where question_id = ?1");
                     query.setParameter(1,sched.getQuestion().getQuestionId());
                     @SuppressWarnings("unchecked")
                     List <QuestionChoice> QuestionChoiceList = query.getResultList(); 
