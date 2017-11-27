@@ -36,6 +36,8 @@ import com.dlt.division.model.ScheduledQuestion;
 //Path to REST Service
 @Path("/EP")
 public class SendTriviaQuestion implements DivisionService {
+	
+	    //Set constants
 	    static final String FIRST_NAME_TAG       = "??FIRST_NAME??";
 	    static final String QUESTION_TEXT_TAG    = "??QUESTION??";
 	    static final String QUESTION_ID_TAG      = "??QUESTION_ID??";
@@ -48,6 +50,8 @@ public class SendTriviaQuestion implements DivisionService {
 	    static final String SMTP_START_TLS_VALUE = "true";
 	    static final String SMTP_HOST_VALUE      = "smtp.gmail.com";
 	    static final String SMTP_PORT_VALUE      = "587";
+	    static final String TRIVIA_HTML_TEMPLATE = "trivia_template.html";
+	    static final String TRIVIA_EMAIL_SUBJECT = "DLT EP Trivia";
 	    
         //Email scheduled trivia question
         final String username = "DLT.JBoss@gmail.com";
@@ -107,9 +111,9 @@ public class SendTriviaQuestion implements DivisionService {
                 	message.setFrom(new InternetAddress(username));
                 	ScheduledQuestion sched = ScheduledQuestion.get(0);                                 
                       
-                    message.setSubject("DLT EP Trivia");
+                    message.setSubject(TRIVIA_EMAIL_SUBJECT);
 
-                    java.nio.file.Path path = Paths.get("trivia_template.html");
+                    java.nio.file.Path path = Paths.get(TRIVIA_HTML_TEMPLATE);
                     Charset charset = StandardCharsets.UTF_8;
                             
                     //Get HTML email template from webapp resource location
