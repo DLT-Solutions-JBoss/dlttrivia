@@ -79,7 +79,7 @@ public class SendTriviaQuestion implements DivisionService {
         public List<ScheduledQuestion> sendQuestion(@PathParam("contestId") int iContestId)
         {
         	//Get Question from Contest
-            Query query = emScheduledQuestion.createQuery("FROM com.dlt.division.model.ScheduledQuestion where delivery_date > current_date()")
+            Query query = emScheduledQuestion.createQuery("FROM com.dlt.division.model.ScheduledQuestion where scheduled > current_date() - 1 order by scheduled")
                             .setMaxResults(1);
             @SuppressWarnings("unchecked")
             List <ScheduledQuestion> ScheduledQuestion = query.getResultList();
