@@ -285,3 +285,12 @@ insert into question_tag (question_tag_id, question_id, tag_id) values (77,20,1)
 insert into question_tag (question_tag_id, question_id, tag_id) values (78,20,2);
 insert into question_tag (question_tag_id, question_id, tag_id) values (79,20,3);
 insert into question_tag (question_tag_id, question_id, tag_id) values (80,20,4);
+
+insert into contest (contest_id, contest_title) values (1,"Red Hat");
+
+insert into contestant (contest_id, user_id) values (1,1);  
+
+insert into schedule_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (1,1,1,'2017-11-27',FALSE, 0);
+
+
+
