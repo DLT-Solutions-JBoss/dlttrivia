@@ -35,10 +35,10 @@ import com.dlt.division.model.ScheduledQuestion;
 public class SendTriviaQuestion implements DivisionService {
 	
 	    //Set constants
-	    static final String FIRST_NAME_TAG       = "??FIRST_NAME??";
-	    static final String QUESTION_TEXT_TAG    = "??QUESTION??";
-	    static final String QUESTION_ID_TAG      = "??QUESTION_ID??";
-	    static final String CHOICE_LIST_TAG      = "??CHOICE_LIST??";
+	    static final String FIRST_NAME_TAG       = "<!--FIRST_NAME-->";
+	    static final String QUESTION_TEXT_TAG    = "<!--QUESTION-->";
+	    static final String QUESTION_ID_TAG      = "<!--QUESTION_ID-->";
+	    static final String CHOICE_LIST_TAG      = "<!--CHOICE_LIST-->";
 	    static final String SMTP_AUTH_PROP_TAG   = "mail.smtp.auth";
 	    static final String SMTP_START_TLS_TAG   = "mail.smtp.starttls.enable";
 	    static final String SMTP_HOST_TAG        = "mail.smtp.host";
