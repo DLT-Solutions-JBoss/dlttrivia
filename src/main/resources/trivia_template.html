@@ -156,7 +156,7 @@
         .btn table td {
           background-color: #ffffff;
           border-radius: 5px;
-          text-align: center; }
+          text-align: left; }
         .btn a {
           background-color: #ffffff;
           border: solid 1px #3498db;
@@ -288,7 +288,7 @@
               <!-- START MAIN CONTENT AREA -->
               <tr>
                 <td class="wrapper">
-                <form action="<!--API_URL-->" method="GET" target="_blank">
+                
                   <table border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
@@ -300,20 +300,25 @@
                               <td align="left">
                                 <table border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
+                                  <tr><td>
+                                  <form action="<!--API_URL-->" method="GET" target="_blank">
                                   <!--CHOICE_LIST-->
+                                  <input type='hidden' name='questionId' id='question-id' value='<!--QUESTION_ID-->' />
+                                  <input type='hidden' name='userId' id='user-id' value='<!--USER_ID-->' />
+                                  
+                                  <p>Select your answer above and then click <input type="submit" value="Submit" id="submit"  /></p>
+                                  </form>
+                                  </td></tr>
                                   </tbody>
                                 </table>
                               </td>
                             </tr>
                           </tbody>
                         </table>
-                        <p>Select your answer above and then click <input type="submit" value="Submit" id="submit"  /></p>
+                        
                       </td>
                     </tr>
                   </table>
-                  <input type='hidden' name='questionId' id='question-id' value='<!--QUESTION_ID-->' />
-                  <input type='hidden' name='userId' id='user-id' value='<!--USER_ID-->' />
-                  </form>
                 </td>
               </tr>
 
