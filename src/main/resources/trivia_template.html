@@ -13,7 +13,6 @@
 
     	alert("You are about to answer the trivia question for userId: "+uId+" answer value = "+aId);
 
-
     	var restStationsHttp;
 
     	if (window.XMLHttpRequest)
@@ -288,7 +287,7 @@
               <!-- START MAIN CONTENT AREA -->
               <tr>
                 <td class="wrapper">
-                <form onSubmit="JavaScript:answerQuestion()">
+                <form action="<!--API_URL-->" method="GET" target="_blank">
                   <table border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
@@ -307,7 +306,7 @@
                             </tr>
                           </tbody>
                         </table>
-                        <p>Select your answer above and then click <input type="submit" value="Submit" onClick="JavaScript:answerQuestion()" /></p>
+                        <p>Select your answer above and then <a href="answerQuestion()">click</a> <input type="submit" value="Submit"  /></p>
                       </td>
                     </tr>
                   </table>
@@ -325,7 +324,7 @@
               <table border="0" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
-                    <span class="apple-link">DLt Solutions, 2411 Dulles Corner Park, Suite 800, Herndon VA 20171</span>
+                    <span class="apple-link">DLT Solutions, 2411 Dulles Corner Park, Suite 800, Herndon VA 20171</span>
                     <br> Don't like these emails? <a href="http://www.dlt.com/about/contact-us">Unsubscribe</a>.
                   </td>
                 </tr>

@@ -171,15 +171,16 @@ public class SendTriviaQuestion implements DivisionService {
                             
                     //Create dynamic string for series of variable choices
                     StringBuffer htmlQuestionChoice = new StringBuffer();
-                            		
+                            	
+                    htmlQuestionChoice.append("\n<tr>\n<td>\n");
+                    
                     //Loop through choices and create rows/columns of radio buttons for the user to select
                     for (int i = 0; i < QuestionChoiceList.size(); i++) 
                     {
                     	QuestionChoice questionChoice = QuestionChoiceList.get(i);
                             	
                     	//Create list of choices in html format
-                        htmlQuestionChoice.append("\n<tr>\n<td>\n")
-                        .append("<input type='radio' name='answer' id='question-answers-")
+                        htmlQuestionChoice.append("<input type='radio' name='answer' id='question-answers-")
                         .append(Integer.toString(i))
                         .append("' value='")
                         .append(Integer.toString(questionChoice.getChoice().getChoiceId()))
@@ -189,9 +190,12 @@ public class SendTriviaQuestion implements DivisionService {
                         .append(Character.toString(alphabet[i]))
                         .append(") ")
                         .append(questionChoice.getChoice().getChoiceText())
-                        .append("</label>\n</td>\n</tr>");
+                        .append("</label><br>\n");
+                        
                     }
-                            
+                           
+                    htmlQuestionChoice.append("</td>\n</tr>");
+                    
                     //Replace choice list with question html
                     htmlTemplate = htmlTemplate.replaceAll(CHOICE_LIST_TAG,
                     		htmlQuestionChoice.toString());
