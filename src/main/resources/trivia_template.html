@@ -4,6 +4,37 @@
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title><!--TITLE--></title>
+    <script language="JavaScript">
+    
+    function answerQuestion()
+    {
+    	var uId = document.raw.userId.value;
+    	var aId = document.querySelector('input[name = "answer"]:checked').value;
+
+    	alert("You are about to answer the trivia question for userId: "+uId+" answer value = "+aId);
+
+
+    	var restStationsHttp;
+
+    	if (window.XMLHttpRequest)
+    	{
+        	   // code for IE7+, Firefox, Chrome, Opera, Safari
+    	       restStationsHttp=new XMLHttpRequest();
+    	       restStationsHttp.overrideMimeType("application/json");
+    	}
+    	else
+    	{
+    	       // code for IE6, IE5
+    	       restStationsHttp=new ActiveXObject("Microsoft.XMLHTTP");
+    	}
+
+
+    	restStationsHttp.open("GET","<!--API_URL-->/"+uId+"/1/1/1",true);
+    	restStationsHttp.send();
+    }
+
+    </script>
+    
     <style>
       /* -------------------------------------
           GLOBAL RESETS
@@ -257,7 +288,7 @@
               <!-- START MAIN CONTENT AREA -->
               <tr>
                 <td class="wrapper">
-                <form action="<!--API_URL-->" method="post" id="<!--QUESTION_ID-->">
+                <form onSubmit="JavaScript:answerQuestion()">
                   <table border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td>
@@ -276,7 +307,7 @@
                             </tr>
                           </tbody>
                         </table>
-                        <p>Select your answer above and then click <input type="submit" value="Submit" /></p>
+                        <p>Select your answer above and then click <input type="submit" value="Submit" onClick="JavaScript:answerQuestion()" /></p>
                       </td>
                     </tr>
                   </table>
