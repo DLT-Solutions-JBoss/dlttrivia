@@ -293,6 +293,8 @@
                     <tr>
                       <td>
                         <p>Hi <!--FIRST_NAME-->,</p>
+                        <p>Here is a trivia question for you - </p>
+                        <p></p>
                         <p><!--QUESTION--></p>
                         <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                           <tbody>
@@ -300,11 +302,13 @@
                               <td align="left">
                                 <table border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
-                                  <tr><td>
+                                  <tr><td width="100%">
                                   <form action="<!--API_URL-->" method="post" target="_blank">
                                   <!--CHOICE_LIST-->
                                   <input type='hidden' name='questionId' id='question-id' value='<!--QUESTION_ID-->' />
                                   <input type='hidden' name='userId' id='user-id' value='<!--USER_ID-->' />
+                                  </td></tr>
+                                  <tr><td align="center">
                                   <br>
                                   <input type="submit" value="Submit Answer" id="submit"  />
                                   </form>
