@@ -172,7 +172,7 @@ public class SendTriviaQuestion implements DivisionService {
                     //Create dynamic string for series of variable choices
                     StringBuffer htmlQuestionChoice = new StringBuffer();
                             	
-                    htmlQuestionChoice.append("\n<tr>\n<td>\n");
+                    htmlQuestionChoice.append("\n<tr>\n<td align=\"left\">\n");
                     
                     //Loop through choices and create rows/columns of radio buttons for the user to select
                     for (int i = 0; i < QuestionChoiceList.size(); i++) 
