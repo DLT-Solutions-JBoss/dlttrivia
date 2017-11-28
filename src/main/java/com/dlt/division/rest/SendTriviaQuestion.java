@@ -5,13 +5,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -113,11 +108,11 @@ public class SendTriviaQuestion implements DivisionService {
                       
                     message.setSubject(TRIVIA_EMAIL_SUBJECT);
 
-                    java.nio.file.Path path = Paths.get(TRIVIA_HTML_TEMPLATE);
-                    Charset charset = StandardCharsets.UTF_8;
-                            
+                    InputStream in =
+                    		SendTriviaQuestion.class.getClassLoader().getResourceAsStream(TRIVIA_HTML_TEMPLATE);
+                    
                     //Get HTML email template from webapp resource location
-                    String htmlTemplate = new String(Files.readAllBytes(path), charset);
+                    String htmlTemplate = in.toString();
                     
                     //Replace tag with question text
                     htmlTemplate = htmlTemplate.replaceAll(QUESTION_TEXT_TAG,
@@ -197,9 +192,7 @@ public class SendTriviaQuestion implements DivisionService {
 
                 } catch (MessagingException e) {
                 	throw new RuntimeException(e);
-                } catch (IOException ex) {
-                	throw new RuntimeException(ex);
-            }
+                } 
         }
 
         return ScheduledQuestion;
