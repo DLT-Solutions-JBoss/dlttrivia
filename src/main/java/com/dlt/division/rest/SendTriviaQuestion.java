@@ -36,10 +36,13 @@ import com.dlt.division.model.ScheduledQuestion;
 public class SendTriviaQuestion implements DivisionService {
 	
 	    //Set constants
+	    static final String TITLE_TAG            = "<!--TITLE-->";
+	    static final String API_URL_TAG          = "<!--API_URL-->";
 	    static final String FIRST_NAME_TAG       = "<!--FIRST_NAME-->";
 	    static final String QUESTION_TEXT_TAG    = "<!--QUESTION-->";
 	    static final String QUESTION_ID_TAG      = "<!--QUESTION_ID-->";
 	    static final String CHOICE_LIST_TAG      = "<!--CHOICE_LIST-->";
+	    static final String USER_ID_TAG          = "<!--USER_ID-->";
 	    static final String SMTP_AUTH_PROP_TAG   = "mail.smtp.auth";
 	    static final String SMTP_START_TLS_TAG   = "mail.smtp.starttls.enable";
 	    static final String SMTP_HOST_TAG        = "mail.smtp.host";
@@ -142,6 +145,13 @@ public class SendTriviaQuestion implements DivisionService {
                     //Get HTML email template from webapp resource location
                     String htmlTemplate = fileContents.toString();
                     
+                    //Replace tag with title
+                    htmlTemplate = htmlTemplate.replaceAll(TITLE_TAG, TRIVIA_EMAIL_SUBJECT);
+                    
+                  //Replace tag with question text
+                    htmlTemplate = htmlTemplate.replaceAll(API_URL_TAG,
+                    		"http://trivia-dlt.apps.ocp.test-demo-dlt.com/rest/EP/triviaAnswer");
+                    
                     //Replace tag with question text
                     htmlTemplate = htmlTemplate.replaceAll(QUESTION_TEXT_TAG,
                     		sched.getQuestion().getQuestionText());
@@ -168,8 +178,8 @@ public class SendTriviaQuestion implements DivisionService {
                     	QuestionChoice questionChoice = QuestionChoiceList.get(i);
                             	
                     	//Create list of choices in html format
-                        htmlQuestionChoice.append("\n<tr><td>")
-                        .append("<input type='radio' name='question-answers' id='question-answers-")
+                        htmlQuestionChoice.append("\n<tr>\n<td>\n")
+                        .append("<input type='radio' name='answer' id='question-answers-")
                         .append(Integer.toString(i))
                         .append("' value='")
                         .append(Integer.toString(questionChoice.getChoice().getChoiceId()))
@@ -179,7 +189,7 @@ public class SendTriviaQuestion implements DivisionService {
                         .append(Character.toString(alphabet[i]))
                         .append(") ")
                         .append(questionChoice.getChoice().getChoiceText())
-                        .append("</label></td></tr>");
+                        .append("</label>\n</td>\n</tr>");
                     }
                             
                     //Replace choice list with question html
@@ -199,6 +209,10 @@ public class SendTriviaQuestion implements DivisionService {
                     	//Set first name to make friendly text
                     	String content = htmlTemplate.replaceAll(FIRST_NAME_TAG,
                     			contestant.getUser().getFirstName());
+                    	
+                    	//Set user ID
+                    	content = content.replaceAll(USER_ID_TAG,
+                    			Integer.toString(contestant.getUser().getUserId()));
                     			
                     	//Set content to message text
                         message.setContent(content, SMTP_MSG_TYPE);
