@@ -291,6 +291,7 @@ insert into contest (contest_id, contest_title) values (1,"Red Hat");
 insert into contestant (contestant_id, contest_id, user_id) values (1, 1,1);  
 
 insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (1,1,1,'2017-11-27',FALSE, 0);
-
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (2,1,2,'2017-11-28',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (3,1,3,'2017-11-29',FALSE, 0);
 
 
