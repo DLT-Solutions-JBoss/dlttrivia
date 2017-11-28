@@ -47,7 +47,7 @@ public class SendTriviaQuestion implements DivisionService {
 	    static final String SMTP_START_TLS_VALUE = "true";
 	    static final String SMTP_HOST_VALUE      = "smtp.gmail.com";
 	    static final String SMTP_PORT_VALUE      = "587";
-	    static final String TRIVIA_HTML_TEMPLATE = "/WEB-INF/classes/trivia_template.html";
+	    static final String TRIVIA_HTML_TEMPLATE = "WEB-INF/classes/trivia_template.html";
 	    static final String TRIVIA_EMAIL_SUBJECT = "DLT EP Trivia";
 	    
         //Email scheduled trivia question
@@ -87,7 +87,6 @@ public class SendTriviaQuestion implements DivisionService {
             @SuppressWarnings("unchecked")
             List <Contestant> ContestantList = query.getResultList();           
       
-
             if(!ScheduledQuestion.isEmpty() && !ContestantList.isEmpty())
             {
             	props.put(SMTP_AUTH_PROP_TAG, SMTP_AUTH_PROP_VALUE);
