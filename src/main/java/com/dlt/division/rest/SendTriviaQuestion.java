@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -47,6 +48,7 @@ public class SendTriviaQuestion implements DivisionService {
 	    static final String SMTP_START_TLS_VALUE = "true";
 	    static final String SMTP_HOST_VALUE      = "smtp.gmail.com";
 	    static final String SMTP_PORT_VALUE      = "587";
+	    static final String SMTP_MSG_TYPE        = "text/html";
 	    static final String TRIVIA_HTML_TEMPLATE = "../../../../trivia_template.html";
 	    static final String TRIVIA_EMAIL_SUBJECT = "DLT EP Trivia";
 	    
@@ -108,6 +110,7 @@ public class SendTriviaQuestion implements DivisionService {
                 	ScheduledQuestion sched = ScheduledQuestion.get(0);                                 
                       
                     message.setSubject(TRIVIA_EMAIL_SUBJECT);
+                    message.setSentDate(new java.util.Date());
 
                     InputStream in =
                     		SendTriviaQuestion.class.getClassLoader().getResourceAsStream(TRIVIA_HTML_TEMPLATE);
@@ -198,7 +201,7 @@ public class SendTriviaQuestion implements DivisionService {
                     			contestant.getUser().getFirstName());
                     			
                     	//Set content to message text
-                        message.setText(content);
+                        message.setContent(content, SMTP_MSG_TYPE);
 
                         //Send the email
                         Transport.send(message);
