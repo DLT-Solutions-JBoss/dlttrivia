@@ -5,7 +5,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class SendTriviaQuestion implements DivisionService {
 	    static final String SMTP_START_TLS_VALUE = "true";
 	    static final String SMTP_HOST_VALUE      = "smtp.gmail.com";
 	    static final String SMTP_PORT_VALUE      = "587";
-	    static final String TRIVIA_HTML_TEMPLATE = "WEB-INF/classes/trivia_template.html";
+	    static final String TRIVIA_HTML_TEMPLATE = "/WEB-INF/classes/trivia_template.html";
 	    static final String TRIVIA_EMAIL_SUBJECT = "DLT EP Trivia";
 	    
         //Email scheduled trivia question
@@ -110,9 +112,33 @@ public class SendTriviaQuestion implements DivisionService {
 
                     InputStream in =
                     		SendTriviaQuestion.class.getClassLoader().getResourceAsStream(TRIVIA_HTML_TEMPLATE);
+ 
+                    StringBuffer fileContents = new StringBuffer(); 
+                    
+                    if (in == null) 
+                    {
+                    	System.out.println("File Not Found: "+TRIVIA_HTML_TEMPLATE);
+                    } 
+                    else 
+                    {
+                        InputStreamReader inputReader = new InputStreamReader(in);
+                        char[] buffer = new char[1000];
+                        while (true) 
+                        {
+                        	int lth = inputReader.read(buffer);
+                        	if (lth < 0) 
+                        	{
+                        		break;
+                        	} 
+                        	else 
+                        	{
+                        		fileContents.append(buffer, 0, lth);
+                        	}
+                        }
+                    }
                     
                     //Get HTML email template from webapp resource location
-                    String htmlTemplate = in.toString();
+                    String htmlTemplate = fileContents.toString();
                     
                     //Replace tag with question text
                     htmlTemplate = htmlTemplate.replaceAll(QUESTION_TEXT_TAG,
@@ -192,6 +218,10 @@ public class SendTriviaQuestion implements DivisionService {
 
                 } catch (MessagingException e) {
                 	throw new RuntimeException(e);
+                } 
+                  catch (IOException ex) 
+                {
+            	    throw new RuntimeException(ex);
                 } 
         }
 
