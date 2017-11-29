@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
@@ -249,17 +250,13 @@ public class SendTriviaQuestion implements DivisionService {
                             Ask ask = new Ask();
                             ask.setScheduledQuestion(sched);
                             ask.setUser(contestant.getUser());
-                            ask.setAsked(new java.sql.Date(System.currentTimeMillis()));
-                            ask.setCreated(new java.sql.Date(System.currentTimeMillis()));
+                            ask.setAsked(new Date(System.currentTimeMillis()));
+                            ask.setCreated(new Date(System.currentTimeMillis()));
+                            EntityTransaction tx = emAsk.getTransaction();
+                            tx.begin();
                             emAsk.persist(ask);
-                            
-                           // query = emAsk.createQuery("insert into ask (ask_id, scheduled_question_id, user_id, asked, created) values (?1,?2,?3,?4,?5);");
-                           // query.setParameter(1,System.currentTimeMillis());
-                           // query.setParameter(2,sched.getScheduledQuestionId());
-                           // query.setParameter(3,contestant.getUser().getUserId());
-                           // query.setParameter(4, new java.sql.Date(System.currentTimeMillis()));
-                           // query.setParameter(5, new java.sql.Date(System.currentTimeMillis()));
-                           // query.executeUpdate();
+                            tx.commit();
+
                         }
                     }                            
 
