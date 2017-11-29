@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.PersistenceUnit;
@@ -252,12 +253,13 @@ public class SendTriviaQuestion implements DivisionService {
                             System.out.println(content);
  
                             EntityManager emAskInsert = factory.createEntityManager();
+                            EntityTransaction entityTransaction = emAskInsert.getTransaction();
                    
                            //Insert a record into the Ask table to ensure no duplicate Asks
                             try
                             {
-                                
-                            	emAskInsert.getTransaction().begin();
+                            	entityTransaction.begin();
+                            	
                                 Ask ask = new Ask();
                                 ask.setScheduledQuestion(sched);
                                 ask.setUser(contestant.getUser());
@@ -265,14 +267,15 @@ public class SendTriviaQuestion implements DivisionService {
                                 ask.setCreated(new Date(System.currentTimeMillis()));
                                 ask.setUpdated(new Date(System.currentTimeMillis()));
                                 emAskInsert.persist(ask);
-                                emAskInsert.getTransaction().commit();
+                                
+                                entityTransaction.commit();
                                 
                                 System.out.println("Ask saved successfully.");
                             }
                             catch (Exception e) {
                                 if (emAskInsert != null) {
                                     System.out.println("Ask Transaction is being rolled back.");
-                                    emAskInsert.getTransaction().rollback();
+                                    entityTransaction.rollback();
                                  }
                             }
                             finally
