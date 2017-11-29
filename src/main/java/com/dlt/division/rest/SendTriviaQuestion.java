@@ -13,13 +13,14 @@ import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
+import javax.transaction.UserTransaction;
 
 import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -79,6 +80,9 @@ public class SendTriviaQuestion implements DivisionService {
         @DivisionService(ServiceType.EP)
         @PersistenceContext(unitName="Division", type=PersistenceContextType.TRANSACTION)
         private EntityManager emAsk;
+        
+        @Resource
+        UserTransaction tx;
         
         @GET()
         @Path("emailQuestion/{contestId}")
@@ -248,7 +252,6 @@ public class SendTriviaQuestion implements DivisionService {
                    
                             //Insert a record into the Ask table to ensure no duplicate Asks
                             emAsk.flush();
-                            EntityTransaction tx = emAsk.getTransaction();
                             
                             try
                             {
@@ -267,7 +270,6 @@ public class SendTriviaQuestion implements DivisionService {
                             catch (Exception e) {
                                 if (emAsk != null) {
                                     System.out.println("Ask Transaction is being rolled back.");
-                                    tx.rollback();
                                  }
                             }
                             finally
