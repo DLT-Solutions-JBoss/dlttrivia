@@ -278,12 +278,16 @@ public class SendTriviaQuestion implements DivisionService {
                                     entityTransaction.rollback();
                                  }
                             }
-                            finally
+/*                            finally
                             {
                             	emAskInsert.flush();
                             	emAskInsert.close();
-                            }
+                            }*/
 
+                        }
+                        else
+                        {
+                        	System.out.println(contestant.getUser().getEmail()+" already sent question.");
                         }
                     }                            
 
