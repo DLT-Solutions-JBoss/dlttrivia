@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 
-
 @XmlRootElement
 @Entity
 @Table(name="ask")

@@ -13,15 +13,12 @@ import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
-import javax.transaction.UserTransaction;
 
 import java.util.Properties;
 
-import javax.annotation.Resource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -29,9 +26,9 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.naming.InitialContext;
 
 import com.dlt.division.model.Ask;
+import com.dlt.division.model.Asks;
 import com.dlt.division.model.Contestant;
 import com.dlt.division.model.QuestionChoice;
 import com.dlt.division.model.ScheduledQuestion;
@@ -252,8 +249,26 @@ public class SendTriviaQuestion implements DivisionService {
                         
                             //Email content
                             System.out.println(content);
+ 
+                            Ask ask = new Ask();
+                            ask.setScheduledQuestion(sched);
+                            ask.setUser(contestant.getUser());
+                            ask.setAsked(new Date(System.currentTimeMillis()));
+                            ask.setCreated(new Date(System.currentTimeMillis()));
+                            ask.setUpdated(new Date(System.currentTimeMillis()));
+                            
+                            try
+                            {
+                            	Asks asks = new Asks();
+                                asks.addAsk(ask);
+                            }
+                            catch (Exception e)
+                            {
+                            	System.out.println("Ask Transaction is being rolled back."+ e);
+                            }
+                            
                    
-                            //Insert a record into the Ask table to ensure no duplicate Asks
+/*                            //Insert a record into the Ask table to ensure no duplicate Asks
                             try
                             {
                             	emAskInsert.getTransaction().begin();
@@ -278,7 +293,7 @@ public class SendTriviaQuestion implements DivisionService {
                             {
                             	emAskInsert.flush();
                             	emAskInsert.close();
-                            }
+                            }*/
 
                         }
                     }                            
