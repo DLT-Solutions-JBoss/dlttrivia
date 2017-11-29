@@ -13,13 +13,13 @@ import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
 import java.util.Properties;
 
-import javax.ejb.Stateful;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -33,7 +33,6 @@ import com.dlt.division.model.Contestant;
 import com.dlt.division.model.QuestionChoice;
 import com.dlt.division.model.ScheduledQuestion;
 
-@Stateful
 //Path to REST Service
 @Path("/EP")
 public class SendTriviaQuestion implements DivisionService {
@@ -78,7 +77,7 @@ public class SendTriviaQuestion implements DivisionService {
         private EntityManager emQuestionChoice;
         
         @DivisionService(ServiceType.EP)
-        @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
+        @PersistenceContext(unitName="Division", type=PersistenceContextType.TRANSACTION)
         private EntityManager emAsk;
         
         @GET()
@@ -248,9 +247,12 @@ public class SendTriviaQuestion implements DivisionService {
                             System.out.println(content);
                    
                             //Insert a record into the Ask table to ensure no duplicate Asks
+                            emAsk.flush();
+                            EntityTransaction tx = emAsk.getTransaction();
+                            
                             try
                             {
-                            	emAsk.getTransaction().begin();                         
+                            	tx.begin();
                                 Ask ask = new Ask();
                                 ask.setScheduledQuestion(sched);
                                 ask.setUser(contestant.getUser());
@@ -258,15 +260,19 @@ public class SendTriviaQuestion implements DivisionService {
                                 ask.setCreated(new Date(System.currentTimeMillis()));
                                 ask.setUpdated(new Date(System.currentTimeMillis()));
                                 emAsk.persist(ask);
-                                emAsk.getTransaction().commit();
+                                tx.commit();
                                 
                                 System.out.println("Ask saved successfully.");
                             }
                             catch (Exception e) {
                                 if (emAsk != null) {
                                     System.out.println("Ask Transaction is being rolled back.");
-                                    emAsk.getTransaction().rollback();
+                                    tx.rollback();
                                  }
+                            }
+                            finally
+                            {
+                            	emAsk.flush();
                             }
 
                         }
