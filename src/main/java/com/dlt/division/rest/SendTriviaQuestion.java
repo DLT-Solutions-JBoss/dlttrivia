@@ -13,13 +13,14 @@ import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
 import java.util.Properties;
 
-import javax.enterprise.context.spi.Context;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -27,10 +28,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.naming.InitialContext;
 
 import com.dlt.division.model.Ask;
-import com.dlt.division.model.Asks;
 import com.dlt.division.model.Contestant;
 import com.dlt.division.model.QuestionChoice;
 import com.dlt.division.model.ScheduledQuestion;
@@ -83,8 +82,8 @@ public class SendTriviaQuestion implements DivisionService {
         private EntityManager emAsk;
  
         @DivisionService(ServiceType.EP)
-        @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
-        private EntityManager emAskInsert;
+        @PersistenceUnit(unitName="Division")
+        private EntityManagerFactory factory;
         
         @GET()
         @Path("emailQuestion/{contestId}")
@@ -252,28 +251,12 @@ public class SendTriviaQuestion implements DivisionService {
                             //Email content
                             System.out.println(content);
  
-                            Ask ask = new Ask();
-                            ask.setScheduledQuestion(sched);
-                            ask.setUser(contestant.getUser());
-                            ask.setAsked(new Date(System.currentTimeMillis()));
-                            ask.setCreated(new Date(System.currentTimeMillis()));
-                            ask.setUpdated(new Date(System.currentTimeMillis()));
-                            
-                            try
-                            {
-                            	Context initCtx = (Context) new InitialContext();
-                            	Asks asks = (Asks) ((InitialContext) initCtx).lookup("java:global/injection-of-entitymanager/Asks");;
-                                asks.addAsk(ask);
-                            }
-                            catch (Exception e)
-                            {
-                            	System.out.println("Ask Transaction is being rolled back."+ e);
-                            }
-                            
+                            EntityManager emAskInsert = factory.createEntityManager();
                    
-/*                            //Insert a record into the Ask table to ensure no duplicate Asks
+                           //Insert a record into the Ask table to ensure no duplicate Asks
                             try
                             {
+                                
                             	emAskInsert.getTransaction().begin();
                                 Ask ask = new Ask();
                                 ask.setScheduledQuestion(sched);
@@ -296,7 +279,7 @@ public class SendTriviaQuestion implements DivisionService {
                             {
                             	emAskInsert.flush();
                             	emAskInsert.close();
-                            }*/
+                            }
 
                         }
                     }                            
