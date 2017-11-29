@@ -82,12 +82,10 @@ public class SendTriviaQuestion implements DivisionService {
         @DivisionService(ServiceType.EP)
         @PersistenceContext(unitName="Division", type=PersistenceContextType.TRANSACTION)
         private EntityManager emAsk;
-        
-        @Resource
-        UserTransaction tx;
  
-        @Resource
-        EntityTransaction etx;
+        @DivisionService(ServiceType.EP)
+        @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
+        private EntityManager emAskInsert;
         
         @GET()
         @Path("emailQuestion/{contestId}")
@@ -256,34 +254,30 @@ public class SendTriviaQuestion implements DivisionService {
                             System.out.println(content);
                    
                             //Insert a record into the Ask table to ensure no duplicate Asks
-                            emAsk.flush();
-                          
                             try
                             {
-                            	etx.begin();
-                            	//emAsk.getTransaction().begin();
+                            	emAskInsert.getTransaction().begin();
                                 Ask ask = new Ask();
                                 ask.setScheduledQuestion(sched);
                                 ask.setUser(contestant.getUser());
                                 ask.setAsked(new Date(System.currentTimeMillis()));
                                 ask.setCreated(new Date(System.currentTimeMillis()));
                                 ask.setUpdated(new Date(System.currentTimeMillis()));
-                                emAsk.persist(ask);
-                                //emAsk.getTransaction().commit();
-                                etx.commit();
+                                emAskInsert.persist(ask);
+                                emAskInsert.getTransaction().commit();
                                 
                                 System.out.println("Ask saved successfully.");
                             }
                             catch (Exception e) {
-                                if (emAsk != null) {
+                                if (emAskInsert != null) {
                                     System.out.println("Ask Transaction is being rolled back.");
-                                    //emAsk.getTransaction().rollback();
+                                    emAskInsert.getTransaction().rollback();
                                  }
                             }
                             finally
                             {
-                            	emAsk.flush();
-                            	emAsk.close();
+                            	emAskInsert.flush();
+                            	emAskInsert.close();
                             }
 
                         }
