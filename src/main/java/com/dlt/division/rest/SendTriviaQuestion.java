@@ -13,7 +13,6 @@ import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
@@ -252,10 +251,19 @@ public class SendTriviaQuestion implements DivisionService {
                             ask.setUser(contestant.getUser());
                             ask.setAsked(new Date(System.currentTimeMillis()));
                             ask.setCreated(new Date(System.currentTimeMillis()));
-                            EntityTransaction tx = emAsk.getTransaction();
-                            tx.begin();
-                            emAsk.persist(ask);
-                            tx.commit();
+                            
+                            try
+                            {
+                            	emAsk.getTransaction().begin();
+                                emAsk.persist(ask);
+                                emAsk.getTransaction().commit();
+                            }
+                            catch (Exception e) {
+                                if (emAsk != null) {
+                                    System.out.println("Transaction is being rolled back.");
+                                    emAsk.getTransaction().rollback();
+                                 }
+                            }
 
                         }
                     }                            
