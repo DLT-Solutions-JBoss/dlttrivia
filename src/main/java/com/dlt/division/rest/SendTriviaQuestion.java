@@ -19,6 +19,7 @@ import javax.persistence.Query;
 
 import java.util.Properties;
 
+import javax.ejb.Stateful;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -32,6 +33,7 @@ import com.dlt.division.model.Contestant;
 import com.dlt.division.model.QuestionChoice;
 import com.dlt.division.model.ScheduledQuestion;
 
+@Stateful
 //Path to REST Service
 @Path("/EP")
 public class SendTriviaQuestion implements DivisionService {
@@ -257,10 +259,12 @@ public class SendTriviaQuestion implements DivisionService {
                                 ask.setUpdated(new Date(System.currentTimeMillis()));
                                 emAsk.persist(ask);
                                 emAsk.getTransaction().commit();
+                                
+                                System.out.println("Ask saved successfully.");
                             }
                             catch (Exception e) {
                                 if (emAsk != null) {
-                                    System.out.println("Transaction is being rolled back.");
+                                    System.out.println("Ask Transaction is being rolled back.");
                                     emAsk.getTransaction().rollback();
                                  }
                             }

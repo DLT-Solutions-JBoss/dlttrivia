@@ -36,7 +36,7 @@ public class Ask {
     @Column(name = "created", columnDefinition="DATETIME", nullable = false, updatable=false)
     private Date created;
 
-    @Column(name = "updated", columnDefinition="DATETIME", nullable = false, updatable=false)
+    @Column(name = "updated", columnDefinition="DATETIME", nullable = true)
     private Date updated;
 
     public long getAskId() {
