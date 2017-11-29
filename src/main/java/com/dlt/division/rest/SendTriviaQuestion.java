@@ -251,6 +251,7 @@ public class SendTriviaQuestion implements DivisionService {
                             ask.setUser(contestant.getUser());
                             ask.setAsked(new Date(System.currentTimeMillis()));
                             ask.setCreated(new Date(System.currentTimeMillis()));
+                            ask.setUpdated(new Date(System.currentTimeMillis()));
                             
                             try
                             {
