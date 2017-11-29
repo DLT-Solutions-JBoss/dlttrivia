@@ -16,9 +16,10 @@ import java.sql.Date;
 @Table(name="ask")
 public class Ask {
 
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "ask_id")
-    int ask_id;
+    @Id 
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @Column(name = "ask_id", updatable = false, nullable = false)
+    long ask_id;
 
     @ManyToOne
     @JoinColumn(name="scheduled_question_id")
@@ -31,17 +32,17 @@ public class Ask {
     @Column(name = "asked", columnDefinition="DATETIME")
     private Date asked;
 
-    @Column(name = "created", columnDefinition="DATETIME")
+    @Column(name = "created", columnDefinition="DATETIME", nullable = false, updatable=false)
     private Date created;
 
-    @Column(name = "updated", columnDefinition="DATETIME")
+    @Column(name = "updated", columnDefinition="DATETIME", nullable = false, updatable=false)
     private Date updated;
 
-    public int getAskId() {
+    public long getAskId() {
       return ask_id;
     }
 
-    public void setAskId(int ask_id) {
+    public void setAskId(long ask_id) {
       this.ask_id = ask_id;
    }
 

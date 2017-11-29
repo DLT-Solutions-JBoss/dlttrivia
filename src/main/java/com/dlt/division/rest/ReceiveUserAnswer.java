@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
-import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -19,22 +18,13 @@ import javax.persistence.Query;
 
 import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import com.dlt.division.model.Ask;
 import com.dlt.division.model.Contestant;
 import com.dlt.division.model.QuestionChoice;
 import com.dlt.division.model.ScheduledQuestion;
 
 //Path to REST Service
 @Path("/EP")
-public class SendTriviaQuestion implements DivisionService {
+public class ReceiveUserAnswer implements DivisionService {
 	
 	    //Set constants
 	    static final String TITLE_TAG            = "<!--TITLE-->";
@@ -56,10 +46,6 @@ public class SendTriviaQuestion implements DivisionService {
 	    static final String TRIVIA_HTML_TEMPLATE = "../../../../trivia_template.html";
 	    static final String TRIVIA_EMAIL_SUBJECT = "DLT EP Trivia";
 	    
-        //Email scheduled trivia question
-        final String username = "DLT.JBoss@gmail.com";
-        final String password = "r3dh4t!@#";
-
         //Establish empty Email property class
         Properties props = new Properties();
 	    
@@ -75,15 +61,12 @@ public class SendTriviaQuestion implements DivisionService {
         @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
         private EntityManager emQuestionChoice;
         
-        @DivisionService(ServiceType.EP)
-        @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
-        private EntityManager emAsk;
-        
         @GET()
-        @Path("emailQuestion/{contestId}")
+        @Path("answerQuestion/{questionId}/{userId}/{answerId}")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
-        public List<ScheduledQuestion> sendQuestion(@PathParam("contestId") int iContestId)
+        public List<ScheduledQuestion> getAnswer(@PathParam("questionId") int iQuestionId,
+        		@PathParam("userId") int iUserId, @PathParam("answerId") int iAnswerId)
         {
         	//Get Question from Contest
             Query query = emScheduledQuestion.createQuery("FROM com.dlt.division.model.ScheduledQuestion where scheduled > current_date() - 1 order by scheduled")
@@ -93,33 +76,22 @@ public class SendTriviaQuestion implements DivisionService {
             
         	//Get Contestants for Contest
             query = emContestant.createQuery("FROM com.dlt.division.model.Contestant where contest_id = ?1");
-            query.setParameter(1,iContestId);
+
             @SuppressWarnings("unchecked")
             List <Contestant> ContestantList = query.getResultList();           
       
             if(!ScheduledQuestion.isEmpty() && !ContestantList.isEmpty())
             {
-            	
             	props.put(SMTP_AUTH_PROP_TAG, SMTP_AUTH_PROP_VALUE);
                 props.put(SMTP_START_TLS_TAG, SMTP_START_TLS_VALUE);
                 props.put(SMTP_HOST_TAG, SMTP_HOST_VALUE);
                 props.put(SMTP_PORT_TAG, SMTP_PORT_VALUE);
 
-                Session session = Session.getInstance(props,
-                		new javax.mail.Authenticator() {
-                	protected PasswordAuthentication getPasswordAuthentication() {
-                		return new PasswordAuthentication(username, password);
-                		}
-                	});
 
                 try {
                 	//Establish email message
-                	Message message = new MimeMessage(session);
-                	message.setFrom(new InternetAddress(username));
                 	ScheduledQuestion sched = ScheduledQuestion.get(0);                                 
                       
-                    message.setSubject(TRIVIA_EMAIL_SUBJECT);
-                    message.setSentDate(new java.util.Date());
 
                     InputStream in =
                     		SendTriviaQuestion.class.getClassLoader().getResourceAsStream(TRIVIA_HTML_TEMPLATE);
@@ -209,58 +181,21 @@ public class SendTriviaQuestion implements DivisionService {
                     	//For each contestant
                     	Contestant contestant = ContestantList.get(i);
                     	
-                    	//Don't send again to any user that has already asked the question
-                    	query = emAsk.createQuery("FROM com.dlt.division.model.Ask where scheduled_question_id = ?1 and user_id = ?2");
-                        query.setParameter(1, sched.getScheduledQuestionId());
-                        query.setParameter(2, contestant.getUser().getUserId());
-                        @SuppressWarnings("unchecked")
-                        List <Ask> AskedUserList = query.getResultList();
-                    	
-                        if(AskedUserList.isEmpty())
-                        { 
-                        	//Set email address
-                    	    message.setRecipients(Message.RecipientType.TO,
-                    			InternetAddress.parse(contestant.getUser().getEmail()));
-                    			
-                    	    //Set first name to make friendly text
-                    	    String content = htmlTemplate.replaceAll(FIRST_NAME_TAG,
-                    			contestant.getUser().getFirstName());
-                    	
-                    	    //Set user ID
-                    	    content = content.replaceAll(USER_ID_TAG,
-                    			Integer.toString(contestant.getUser().getUserId()));
-                    			
-                    	    //Set content to message text
-                            message.setContent(content, SMTP_MSG_TYPE);
-
-                            //Send the email
-                            Transport.send(message);
                                 
-                            //Log that email was sent
-                            System.out.println("Scheduled Question "+
-                              sched.getValue()+ "sent to"+
-                              contestant.getUser().getFirstName() + " " +
-                              contestant.getUser().getLastName());
+                        //Log that email was sent
+                        System.out.println("Scheduled Question "+
+                          sched.getValue()+ "sent to"+
+                          contestant.getUser().getFirstName() + " " +
+                          contestant.getUser().getLastName());
                         
-                            //Email content
-                            System.out.println(content);
-                            
-                            //Insert a record into the Ask table to ensure no duplicate Asks
-                            query = emAsk.createQuery("insert into ask (ask_id, scheduled_question_id, user_id, asked, created) values (?,?,?,?,?)");
-                            query.setParameter(1,System.currentTimeMillis());
-                            query.setParameter(2,sched.getScheduledQuestionId());
-                            query.setParameter(3,contestant.getUser().getUserId());
-                            query.setParameter(4, new java.sql.Date(System.currentTimeMillis()));
-                            query.setParameter(5, new java.sql.Date(System.currentTimeMillis()));
-                            query.executeUpdate();
-                        }
+                        //Email content
+                       // System.out.println(content);
                     }                            
 
                     System.out.println("Done sending scheduled question - "+sched.getValue());
-
-                } catch (MessagingException e) {
-                	throw new RuntimeException(e);
-                } catch (IOException ex) {
+                }
+                  catch (IOException ex) 
+                {
             	    throw new RuntimeException(ex);
                 } 
         }

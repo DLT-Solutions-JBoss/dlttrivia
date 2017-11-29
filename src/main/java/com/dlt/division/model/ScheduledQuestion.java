@@ -63,6 +63,14 @@ public class ScheduledQuestion {
       return contest;
     }
 
+    public void setScheduledQuestionId(int scheduled_question_id) {
+        this.scheduled_question_id = scheduled_question_id;
+    }
+
+    public int getScheduledQuestionId() {
+        return this.scheduled_question_id;
+    }
+      
     public void setContest(Contest contest) {
       this.contest = contest;
    }
