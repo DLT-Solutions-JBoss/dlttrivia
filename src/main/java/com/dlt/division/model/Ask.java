@@ -1,5 +1,6 @@
 package com.dlt.division.model;
 
+import javax.ejb.Stateless;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 
+@Stateless  
 @XmlRootElement
 @Entity
 @Table(name="ask")
