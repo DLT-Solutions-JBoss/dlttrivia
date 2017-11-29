@@ -19,6 +19,7 @@ import javax.persistence.Query;
 
 import java.util.Properties;
 
+import javax.enterprise.context.spi.Context;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -26,6 +27,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.naming.InitialContext;
 
 import com.dlt.division.model.Ask;
 import com.dlt.division.model.Asks;
@@ -259,7 +261,8 @@ public class SendTriviaQuestion implements DivisionService {
                             
                             try
                             {
-                            	Asks asks = new Asks();
+                            	Context initCtx = (Context) new InitialContext();
+                            	Asks asks = (Asks) ((InitialContext) initCtx).lookup("java:global/injection-of-entitymanager/Asks");;
                                 asks.addAsk(ask);
                             }
                             catch (Exception e)
