@@ -246,7 +246,7 @@ public class SendTriviaQuestion implements DivisionService {
                             System.out.println(content);
                             
                             //Insert a record into the Ask table to ensure no duplicate Asks
-                            query = emAsk.createQuery("insert into ask (ask_id, scheduled_question_id, user_id, asked, created) values (1?,?2,?3,?4,?5);");
+                            query = emAsk.createQuery("insert into ask (ask_id, scheduled_question_id, user_id, asked, created) values (?1,?2,?3,?4,?5);");
                             query.setParameter(1,System.currentTimeMillis());
                             query.setParameter(2,sched.getScheduledQuestionId());
                             query.setParameter(3,contestant.getUser().getUserId());
