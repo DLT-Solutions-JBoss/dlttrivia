@@ -244,18 +244,17 @@ public class SendTriviaQuestion implements DivisionService {
                         
                             //Email content
                             System.out.println(content);
-                            
+                   
                             //Insert a record into the Ask table to ensure no duplicate Asks
-                            Ask ask = new Ask();
-                            ask.setScheduledQuestion(sched);
-                            ask.setUser(contestant.getUser());
-                            ask.setAsked(new Date(System.currentTimeMillis()));
-                            ask.setCreated(new Date(System.currentTimeMillis()));
-                            ask.setUpdated(new Date(System.currentTimeMillis()));
-                            
                             try
                             {
-                            	emAsk.getTransaction().begin();
+                            	emAsk.getTransaction().begin();                         
+                                Ask ask = new Ask();
+                                ask.setScheduledQuestion(sched);
+                                ask.setUser(contestant.getUser());
+                                ask.setAsked(new Date(System.currentTimeMillis()));
+                                ask.setCreated(new Date(System.currentTimeMillis()));
+                                ask.setUpdated(new Date(System.currentTimeMillis()));
                                 emAsk.persist(ask);
                                 emAsk.getTransaction().commit();
                             }
