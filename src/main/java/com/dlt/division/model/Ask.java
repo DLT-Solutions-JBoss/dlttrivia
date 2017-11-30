@@ -21,11 +21,9 @@ public class Ask {
     @Column(name = "ask_id", updatable = false, nullable = false)
     long ask_id;
 
-    @ManyToOne
     @JoinColumn(name="scheduled_question_id")
     private ScheduledQuestion scheduledQuestion;
 
-    @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
 

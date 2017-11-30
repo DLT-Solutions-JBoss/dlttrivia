@@ -21,11 +21,9 @@ public class Response {
     @Column(name = "response_id", updatable = false, nullable = false)
     long response_id;
 
-    @ManyToOne
     @JoinColumn(name="ask_id")
     private Ask ask;
 
-    @ManyToOne
     @JoinColumn(name="choice_id")
     private Choice choice;
 
