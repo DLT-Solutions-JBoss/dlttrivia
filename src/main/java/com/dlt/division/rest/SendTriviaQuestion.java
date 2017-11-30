@@ -162,9 +162,10 @@ public class SendTriviaQuestion implements DivisionService {
                     //Replace tag with title
                     htmlTemplate = htmlTemplate.replaceAll(TITLE_TAG, TRIVIA_EMAIL_SUBJECT);
                     
-                  //Replace tag with question text
-                    htmlTemplate = htmlTemplate.replaceAll(API_URL_TAG,
-                    		"http://trivia-dlt.apps.ocp.test-demo-dlt.com/rest/EP/answerQuestion");
+                    //Replace tag with question text
+                    //htmlTemplate = htmlTemplate.replaceAll(API_URL_TAG,
+                    //		"http://trivia-dlt.apps.ocp.test-demo-dlt.com/rest/EP/answerQuestion");
+                    String triviaUrl = "http://trivia-dlt.apps.ocp.test-demo-dlt.com/rest/EP/answerQuestion/";
                     
                     //Replace tag with question text
                     htmlTemplate = htmlTemplate.replaceAll(QUESTION_TEXT_TAG,
@@ -193,17 +194,16 @@ public class SendTriviaQuestion implements DivisionService {
                     	QuestionChoice questionChoice = QuestionChoiceList.get(i);
                             	
                     	//Create list of choices in html format
-                        htmlQuestionChoice.append("<input type='radio' name='answer' id='question-answers-")
-                        .append(Integer.toString(i))
-                        .append("' value='")
+                        htmlQuestionChoice.append("<a href=\"")
+                        .append(triviaUrl)
+                        .append(ASK_ID_TAG)
+                        .append("/")
                         .append(Integer.toString(questionChoice.getChoice().getChoiceId()))
-                        .append("' /> <label for='question-answers-")
-                        .append(Integer.toString(i))
-                        .append("'>")
+                        .append("\">")
                         .append(Character.toString(alphabet[i]))
                         .append(") ")
                         .append(questionChoice.getChoice().getChoiceText())
-                        .append("</label><br>\n");
+                        .append("</a><br>\n");
                         
                     }
                     

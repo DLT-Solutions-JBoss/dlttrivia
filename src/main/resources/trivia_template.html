@@ -4,36 +4,7 @@
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title><!--TITLE--></title>
-    <script language="JavaScript">
-    
-    function answerQuestion()
-    {
-    	var uId = document.raw.userId.value;
-    	var aId = document.querySelector('input[name = "answer"]:checked').value;
-
-    	alert("You are about to answer the trivia question for userId: "+uId+" answer value = "+aId);
-
-    	var restStationsHttp;
-
-    	if (window.XMLHttpRequest)
-    	{
-        	   // code for IE7+, Firefox, Chrome, Opera, Safari
-    	       restStationsHttp=new XMLHttpRequest();
-    	       restStationsHttp.overrideMimeType("application/json");
-    	}
-    	else
-    	{
-    	       // code for IE6, IE5
-    	       restStationsHttp=new ActiveXObject("Microsoft.XMLHTTP");
-    	}
-
-
-    	restStationsHttp.open("GET","<!--API_URL-->/"+uId+"/1/1/1",true);
-    	restStationsHttp.send();
-    }
-
-    </script>
-    
+   
     <style>
       /* -------------------------------------
           GLOBAL RESETS
@@ -303,13 +274,7 @@
                                 <table border="0" cellpadding="0" cellspacing="0">
                                   <tbody>
                                   <tr><td width="100%">
-                                  <form action="<!--API_URL-->/<!--ASK_ID-->" method="post" target="_blank">
                                   <!--CHOICE_LIST-->
-                                  </td></tr>
-                                  <tr><td align="center">
-                                  <br>
-                                  <input type="submit" value="Submit Answer" id="submit"  />
-                                  </form>
                                   </td></tr>
                                   </tbody>
                                 </table>
