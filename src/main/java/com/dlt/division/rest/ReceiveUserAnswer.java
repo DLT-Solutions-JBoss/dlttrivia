@@ -41,6 +41,7 @@ public class ReceiveUserAnswer implements DivisionService {
 	    static final String CORRECT_ANSWER_CHOICE_TEXT_TAG  = "<!--CORRECT_ANSWER_CHOICE_TEXT-->";
 	    static final String ANSWER_LONG_TEXT_TAG            = "<!--CORRECT_ANSWER_LONG_TEXT-->";
 	    static final String QUESTION_ID_TAG                 = "<!--QUESTION_ID-->";
+	    static final String QUESTION_TEXT_TAG               = "<!--QUESTION_TEXT-->";
 	    static final String USER_ID_TAG                     = "<!--USER_ID-->";
 	    static final String SMTP_MSG_TYPE                   = "text/html";
 	    static final String TRIVIA_ANSWER_HTML_TEMPLATE     = "../../../../trivia_answer_template.html";
@@ -145,6 +146,11 @@ public class ReceiveUserAnswer implements DivisionService {
                     htmlTemplate = htmlTemplate.replaceAll(ANSWER_LONG_TEXT_TAG,
                     		sched.getQuestion().getAnswerText());
                     
+                    
+                    //Replace tag with question text
+                    htmlTemplate = htmlTemplate.replaceAll(QUESTION_TEXT_TAG,
+                    		sched.getQuestion().getQuestionText());
+                    
                     //Replace question ID in param syntax
                     htmlTemplate = htmlTemplate.replaceAll(TITLE_TAG, TRIVIA_TITLE);
 
@@ -199,7 +205,11 @@ public class ReceiveUserAnswer implements DivisionService {
                     //Replace user's answer text in the template
                     htmlTemplate = htmlTemplate.replaceAll(USER_ANSWER_TEXT_TAG,
                     		choice.getChoiceText());
-    
+
+                    //Replace correct answer text in the template
+                    htmlTemplate = htmlTemplate.replaceAll(CORRECT_ANSWER_CHOICE_TEXT_TAG,
+                    		choice.getChoiceText());
+                    
                 	//Ensure it wasn't already responded to
                     query = emResponse.createQuery("FROM com.dlt.division.model.Response where ask_id = ?1");
                     query.setParameter(1,iAskId);
@@ -207,13 +217,7 @@ public class ReceiveUserAnswer implements DivisionService {
                     List <Response> responseList = query.getResultList();
 
                     //Ensure you received a valid Ask ID
-                    if(!responseList.isEmpty())
-                    {
-                        //Replace result text in the template
-                        htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
-                    		"You already answered this question. No points for you!");
-                    }
-                    else
+                    if(responseList.isEmpty())
                     {
                     	//Insert into Response    
                     	EntityManager emResponse = factory.createEntityManager();
@@ -244,17 +248,24 @@ public class ReceiveUserAnswer implements DivisionService {
                               entityTransaction.rollback();
                             }
                         }
-        
+
+                    }
+                    else
+                    {
+                        //Replace result text in the template
+                        htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
+                    		"You already answered this question. No points for you!");
                     }
                     
                     System.out.println("Done answering scheduled question - "+sched.getValue());
+
                   }                
                   catch (IOException ex) 
                   { 
                   	throw new RuntimeException(ex);
                   } 
              }
-            
+
         return htmlTemplate;
     }
 
