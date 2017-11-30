@@ -90,7 +90,7 @@ public class ReceiveUserAnswer implements DivisionService {
             }
             
         	//Get Question from Contest
-            query = emScheduledQuestion.createQuery("FROM com.dlt.division.model.scheduled_question where scheduled_question_id = ?1");
+            query = emScheduledQuestion.createQuery("FROM com.dlt.division.model.ScheduledQuestion where scheduled_question_id = ?1");
             query.setParameter(1,askList.get(0).getScheduledQuestion().getScheduledQuestionId());
             @SuppressWarnings("unchecked")
             List <ScheduledQuestion> ScheduledQuestion = query.getResultList();
