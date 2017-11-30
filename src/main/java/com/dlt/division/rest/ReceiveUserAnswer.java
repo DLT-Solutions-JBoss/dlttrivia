@@ -63,6 +63,10 @@ public class ReceiveUserAnswer implements DivisionService {
 
         @DivisionService(ServiceType.EP)
         @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
+        private EntityManager emResponse;
+        
+        @DivisionService(ServiceType.EP)
+        @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
         private EntityManager emQuestionChoice;
         
         @DivisionService(ServiceType.EP)
@@ -77,7 +81,7 @@ public class ReceiveUserAnswer implements DivisionService {
         {
         	String htmlTemplate = "<!DOCTYPE html><html lang=\"en\">There was an error with your answer</html>";
         	
-        	//Get Question from Contest
+        	//Get Question from Ask
             Query query = emAsk.createQuery("FROM com.dlt.division.model.Ask where ask_id = ?1");
             query.setParameter(1,iAskId);
             @SuppressWarnings("unchecked")
@@ -192,45 +196,65 @@ public class ReceiveUserAnswer implements DivisionService {
              
                     Choice choice = ChoiceList.get(0);
                     
-                    //Replace question ID in param syntax
+                    //Replace user's answer text in the template
                     htmlTemplate = htmlTemplate.replaceAll(USER_ANSWER_TEXT_TAG,
                     		choice.getChoiceText());
-                    
-                    //Insert into Response        
-                    EntityManager emResponse = factory.createEntityManager();
-                    EntityTransaction entityTransaction = emResponse.getTransaction();
-           
-                   //Insert a record into the Response table to ensure no duplicate Responses
-                    try
+    
+                	//Ensure it wasn't already responded to
+                    query = emResponse.createQuery("FROM com.dlt.division.model.Response where ask_id = ?1");
+                    query.setParameter(1,iAskId);
+                    @SuppressWarnings("unchecked")
+                    List <Response> responseList = query.getResultList();
+
+                    //Ensure you received a valid Ask ID
+                    if(!responseList.isEmpty())
                     {
-                    	entityTransaction.begin();
+                        //Replace result text in the template
+                        htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
+                    		"You already answered this question. No points for you!");
+                    }
+                    else
+                    {
+                    	//Insert into Response    
+                    	EntityManager emResponse = factory.createEntityManager();
+                    	EntityTransaction entityTransaction = emResponse.getTransaction();
+           
+                        //Insert a record into the Response table to ensure no duplicate Responses
+                        try
+                        {
+                        	entityTransaction.begin();
                     	
-                        Response response = new Response();
-                        response.setAsk(askList.get(0));;
-                        response.setChoice(ChoiceList.get(0));
-                        response.setResponded(new Date(System.currentTimeMillis()));
-                        response.setCreated(new Date(System.currentTimeMillis()));
-                        response.setUpdated(new Date(System.currentTimeMillis()));
-                        emResponse.persist(response);
-                        emResponse.flush();                       
-                        entityTransaction.commit();
+                            Response response = new Response();
+                            response.setAsk(askList.get(0));;
+                            response.setChoice(ChoiceList.get(0));
+                            response.setResponded(new Date(System.currentTimeMillis()));
+                            response.setCreated(new Date(System.currentTimeMillis()));
+                            response.setUpdated(new Date(System.currentTimeMillis()));
+                            emResponse.persist(response);
+                            emResponse.flush();                       
+                            entityTransaction.commit();
 
-                        System.out.println("Response saved successfully with ID = "+response.getResponseId());
+                            System.out.println("Response saved successfully with ID = "+response.getResponseId());
+                        }
+                        catch (Exception e) 
+                        { 
+                        	if (emResponse != null) 
+                        	{
+                              System.out.println("Ask Transaction is being rolled back.");
+                              entityTransaction.rollback();
+                            }
+                        }
+        
                     }
-                    catch (Exception e) {
-                        if (emResponse != null) {
-                            System.out.println("Ask Transaction is being rolled back.");
-                            entityTransaction.rollback();
-                         }
-                    }
+                    
                     System.out.println("Done answering scheduled question - "+sched.getValue());
-                }
+                  }                
                   catch (IOException ex) 
-                {
-            	    throw new RuntimeException(ex);
-                } 
-        }
-
+                  { 
+                  	throw new RuntimeException(ex);
+                  } 
+             }
+            
         return htmlTemplate;
     }
 
