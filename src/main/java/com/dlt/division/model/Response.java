@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 
@@ -21,9 +21,11 @@ public class Response {
     @Column(name = "response_id", updatable = false, nullable = false)
     long response_id;
 
+    @OneToOne
     @JoinColumn(name="ask_id")
     private Ask ask;
 
+    @OneToOne
     @JoinColumn(name="choice_id")
     private Choice choice;
 

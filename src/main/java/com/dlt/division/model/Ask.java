@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Date;
 
@@ -21,9 +21,11 @@ public class Ask {
     @Column(name = "ask_id", updatable = false, nullable = false)
     long ask_id;
 
+    @OneToOne
     @JoinColumn(name="scheduled_question_id")
     private ScheduledQuestion scheduledQuestion;
 
+    @OneToOne
     @JoinColumn(name="user_id")
     private User user;
 
