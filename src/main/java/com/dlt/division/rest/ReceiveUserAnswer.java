@@ -53,10 +53,6 @@ public class ReceiveUserAnswer implements DivisionService {
         @DivisionService(ServiceType.EP)
         @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
         private EntityManager emAsk;
-
-        @DivisionService(ServiceType.EP)
-        @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
-        private EntityManager emScheduledQuestion;
         
         @DivisionService(ServiceType.EP)
         @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
@@ -93,19 +89,83 @@ public class ReceiveUserAnswer implements DivisionService {
             {
             	return htmlTemplate;
             }
-            
-        	//Get Question from Contest
-            query = emScheduledQuestion.createQuery("FROM com.dlt.division.model.ScheduledQuestion where scheduled_question_id = ?1");
-            query.setParameter(1,askList.get(0).getScheduledQuestion().getScheduledQuestionId());
+     
+            //Get Choice text selected by the user
+            query = emChoice.createQuery("FROM com.dlt.division.model.Choice where choice_id = ?1");
+            query.setParameter(1,iAnswerId);
             @SuppressWarnings("unchecked")
-            List <ScheduledQuestion> ScheduledQuestion = query.getResultList();
+            List <Choice> ChoiceList = query.getResultList(); 
+     
+            Choice choice = ChoiceList.get(0);
             
-            if(!ScheduledQuestion.isEmpty())
+            //Get Choice text selected by the user
+            query = emChoice.createQuery("FROM com.dlt.division.model.QuestionChoice where question_id = ?1 and is_correct = true");
+            query.setParameter(1,askList.get(0).getScheduledQuestion().getQuestion().getQuestionId());
+            @SuppressWarnings("unchecked")
+            List <QuestionChoice> QuestionChoiceList = query.getResultList(); 
+            
+            int iCorrectChoice = 0;
+            
+            if(!QuestionChoiceList.isEmpty())
+            {
+            	QuestionChoice qc = QuestionChoiceList.get(0);
+            	iCorrectChoice = qc.getChoice().getChoiceId();
+            }
+            
+        	//Ensure it wasn't already responded to
+            query = emResponse.createQuery("FROM com.dlt.division.model.Response where ask_id = ?1");
+            query.setParameter(1,iAskId);
+            @SuppressWarnings("unchecked")
+            List <Response> responseList = query.getResultList();
+
+            //Ensure you received a valid Ask ID
+            if(responseList.isEmpty())
+            {
+            	//Insert into Response    
+            	EntityManager emResponse = factory.createEntityManager();
+            	EntityTransaction entityTransaction = emResponse.getTransaction();
+   
+                //Insert a record into the Response table to ensure no duplicate Responses
+                try
+                {
+                	entityTransaction.begin();
+            	
+                    Response response = new Response();
+                    response.setAsk(askList.get(0));;
+                    response.setChoice(ChoiceList.get(0));
+                    response.setResponded(new Date(System.currentTimeMillis()));
+                    response.setCreated(new Date(System.currentTimeMillis()));
+                    response.setUpdated(new Date(System.currentTimeMillis()));
+                    emResponse.persist(response);
+                    emResponse.flush();                       
+                    entityTransaction.commit();
+
+                    System.out.println("Response saved successfully with ID = "+response.getResponseId());
+                }
+                catch (Exception e) 
+                { 
+                	if (emResponse != null) 
+                	{
+                      System.out.println("Ask Transaction is being rolled back.");
+                      entityTransaction.rollback();
+                    }
+                }
+
+            }
+            else
+            {
+                //Replace result text in the template
+                htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
+            		"You already answered this question. No points for you!");
+            }
+            
+        	//Get Question from Ask
+            if(askList.get(0).getScheduledQuestion() != null)
             {
 
                 try {
                 	//Establish response message
-                	ScheduledQuestion sched = ScheduledQuestion.get(0);                                 
+                	ScheduledQuestion sched = askList.get(0).getScheduledQuestion();                                 
                       
                     //Read in the content of the html template
                     InputStream in =
@@ -154,20 +214,7 @@ public class ReceiveUserAnswer implements DivisionService {
                     //Replace question ID in param syntax
                     htmlTemplate = htmlTemplate.replaceAll(TITLE_TAG, TRIVIA_TITLE);
 
-                    //Get Choice text selected by the user
-                    query = emChoice.createQuery("FROM com.dlt.division.model.QuestionChoice where question_id = ?1 and is_correct = true");
-                    query.setParameter(1,sched.getQuestion().getQuestionId());
-                    @SuppressWarnings("unchecked")
-                    List <QuestionChoice> QuestionChoiceList = query.getResultList(); 
-                    
-                    int iCorrectChoice = 0;
-                    
-                    if(!QuestionChoiceList.isEmpty())
-                    {
-                    	QuestionChoice qc = QuestionChoiceList.get(0);
-                    	iCorrectChoice = qc.getChoice().getChoiceId();
-                    }
- 
+
                     //If the user answered incorrectly
                     if(iAnswerId != iCorrectChoice)
                     {
@@ -193,14 +240,7 @@ public class ReceiveUserAnswer implements DivisionService {
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
                     		"Congrats, you're correct!");
                     }
-                    
-                    //Get Choice text selected by the user
-                    query = emChoice.createQuery("FROM com.dlt.division.model.Choice where choice_id = ?1");
-                    query.setParameter(1,iAnswerId);
-                    @SuppressWarnings("unchecked")
-                    List <Choice> ChoiceList = query.getResultList(); 
-             
-                    Choice choice = ChoiceList.get(0);
+
                     
                     //Replace user's answer text in the template
                     htmlTemplate = htmlTemplate.replaceAll(USER_ANSWER_TEXT_TAG,
@@ -209,53 +249,6 @@ public class ReceiveUserAnswer implements DivisionService {
                     //Replace correct answer text in the template
                     htmlTemplate = htmlTemplate.replaceAll(CORRECT_ANSWER_CHOICE_TEXT_TAG,
                     		choice.getChoiceText());
-                    
-                	//Ensure it wasn't already responded to
-                    query = emResponse.createQuery("FROM com.dlt.division.model.Response where ask_id = ?1");
-                    query.setParameter(1,iAskId);
-                    @SuppressWarnings("unchecked")
-                    List <Response> responseList = query.getResultList();
-
-                    //Ensure you received a valid Ask ID
-                    if(responseList.isEmpty())
-                    {
-                    	//Insert into Response    
-                    	EntityManager emResponse = factory.createEntityManager();
-                    	EntityTransaction entityTransaction = emResponse.getTransaction();
-           
-                        //Insert a record into the Response table to ensure no duplicate Responses
-                        try
-                        {
-                        	entityTransaction.begin();
-                    	
-                            Response response = new Response();
-                            response.setAsk(askList.get(0));;
-                            response.setChoice(ChoiceList.get(0));
-                            response.setResponded(new Date(System.currentTimeMillis()));
-                            response.setCreated(new Date(System.currentTimeMillis()));
-                            response.setUpdated(new Date(System.currentTimeMillis()));
-                            emResponse.persist(response);
-                            emResponse.flush();                       
-                            entityTransaction.commit();
-
-                            System.out.println("Response saved successfully with ID = "+response.getResponseId());
-                        }
-                        catch (Exception e) 
-                        { 
-                        	if (emResponse != null) 
-                        	{
-                              System.out.println("Ask Transaction is being rolled back.");
-                              entityTransaction.rollback();
-                            }
-                        }
-
-                    }
-                    else
-                    {
-                        //Replace result text in the template
-                        htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
-                    		"You already answered this question. No points for you!");
-                    }
                     
                     System.out.println("Done answering scheduled question - "+sched.getValue());
 
