@@ -249,11 +249,9 @@ public class SendTriviaQuestion implements DivisionService {
                                 ask.setAsked(new Date(System.currentTimeMillis()));
                                 ask.setCreated(new Date(System.currentTimeMillis()));
                                 ask.setUpdated(new Date(System.currentTimeMillis()));
-                                emAskInsert.persist(ask);
-                                
+                                emAskInsert.persist(ask);                                
+                                emAskInsert.flush();                               
                                 entityTransaction.commit();
-                                
-                                emAskInsert.flush();
                                 
                         	    //Set the Ask ID in order to establish the ability to process answer
                         	    content = content.replaceAll(ASK_ID_TAG,
