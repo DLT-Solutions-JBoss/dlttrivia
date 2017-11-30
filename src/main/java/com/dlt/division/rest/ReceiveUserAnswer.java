@@ -24,11 +24,9 @@ import java.util.Properties;
 
 import com.dlt.division.model.Ask;
 import com.dlt.division.model.Choice;
-import com.dlt.division.model.Contestant;
 import com.dlt.division.model.QuestionChoice;
 import com.dlt.division.model.Response;
 import com.dlt.division.model.ScheduledQuestion;
-import com.dlt.division.rest.DivisionService.ServiceType;
 
 //Path to REST Service
 @Path("/EP")
@@ -73,9 +71,9 @@ public class ReceiveUserAnswer implements DivisionService {
         
         @GET()
         @Path("answerQuestion/{askId}/{answerId}")
-        @Produces("application/json")
+        @Produces("text/html")
         @DivisionService(ServiceType.EP)
-        public String getAnswer(@PathParam("askId") int iAskId, @PathParam("answerId") int iAnswerId)
+        public String getAnswer(@PathParam("askId") long iAskId, @PathParam("answerId") int iAnswerId)
         {
         	String htmlTemplate = "<!DOCTYPE html><html lang=\"en\">There was an error with your answer</html>";
         	
@@ -215,11 +213,9 @@ public class ReceiveUserAnswer implements DivisionService {
                         response.setCreated(new Date(System.currentTimeMillis()));
                         response.setUpdated(new Date(System.currentTimeMillis()));
                         emResponse.persist(response);
-                        
+                        emResponse.flush();                       
                         entityTransaction.commit();
-                        
-                        emResponse.flush();
-                        
+
                         System.out.println("Response saved successfully with ID = "+response.getResponseId());
                     }
                     catch (Exception e) {
