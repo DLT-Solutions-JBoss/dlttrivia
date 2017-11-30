@@ -16,9 +16,10 @@ import java.sql.Date;
 @Table(name="response")
 public class Response {
 
-    @Id @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "response_id")
-    int response_id;
+    @Id 
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @Column(name = "response_id", updatable = false, nullable = false)
+    long response_id;
 
     @ManyToOne
     @JoinColumn(name="ask_id")
@@ -37,11 +38,11 @@ public class Response {
     @Column(name = "updated", columnDefinition="DATETIME")
     private Date updated;
 
-    public int getResponseId() {
+    public long getResponseId() {
       return response_id;
     }
 
-    public void setResponseId(int response_id) {
+    public void setResponseId(long response_id) {
       this.response_id = response_id;
    }
 
@@ -57,6 +58,10 @@ public class Response {
       return responded;
     }
 
+   public void setResponded(Date responded) {
+	      this.responded = responded;
+   }
+   
     public void setAsked(Date responded) {
       this.responded = responded;
    }

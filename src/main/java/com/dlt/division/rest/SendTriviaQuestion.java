@@ -45,6 +45,7 @@ public class SendTriviaQuestion implements DivisionService {
 	    static final String FIRST_NAME_TAG       = "<!--FIRST_NAME-->";
 	    static final String QUESTION_TEXT_TAG    = "<!--QUESTION-->";
 	    static final String QUESTION_ID_TAG      = "<!--QUESTION_ID-->";
+	    static final String ASK_ID_TAG           = "<!--ASK_ID-->";
 	    static final String CHOICE_LIST_TAG      = "<!--CHOICE_LIST-->";
 	    static final String USER_ID_TAG          = "<!--USER_ID-->";
 	    static final String SMTP_AUTH_PROP_TAG   = "mail.smtp.auth";
@@ -163,7 +164,7 @@ public class SendTriviaQuestion implements DivisionService {
                     
                   //Replace tag with question text
                     htmlTemplate = htmlTemplate.replaceAll(API_URL_TAG,
-                    		"http://trivia-dlt.apps.ocp.test-demo-dlt.com/rest/EP/triviaAnswer");
+                    		"http://trivia-dlt.apps.ocp.test-demo-dlt.com/rest/EP/answerQuestion");
                     
                     //Replace tag with question text
                     htmlTemplate = htmlTemplate.replaceAll(QUESTION_TEXT_TAG,
@@ -223,6 +224,7 @@ public class SendTriviaQuestion implements DivisionService {
                         @SuppressWarnings("unchecked")
                         List <Ask> AskedUserList = query.getResultList();
                     	
+                        //Only process the Ask if it has not been asked before
                         if(AskedUserList.isEmpty())
                         { 
                         	//Set email address
@@ -232,26 +234,7 @@ public class SendTriviaQuestion implements DivisionService {
                     	    //Set first name to make friendly text
                     	    String content = htmlTemplate.replaceAll(FIRST_NAME_TAG,
                     			contestant.getUser().getFirstName());
-                    	
-                    	    //Set user ID
-                    	    content = content.replaceAll(USER_ID_TAG,
-                    			Integer.toString(contestant.getUser().getUserId()));
-                    			
-                    	    //Set content to message text
-                            message.setContent(content, SMTP_MSG_TYPE);
-
-                            //Send the email
-                            Transport.send(message);
-                                
-                            //Log that email was sent
-                            System.out.println("Scheduled Question "+
-                              sched.getValue()+ "sent to"+
-                              contestant.getUser().getFirstName() + " " +
-                              contestant.getUser().getLastName());
-                        
-                            //Email content
-                            System.out.println(content);
- 
+                    	    
                             EntityManager emAskInsert = factory.createEntityManager();
                             EntityTransaction entityTransaction = emAskInsert.getTransaction();
                    
@@ -270,7 +253,13 @@ public class SendTriviaQuestion implements DivisionService {
                                 
                                 entityTransaction.commit();
                                 
-                                System.out.println("Ask saved successfully.");
+                                emAskInsert.flush();
+                                
+                        	    //Set the Ask ID in order to establish the ability to process answer
+                        	    content = content.replaceAll(ASK_ID_TAG,
+                        			Long.toString(ask.getAskId()));
+                                
+                                System.out.println("Ask saved successfully with ID = "+ask.getAskId());
                             }
                             catch (Exception e) {
                                 if (emAskInsert != null) {
@@ -278,12 +267,21 @@ public class SendTriviaQuestion implements DivisionService {
                                     entityTransaction.rollback();
                                  }
                             }
-/*                            finally
-                            {
-                            	emAskInsert.flush();
-                            	emAskInsert.close();
-                            }*/
+                    			
+                    	    //Set content to message text
+                            message.setContent(content, SMTP_MSG_TYPE);
 
+                            //Send the email
+                            Transport.send(message);
+                                
+                            //Log that email was sent
+                            System.out.println("Scheduled Question "+
+                              sched.getValue()+ "sent to"+
+                              contestant.getUser().getFirstName() + " " +
+                              contestant.getUser().getLastName());
+                        
+                            //Email content
+                            System.out.println(content);
                         }
                         else
                         {

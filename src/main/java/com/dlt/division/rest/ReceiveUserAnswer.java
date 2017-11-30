@@ -9,98 +9,110 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
 import java.util.Properties;
 
+import com.dlt.division.model.Ask;
+import com.dlt.division.model.Choice;
 import com.dlt.division.model.Contestant;
 import com.dlt.division.model.QuestionChoice;
+import com.dlt.division.model.Response;
 import com.dlt.division.model.ScheduledQuestion;
+import com.dlt.division.rest.DivisionService.ServiceType;
 
 //Path to REST Service
 @Path("/EP")
 public class ReceiveUserAnswer implements DivisionService {
 	
 	    //Set constants
-	    static final String TITLE_TAG            = "<!--TITLE-->";
-	    static final String API_URL_TAG          = "<!--API_URL-->";
-	    static final String FIRST_NAME_TAG       = "<!--FIRST_NAME-->";
-	    static final String QUESTION_TEXT_TAG    = "<!--QUESTION-->";
-	    static final String QUESTION_ID_TAG      = "<!--QUESTION_ID-->";
-	    static final String CHOICE_LIST_TAG      = "<!--CHOICE_LIST-->";
-	    static final String USER_ID_TAG          = "<!--USER_ID-->";
-	    static final String SMTP_AUTH_PROP_TAG   = "mail.smtp.auth";
-	    static final String SMTP_START_TLS_TAG   = "mail.smtp.starttls.enable";
-	    static final String SMTP_HOST_TAG        = "mail.smtp.host";
-	    static final String SMTP_PORT_TAG        = "mail.smtp.port";
-	    static final String SMTP_AUTH_PROP_VALUE = "true";
-	    static final String SMTP_START_TLS_VALUE = "true";
-	    static final String SMTP_HOST_VALUE      = "smtp.gmail.com";
-	    static final String SMTP_PORT_VALUE      = "587";
-	    static final String SMTP_MSG_TYPE        = "text/html";
-	    static final String TRIVIA_HTML_TEMPLATE = "../../../../trivia_template.html";
-	    static final String TRIVIA_EMAIL_SUBJECT = "DLT EP Trivia";
+	    static final String TITLE_TAG                       = "<!--TITLE-->";
+	    static final String API_URL_TAG                     = "<!--API_URL-->";
+	    static final String FIRST_NAME_TAG                  = "<!--FIRST_NAME-->";
+	    static final String RESULT_TEXT_TAG                 = "<!--RESULT_TEXT-->";
+	    static final String USER_ANSWER_TEXT_TAG            = "<!--USER_CHOICE_TEXT-->";
+	    static final String CORRECT_ANSWER_CHOICE_TEXT_TAG  = "<!--CORRECT_ANSWER_CHOICE_TEXT-->";
+	    static final String ANSWER_LONG_TEXT_TAG            = "<!--CORRECT_ANSWER_LONG_TEXT-->";
+	    static final String QUESTION_ID_TAG                 = "<!--QUESTION_ID-->";
+	    static final String USER_ID_TAG                     = "<!--USER_ID-->";
+	    static final String SMTP_MSG_TYPE                   = "text/html";
+	    static final String TRIVIA_ANSWER_HTML_TEMPLATE     = "../../../../trivia_answer_template.html";
+	    static final String TRIVIA_TITLE                    = "DLT EP Trivia";
 	    
         //Establish empty Email property class
         Properties props = new Properties();
 	    
         @DivisionService(ServiceType.EP)
         @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
-        private EntityManager emScheduledQuestion;
+        private EntityManager emAsk;
 
         @DivisionService(ServiceType.EP)
         @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
-        private EntityManager emContestant;
+        private EntityManager emScheduledQuestion;
+        
+        @DivisionService(ServiceType.EP)
+        @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
+        private EntityManager emChoice;
 
         @DivisionService(ServiceType.EP)
         @PersistenceContext(unitName="Division", type=PersistenceContextType.EXTENDED)
         private EntityManager emQuestionChoice;
         
+        @DivisionService(ServiceType.EP)
+        @PersistenceUnit(unitName="Division")
+        private EntityManagerFactory factory;
+        
         @GET()
-        @Path("answerQuestion/{questionId}/{userId}/{answerId}")
+        @Path("answerQuestion/{askId}/{answerId}")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
-        public List<ScheduledQuestion> getAnswer(@PathParam("questionId") int iQuestionId,
-        		@PathParam("userId") int iUserId, @PathParam("answerId") int iAnswerId)
+        public String getAnswer(@PathParam("askId") int iAskId, @PathParam("answerId") int iAnswerId)
         {
+        	String htmlTemplate = "<!DOCTYPE html><html lang=\"en\">There was an error with your answer</html>";
+        	
         	//Get Question from Contest
-            Query query = emScheduledQuestion.createQuery("FROM com.dlt.division.model.ScheduledQuestion where scheduled > current_date() - 1 order by scheduled")
-                            .setMaxResults(1);
+            Query query = emAsk.createQuery("FROM com.dlt.division.model.Ask where ask_id = ?1");
+            query.setParameter(1,iAskId);
+            @SuppressWarnings("unchecked")
+            List <Ask> askList = query.getResultList();
+
+            //Ensure you received a valid Ask ID
+            if(askList.isEmpty())
+            {
+            	return htmlTemplate;
+            }
+            
+        	//Get Question from Contest
+            query = emScheduledQuestion.createQuery("FROM com.dlt.division.model.scheduled_question where scheduled_question_id = ?1");
+            query.setParameter(1,askList.get(0).getScheduledQuestion().getScheduledQuestionId());
             @SuppressWarnings("unchecked")
             List <ScheduledQuestion> ScheduledQuestion = query.getResultList();
             
-        	//Get Contestants for Contest
-            query = emContestant.createQuery("FROM com.dlt.division.model.Contestant where contest_id = ?1");
-
-            @SuppressWarnings("unchecked")
-            List <Contestant> ContestantList = query.getResultList();           
-      
-            if(!ScheduledQuestion.isEmpty() && !ContestantList.isEmpty())
+            if(!ScheduledQuestion.isEmpty())
             {
-            	props.put(SMTP_AUTH_PROP_TAG, SMTP_AUTH_PROP_VALUE);
-                props.put(SMTP_START_TLS_TAG, SMTP_START_TLS_VALUE);
-                props.put(SMTP_HOST_TAG, SMTP_HOST_VALUE);
-                props.put(SMTP_PORT_TAG, SMTP_PORT_VALUE);
-
 
                 try {
-                	//Establish email message
+                	//Establish response message
                 	ScheduledQuestion sched = ScheduledQuestion.get(0);                                 
                       
-
+                    //Read in the content of the html template
                     InputStream in =
-                    		SendTriviaQuestion.class.getClassLoader().getResourceAsStream(TRIVIA_HTML_TEMPLATE);
+                    		SendTriviaQuestion.class.getClassLoader().getResourceAsStream(TRIVIA_ANSWER_HTML_TEMPLATE);
  
                     StringBuffer fileContents = new StringBuffer(); 
                     
                     if (in == null) 
                     {
-                    	System.out.println("File Not Found: "+TRIVIA_HTML_TEMPLATE);
+                    	System.out.println("File Not Found: "+TRIVIA_ANSWER_HTML_TEMPLATE);
                     } 
                     else 
                     {
@@ -121,78 +133,102 @@ public class ReceiveUserAnswer implements DivisionService {
                     }
                     
                     //Get HTML email template from webapp resource location
-                    String htmlTemplate = fileContents.toString();
-                    
-                    //Replace tag with title
-                    htmlTemplate = htmlTemplate.replaceAll(TITLE_TAG, TRIVIA_EMAIL_SUBJECT);
-                    
-                  //Replace tag with question text
-                    htmlTemplate = htmlTemplate.replaceAll(API_URL_TAG,
-                    		"http://trivia-dlt.apps.ocp.test-demo-dlt.com/rest/EP/triviaAnswer");
+                    htmlTemplate = fileContents.toString();
                     
                     //Replace tag with question text
-                    htmlTemplate = htmlTemplate.replaceAll(QUESTION_TEXT_TAG,
-                    		sched.getQuestion().getQuestionText());
+                    htmlTemplate = htmlTemplate.replaceAll(API_URL_TAG,
+                    		"http://trivia-dlt.apps.ocp.test-demo-dlt.com/");
+                    
+                    //Replace tag with question text
+                    htmlTemplate = htmlTemplate.replaceAll(ANSWER_LONG_TEXT_TAG,
+                    		sched.getQuestion().getAnswerText());
                     
                     //Replace question ID in param syntax
                     htmlTemplate = htmlTemplate.replaceAll(QUESTION_ID_TAG,
                     		Integer.toString(sched.getQuestion().getQuestionId()));
 
-                    //Get Choices for Contest Question
-                    query = emContestant.createQuery("FROM com.dlt.division.model.QuestionChoice where question_id = ?1");
+                    //Get Choice text selected by the user
+                    query = emChoice.createQuery("FROM com.dlt.division.model.QuestionChoice where question_id = ?1 and is_correct = true");
                     query.setParameter(1,sched.getQuestion().getQuestionId());
                     @SuppressWarnings("unchecked")
                     List <QuestionChoice> QuestionChoiceList = query.getResultList(); 
-                            
-                    //Create Alpha Choice for end user
-                    char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-                            
-                    //Create dynamic string for series of variable choices
-                    StringBuffer htmlQuestionChoice = new StringBuffer();
-                       	
-                  
-                    //Loop through choices and create rows/columns of radio buttons for the user to select
-                    for (int i = 0; i < QuestionChoiceList.size(); i++) 
+                    
+                    int iCorrectChoice = 0;
+                    
+                    if(!QuestionChoiceList.isEmpty())
                     {
-                    	QuestionChoice questionChoice = QuestionChoiceList.get(i);
-                            	
-                    	//Create list of choices in html format
-                        htmlQuestionChoice.append("<input type='radio' name='answer' id='question-answers-")
-                        .append(Integer.toString(i))
-                        .append("' value='")
-                        .append(Integer.toString(questionChoice.getChoice().getChoiceId()))
-                        .append("' /> <label for='question-answers-")
-                        .append(Integer.toString(i))
-                        .append("'>")
-                        .append(Character.toString(alphabet[i]))
-                        .append(") ")
-                        .append(questionChoice.getChoice().getChoiceText())
-                        .append("</label><br>\n");
+                    	QuestionChoice qc = QuestionChoiceList.get(0);
+                    	iCorrectChoice = qc.getChoice().getChoiceId();
+                    }
+ 
+                    //If the user answered incorrectly
+                    if(iAnswerId != iCorrectChoice)
+                    {
+                        //Get Choice text selected by the user
+                        query = emChoice.createQuery("FROM com.dlt.division.model.Choice where choice_id = ?1");
+                        query.setParameter(1,iCorrectChoice);
+                        @SuppressWarnings("unchecked")
+                        List <Choice> CorrectChoiceList = query.getResultList(); 
+                 
+                        Choice correctChoice = CorrectChoiceList.get(0);
+
+                    	//Replace correct answer text in the template
+                        htmlTemplate = htmlTemplate.replaceAll(CORRECT_ANSWER_CHOICE_TEXT_TAG,
+                    		correctChoice.getChoiceText());
                         
+                        //Replace result text in the template
+                        htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
+                    		"Sorry, that is incorrect.");
+                    }
+                    else
+                    {
+                        //Replace result text in the template
+                        htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
+                    		"Congrats, you're correct!");
                     }
                     
-                    //Replace choice list with question html
-                    htmlTemplate = htmlTemplate.replaceAll(CHOICE_LIST_TAG,
-                    		htmlQuestionChoice.toString());
-                            
-                    //Now loop through contestants and send the emails
-                    for (int i = 0; i < ContestantList.size(); i++) 
+                    //Get Choice text selected by the user
+                    query = emChoice.createQuery("FROM com.dlt.division.model.Choice where choice_id = ?1");
+                    query.setParameter(1,iAnswerId);
+                    @SuppressWarnings("unchecked")
+                    List <Choice> ChoiceList = query.getResultList(); 
+             
+                    Choice choice = ChoiceList.get(0);
+                    
+                    //Replace question ID in param syntax
+                    htmlTemplate = htmlTemplate.replaceAll(USER_ANSWER_TEXT_TAG,
+                    		choice.getChoiceText());
+                    
+                    //Insert into Response        
+                    EntityManager emResponse = factory.createEntityManager();
+                    EntityTransaction entityTransaction = emResponse.getTransaction();
+           
+                   //Insert a record into the Response table to ensure no duplicate Responses
+                    try
                     {
-                    	//For each contestant
-                    	Contestant contestant = ContestantList.get(i);
+                    	entityTransaction.begin();
                     	
-                                
-                        //Log that email was sent
-                        System.out.println("Scheduled Question "+
-                          sched.getValue()+ "sent to"+
-                          contestant.getUser().getFirstName() + " " +
-                          contestant.getUser().getLastName());
+                        Response response = new Response();
+                        response.setAsk(askList.get(0));;
+                        response.setChoice(ChoiceList.get(0));
+                        response.setResponded(new Date(System.currentTimeMillis()));
+                        response.setCreated(new Date(System.currentTimeMillis()));
+                        response.setUpdated(new Date(System.currentTimeMillis()));
+                        emResponse.persist(response);
                         
-                        //Email content
-                       // System.out.println(content);
-                    }                            
-
-                    System.out.println("Done sending scheduled question - "+sched.getValue());
+                        entityTransaction.commit();
+                        
+                        emResponse.flush();
+                        
+                        System.out.println("Response saved successfully with ID = "+response.getResponseId());
+                    }
+                    catch (Exception e) {
+                        if (emResponse != null) {
+                            System.out.println("Ask Transaction is being rolled back.");
+                            entityTransaction.rollback();
+                         }
+                    }
+                    System.out.println("Done answering scheduled question - "+sched.getValue());
                 }
                   catch (IOException ex) 
                 {
@@ -200,7 +236,7 @@ public class ReceiveUserAnswer implements DivisionService {
                 } 
         }
 
-        return ScheduledQuestion;
+        return htmlTemplate;
     }
 
 
