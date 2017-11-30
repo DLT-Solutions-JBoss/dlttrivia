@@ -130,7 +130,7 @@ public class ReceiveUserAnswer implements DivisionService {
                         }
                     }
                     
-                    //Get HTML email template from webapp resource location
+                    //Get HTML template from webapp resource location
                     htmlTemplate = fileContents.toString();
                     
                     //Replace tag with question text
@@ -142,8 +142,7 @@ public class ReceiveUserAnswer implements DivisionService {
                     		sched.getQuestion().getAnswerText());
                     
                     //Replace question ID in param syntax
-                    htmlTemplate = htmlTemplate.replaceAll(QUESTION_ID_TAG,
-                    		Integer.toString(sched.getQuestion().getQuestionId()));
+                    htmlTemplate = htmlTemplate.replaceAll(TITLE_TAG, TRIVIA_TITLE);
 
                     //Get Choice text selected by the user
                     query = emChoice.createQuery("FROM com.dlt.division.model.QuestionChoice where question_id = ?1 and is_correct = true");
