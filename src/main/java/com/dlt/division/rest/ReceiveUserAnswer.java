@@ -44,6 +44,9 @@ public class ReceiveUserAnswer implements DivisionService {
 	    static final String QUESTION_TEXT_TAG               = "<!--QUESTION_TEXT-->";
 	    static final String USER_ID_TAG                     = "<!--USER_ID-->";
 	    static final String SMTP_MSG_TYPE                   = "text/html";
+	    static final String RESULT_COLOR_TAG                = "<!--RESULT_COLOR-->";
+	    static final String RESULT_CORRECT_COLOR            = "green";
+	    static final String RESULT_INCORRECT_COLOR          = "red";
 	    static final String TRIVIA_ANSWER_HTML_TEMPLATE     = "../../../../trivia_answer_template.html";
 	    static final String TRIVIA_TITLE                    = "DLT EP Trivia";
 	    
@@ -202,6 +205,10 @@ public class ReceiveUserAnswer implements DivisionService {
                         //Replace result text in the template
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
                     		"You already answered this question. No points for you!");
+                        
+                      //Replace result color in the template
+                        htmlTemplate = htmlTemplate.replaceAll(RESULT_COLOR_TAG,
+                		RESULT_INCORRECT_COLOR);
                     }
                     
                     //Replace tag with question text
@@ -239,12 +246,22 @@ public class ReceiveUserAnswer implements DivisionService {
                         //Replace result text in the template
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
                     		"Sorry, that is incorrect.");
+                        
+                        //Replace result color in the template
+                        htmlTemplate = htmlTemplate.replaceAll(RESULT_COLOR_TAG,
+                		RESULT_INCORRECT_COLOR);
                     }
                     else
-                    {
+                    {  
                         //Replace result text in the template
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
-                    		"Congrats, you're correct!");
+                    		"Congrats, you're correct! You earned "+
+                    		askList.get(0).getScheduledQuestion().getQuestion().getQuestionValue() +
+                            " points.");
+                    
+                        //Replace result color in the template
+                        htmlTemplate = htmlTemplate.replaceAll(RESULT_COLOR_TAG,
+                		RESULT_CORRECT_COLOR);
                     }
 
                     
