@@ -76,6 +76,7 @@ public class ReceiveUserAnswer implements DivisionService {
         @DivisionService(ServiceType.EP)
         public String getAnswer(@PathParam("askId") long iAskId, @PathParam("answerId") int iAnswerId)
         {
+        	boolean bAlreadyResponded = false;
         	String htmlTemplate = "<!DOCTYPE html><html lang=\"en\">There was an error with your answer</html>";
         	
         	//Get Question from Ask
@@ -154,9 +155,7 @@ public class ReceiveUserAnswer implements DivisionService {
             }
             else
             {
-                //Replace result text in the template
-                htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
-            		"You already answered this question. No points for you!");
+            	bAlreadyResponded = true;
             }
             
         	//Get Question from Ask
@@ -197,6 +196,13 @@ public class ReceiveUserAnswer implements DivisionService {
                     
                     //Get HTML template from webapp resource location
                     htmlTemplate = fileContents.toString();
+ 
+                    if(bAlreadyResponded)
+                    {
+                        //Replace result text in the template
+                        htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
+                    		"You already answered this question. No points for you!");
+                    }
                     
                     //Replace tag with question text
                     htmlTemplate = htmlTemplate.replaceAll(API_URL_TAG,
