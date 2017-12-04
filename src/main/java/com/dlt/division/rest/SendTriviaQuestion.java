@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
 import java.sql.Date;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -59,6 +60,7 @@ public class SendTriviaQuestion implements DivisionService {
 	    static final String SMTP_MSG_TYPE        = "text/html";
 	    static final String TRIVIA_HTML_TEMPLATE = "../../../../trivia_template.html";
 	    static final String TRIVIA_EMAIL_SUBJECT = "DLT EP Trivia";
+	    static final String ALPHABET             = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	    
         //Email scheduled trivia question
         final String username = "DLT.JBoss@gmail.com";
@@ -162,10 +164,12 @@ public class SendTriviaQuestion implements DivisionService {
                     //Replace tag with title
                     htmlTemplate = htmlTemplate.replaceAll(TITLE_TAG, TRIVIA_EMAIL_SUBJECT);
                     
-                    //Replace tag with question text
-                    //htmlTemplate = htmlTemplate.replaceAll(API_URL_TAG,
-                    //		"http://trivia-dlt.apps.ocp.test-demo-dlt.com/rest/EP/answerQuestion");
-                    String triviaUrl = "http://trivia-dlt.apps.ocp.test-demo-dlt.com/rest/EP/answerQuestion/";
+                    //Get Trivia URL from environmental variables
+                    String triviaUrl = "";
+                    if(System.getenv("TRIVIA_ANSWER_URL") != null)
+                    {
+                    	triviaUrl = System.getenv("TRIVIA_ANSWER_URL");
+                    }
                     
                     //Replace tag with question text
                     htmlTemplate = htmlTemplate.replaceAll(QUESTION_TEXT_TAG,
@@ -180,36 +184,6 @@ public class SendTriviaQuestion implements DivisionService {
                     query.setParameter(1,sched.getQuestion().getQuestionId());
                     @SuppressWarnings("unchecked")
                     List <QuestionChoice> QuestionChoiceList = query.getResultList(); 
-                            
-                    //Create Alpha Choice for end user
-                    char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-                            
-                    //Create dynamic string for series of variable choices
-                    StringBuffer htmlQuestionChoice = new StringBuffer();
-                       	
-                  
-                    //Loop through choices and create rows/columns of radio buttons for the user to select
-                    for (int i = 0; i < QuestionChoiceList.size(); i++) 
-                    {
-                    	QuestionChoice questionChoice = QuestionChoiceList.get(i);
-                            	
-                    	//Create list of choices in html format
-                        htmlQuestionChoice.append("<a href=\"")
-                        .append(triviaUrl)
-                        .append(ASK_ID_TAG)
-                        .append("/")
-                        .append(Integer.toString(questionChoice.getChoice().getChoiceId()))
-                        .append("\">")
-                        .append(Character.toString(alphabet[i]))
-                        .append(") ")
-                        .append(questionChoice.getChoice().getChoiceText())
-                        .append("</a><br>\n");
-                        
-                    }
-                    
-                    //Replace choice list with question html
-                    htmlTemplate = htmlTemplate.replaceAll(CHOICE_LIST_TAG,
-                    		htmlQuestionChoice.toString());
                             
                     //Now loop through contestants and send the emails
                     for (int i = 0; i < ContestantList.size(); i++) 
@@ -234,6 +208,10 @@ public class SendTriviaQuestion implements DivisionService {
                     	    //Set first name to make friendly text
                     	    String content = htmlTemplate.replaceAll(FIRST_NAME_TAG,
                     			contestant.getUser().getFirstName());
+                    	    
+                    	    //Send randomized choices to users to hinder cheating
+                    	    content = content.replaceAll(CHOICE_LIST_TAG, 
+                    	    		randomizeChoiceList(QuestionChoiceList, triviaUrl));
                     	    
                             EntityManager emAskInsert = factory.createEntityManager();
                             EntityTransaction entityTransaction = emAskInsert.getTransaction();
@@ -299,6 +277,38 @@ public class SendTriviaQuestion implements DivisionService {
         return ScheduledQuestion;
     }
 
+    public String randomizeChoiceList(List <QuestionChoice> QuestionChoiceList, String triviaUrl)
+    {
+    	//Create Alpha Choice for end user
+        char[] alphabet = ALPHABET.toCharArray();
+                    
+        //Create dynamic string for series of variable choices
+        StringBuffer htmlQuestionChoice = new StringBuffer();
+  	      
+        Collections.shuffle(QuestionChoiceList);
+            
+        //Loop through choices and create rows/columns of radio buttons for the user to select
+        for (int i = 0; i < QuestionChoiceList.size(); i++) 
+        {
+        	QuestionChoice questionChoice = QuestionChoiceList.get(i);
+                    	
+            //Create list of choices in html format
+            htmlQuestionChoice.append("<a href=\"")
+                .append(triviaUrl)
+                .append(ASK_ID_TAG)
+                .append("/")
+                .append(Integer.toString(questionChoice.getChoice().getChoiceId()))
+                .append("\">")
+                .append(Character.toString(alphabet[i]))
+                .append(") ")
+                .append(questionChoice.getChoice().getChoiceText())
+                .append("</a><br>\n");
+                
+         }
+         
+        return htmlQuestionChoice.toString();
+            
+    }
 
     @Override
     public Class<? extends Annotation> annotationType() {

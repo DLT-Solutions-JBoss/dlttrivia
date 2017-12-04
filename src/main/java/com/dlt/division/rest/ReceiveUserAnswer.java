@@ -211,10 +211,16 @@ public class ReceiveUserAnswer implements DivisionService {
                     
                     //Get HTML template from webapp resource location
                     htmlTemplate = fileContents.toString();
+    
+                    //Get Trivia URL from environmental variables
+                    String triviaUrl = "";
+                    if(System.getenv("TRIVIA_BASE_URL") != null)
+                    {
+                    	triviaUrl = System.getenv("TRIVIA_BASE_URL");
+                    }
                     
                     //Replace tag with question text
-                    htmlTemplate = htmlTemplate.replaceAll(API_URL_TAG,
-                    		"http://trivia-dlt.apps.ocp.test-demo-dlt.com/");
+                    htmlTemplate = htmlTemplate.replaceAll(API_URL_TAG, triviaUrl);
                     
                     //Replace tag with question text
                     htmlTemplate = htmlTemplate.replaceAll(ANSWER_LONG_TEXT_TAG,
