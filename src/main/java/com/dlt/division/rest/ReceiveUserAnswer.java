@@ -145,6 +145,7 @@ public class ReceiveUserAnswer implements DivisionService {
             }
             else
             {
+            	System.out.println("ResponseList is - "+ responseList.toString());
             	bAlreadyResponded = true;
             }
             
