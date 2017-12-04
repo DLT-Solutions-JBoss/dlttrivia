@@ -35,6 +35,7 @@ public class ReceiveUserAnswer implements DivisionService {
 	
 	    //Set constants
 	    static final String TITLE_TAG                       = "<!--TITLE-->";
+	    static final String SUMMARY_TAG                     = "<!--SUMMARY-->";
 	    static final String API_URL_TAG                     = "<!--API_URL-->";
 	    static final String FIRST_NAME_TAG                  = "<!--FIRST_NAME-->";
 	    static final String RESULT_TEXT_TAG                 = "<!--RESULT_TEXT-->";
@@ -81,7 +82,8 @@ public class ReceiveUserAnswer implements DivisionService {
         public String getAnswer(@PathParam("askId") long iAskId, @PathParam("answerId") int iAnswerId)
         {
         	String sFormattedDate = "";
-        	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        	SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        	int iResponseChoiceId = 0;
         	
         	String htmlTemplate = "<!DOCTYPE html><html lang=\"en\">There was an error with your answer</html>";
         	
@@ -134,7 +136,7 @@ public class ReceiveUserAnswer implements DivisionService {
                     entityTransaction.commit();
                     
                     //Regardless of repeated answer IDs from user, always use the one from the Originial Response
-                    iAnswerId = response.getChoice().getChoiceId();
+                    iResponseChoiceId = response.getChoice().getChoiceId();
                     
                     //Get formatted Date
                     
@@ -155,6 +157,7 @@ public class ReceiveUserAnswer implements DivisionService {
             else
             {
             	sFormattedDate = dateFormat.format(responseList.get(0).getCreated());
+            	iResponseChoiceId = responseList.get(0).getChoice().getChoiceId();
             }
             
             //Get Choice text selected by the user
@@ -163,11 +166,11 @@ public class ReceiveUserAnswer implements DivisionService {
             @SuppressWarnings("unchecked")
             List <QuestionChoice> QuestionChoiceList = query.getResultList(); 
             
-            int iCorrectChoice = 0;
+            int iCorrectChoiceId = 0;
             
             if(!QuestionChoiceList.isEmpty())
             {
-            	iCorrectChoice = QuestionChoiceList.get(0).getChoice().getChoiceId();
+            	iCorrectChoiceId = QuestionChoiceList.get(0).getChoice().getChoiceId();
             }
          
         	//Get Question from Ask
@@ -226,13 +229,11 @@ public class ReceiveUserAnswer implements DivisionService {
                     htmlTemplate = htmlTemplate.replaceAll(TITLE_TAG, TRIVIA_TITLE);
 
                     //If the user answered incorrectly
-                    if(iAnswerId == iCorrectChoice)
+                    if(iAnswerId == iCorrectChoiceId)
                     {
                         //Replace result text in the template
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
-                    		"Congrats, you're correct! You earned "+
-                    		askList.get(0).getScheduledQuestion().getQuestion().getQuestionValue() +
-                            " points registered on "+sFormattedDate);
+                    		"Congrats, you're correct!");
                     
                         //Replace result color in the template
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_COLOR_TAG,
@@ -242,7 +243,7 @@ public class ReceiveUserAnswer implements DivisionService {
                     {  
                         //Get Choice text selected by the user
                         query = emChoice.createQuery("FROM com.dlt.division.model.Choice where choice_id = ?1");
-                        query.setParameter(1,iCorrectChoice);
+                        query.setParameter(1,iCorrectChoiceId);
                         @SuppressWarnings("unchecked")
                         List <Choice> CorrectChoiceList = query.getResultList(); 
                  
@@ -252,7 +253,7 @@ public class ReceiveUserAnswer implements DivisionService {
                         
                         //Replace result text in the template
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
-                    		"Sorry, that is incorrect.  Your answer was registered on "+sFormattedDate);
+                    		"Sorry, that is incorrect.");
                         
                         //Replace result color in the template
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_COLOR_TAG,
@@ -266,6 +267,21 @@ public class ReceiveUserAnswer implements DivisionService {
                     //Replace correct answer text in the template
                     htmlTemplate = htmlTemplate.replaceAll(CORRECT_ANSWER_CHOICE_TEXT_TAG,
                     		QuestionChoiceList.get(0).getChoice().getChoiceText());
+                                  
+                    //Replace summary text in the template
+                    if(iResponseChoiceId == iCorrectChoiceId)
+                    {
+                    	htmlTemplate = htmlTemplate.replaceAll(SUMMARY_TAG,
+                    			"You correctly answered this question on "+sFormattedDate + 
+                    			" and earned "+
+                		askList.get(0).getScheduledQuestion().getQuestion().getQuestionValue() +
+                		        " points.");
+                    }
+                    else
+                    {
+                    	htmlTemplate = htmlTemplate.replaceAll(SUMMARY_TAG,
+                    			"You answered this question on "+sFormattedDate);
+                    }
                     
                     System.out.println("Done answering scheduled question - "+sched.getValue());
 
