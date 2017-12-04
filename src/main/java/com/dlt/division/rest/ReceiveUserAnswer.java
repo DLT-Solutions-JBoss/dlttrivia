@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.annotation.Annotation;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -79,7 +80,8 @@ public class ReceiveUserAnswer implements DivisionService {
         @DivisionService(ServiceType.EP)
         public String getAnswer(@PathParam("askId") long iAskId, @PathParam("answerId") int iAnswerId)
         {
-        	boolean bAlreadyResponded = false;
+        	String sFormattedDate = "";
+        	SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         	
         	String htmlTemplate = "<!DOCTYPE html><html lang=\"en\">There was an error with your answer</html>";
         	
@@ -130,6 +132,13 @@ public class ReceiveUserAnswer implements DivisionService {
                     emResponse.persist(response);
                     emResponse.flush();                       
                     entityTransaction.commit();
+                    
+                    //Regardless of repeated answer IDs from user, always use the one from the Originial Response
+                    iAnswerId = response.getChoice().getChoiceId();
+                    
+                    //Get formatted Date
+                    
+                    sFormattedDate = dateFormat.format(response.getCreated());
 
                     System.out.println("Response saved successfully with ID = "+response.getResponseId());
                 }
@@ -145,8 +154,7 @@ public class ReceiveUserAnswer implements DivisionService {
             }
             else
             {
-            	System.out.println("ResponseList is - "+ responseList.toString());
-            	bAlreadyResponded = true;
+            	sFormattedDate = dateFormat.format(responseList.get(0).getCreated());
             }
             
             //Get Choice text selected by the user
@@ -200,17 +208,6 @@ public class ReceiveUserAnswer implements DivisionService {
                     
                     //Get HTML template from webapp resource location
                     htmlTemplate = fileContents.toString();
- 
-                    if(bAlreadyResponded)
-                    {
-                        //Replace result text in the template
-                        htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
-                    		"You already answered this question. No points for you!");
-                        
-                      //Replace result color in the template
-                        htmlTemplate = htmlTemplate.replaceAll(RESULT_COLOR_TAG,
-                		RESULT_INCORRECT_COLOR);
-                    }
                     
                     //Replace tag with question text
                     htmlTemplate = htmlTemplate.replaceAll(API_URL_TAG,
@@ -229,8 +226,20 @@ public class ReceiveUserAnswer implements DivisionService {
                     htmlTemplate = htmlTemplate.replaceAll(TITLE_TAG, TRIVIA_TITLE);
 
                     //If the user answered incorrectly
-                    if(iAnswerId != iCorrectChoice)
+                    if(iAnswerId == iCorrectChoice)
                     {
+                        //Replace result text in the template
+                        htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
+                    		"Congrats, you're correct! You earned "+
+                    		askList.get(0).getScheduledQuestion().getQuestion().getQuestionValue() +
+                            " points registered on "+sFormattedDate);
+                    
+                        //Replace result color in the template
+                        htmlTemplate = htmlTemplate.replaceAll(RESULT_COLOR_TAG,
+                		RESULT_CORRECT_COLOR);                    
+                    }
+                    else
+                    {  
                         //Get Choice text selected by the user
                         query = emChoice.createQuery("FROM com.dlt.division.model.Choice where choice_id = ?1");
                         query.setParameter(1,iCorrectChoice);
@@ -243,23 +252,11 @@ public class ReceiveUserAnswer implements DivisionService {
                         
                         //Replace result text in the template
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
-                    		"Sorry, that is incorrect.");
+                    		"Sorry, that is incorrect.  Your answer was registered on "+sFormattedDate);
                         
                         //Replace result color in the template
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_COLOR_TAG,
                 		RESULT_INCORRECT_COLOR);
-                    }
-                    else
-                    {  
-                        //Replace result text in the template
-                        htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
-                    		"Congrats, you're correct! You earned "+
-                    		askList.get(0).getScheduledQuestion().getQuestion().getQuestionValue() +
-                            " points.");
-                    
-                        //Replace result color in the template
-                        htmlTemplate = htmlTemplate.replaceAll(RESULT_COLOR_TAG,
-                		RESULT_CORRECT_COLOR);
                     }
                 
                     //Replace user's answer text in the template
