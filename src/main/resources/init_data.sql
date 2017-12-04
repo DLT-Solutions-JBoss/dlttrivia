@@ -288,10 +288,14 @@ insert into question_tag (question_tag_id, question_id, tag_id) values (80,20,4)
 
 insert into contest (contest_id, contest_title) values (1,"Red Hat");
 
-insert into contestant (contestant_id, contest_id, user_id) values (1, 1,1);  
+insert into contestant (contestant_id, contest_id, user_id) values (1,1,1);  
+insert into contestant (contestant_id, contest_id, user_id) values (2,1,30); 
 
-insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (1,1,1,'2017-11-29',FALSE, 0);
-insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (2,1,2,'2017-11-30',FALSE, 0);
-insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (3,1,3,'2017-12-01',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (1,1,1,'2017-12-04',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (2,1,2,'2017-12-05',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (3,1,3,'2017-12-06',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (4,1,4,'2017-12-07',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (5,1,5,'2017-12-08',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (6,1,6,'2017-12-09',FALSE, 0);
 
 

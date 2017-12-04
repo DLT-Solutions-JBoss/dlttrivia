@@ -80,6 +80,7 @@ public class ReceiveUserAnswer implements DivisionService {
         public String getAnswer(@PathParam("askId") long iAskId, @PathParam("answerId") int iAnswerId)
         {
         	boolean bAlreadyResponded = false;
+        	
         	String htmlTemplate = "<!DOCTYPE html><html lang=\"en\">There was an error with your answer</html>";
         	
         	//Get Question from Ask
@@ -93,28 +94,14 @@ public class ReceiveUserAnswer implements DivisionService {
             {
             	return htmlTemplate;
             }
-     
+
             //Get Choice text selected by the user
             query = emChoice.createQuery("FROM com.dlt.division.model.Choice where choice_id = ?1");
             query.setParameter(1,iAnswerId);
             @SuppressWarnings("unchecked")
             List <Choice> ChoiceList = query.getResultList(); 
      
-            Choice choice = ChoiceList.get(0);
-            
-            //Get Choice text selected by the user
-            query = emChoice.createQuery("FROM com.dlt.division.model.QuestionChoice where question_id = ?1 and is_correct = true");
-            query.setParameter(1,askList.get(0).getScheduledQuestion().getQuestion().getQuestionId());
-            @SuppressWarnings("unchecked")
-            List <QuestionChoice> QuestionChoiceList = query.getResultList(); 
-            
-            int iCorrectChoice = 0;
-            
-            if(!QuestionChoiceList.isEmpty())
-            {
-            	QuestionChoice qc = QuestionChoiceList.get(0);
-            	iCorrectChoice = qc.getChoice().getChoiceId();
-            }
+            Choice userChoice = ChoiceList.get(0);
             
         	//Ensure it wasn't already responded to
             query = emResponse.createQuery("FROM com.dlt.division.model.Response where ask_id = ?1");
@@ -136,7 +123,7 @@ public class ReceiveUserAnswer implements DivisionService {
             	
                     Response response = new Response();
                     response.setAsk(askList.get(0));;
-                    response.setChoice(ChoiceList.get(0));
+                    response.setChoice(userChoice);
                     response.setResponded(new Date(System.currentTimeMillis()));
                     response.setCreated(new Date(System.currentTimeMillis()));
                     response.setUpdated(new Date(System.currentTimeMillis()));
@@ -161,6 +148,19 @@ public class ReceiveUserAnswer implements DivisionService {
             	bAlreadyResponded = true;
             }
             
+            //Get Choice text selected by the user
+            query = emChoice.createQuery("FROM com.dlt.division.model.QuestionChoice where question_id = ?1 and is_correct = true");
+            query.setParameter(1,askList.get(0).getScheduledQuestion().getQuestion().getQuestionId());
+            @SuppressWarnings("unchecked")
+            List <QuestionChoice> QuestionChoiceList = query.getResultList(); 
+            
+            int iCorrectChoice = 0;
+            
+            if(!QuestionChoiceList.isEmpty())
+            {
+            	iCorrectChoice = QuestionChoiceList.get(0).getChoice().getChoiceId();
+            }
+         
         	//Get Question from Ask
             if(askList.get(0).getScheduledQuestion() != null)
             {
@@ -171,7 +171,7 @@ public class ReceiveUserAnswer implements DivisionService {
                       
                     //Read in the content of the html template
                     InputStream in =
-                    		SendTriviaQuestion.class.getClassLoader().getResourceAsStream(TRIVIA_ANSWER_HTML_TEMPLATE);
+                    		ReceiveUserAnswer.class.getClassLoader().getResourceAsStream(TRIVIA_ANSWER_HTML_TEMPLATE);
  
                     StringBuffer fileContents = new StringBuffer(); 
                     
@@ -227,7 +227,6 @@ public class ReceiveUserAnswer implements DivisionService {
                     //Replace question ID in param syntax
                     htmlTemplate = htmlTemplate.replaceAll(TITLE_TAG, TRIVIA_TITLE);
 
-
                     //If the user answered incorrectly
                     if(iAnswerId != iCorrectChoice)
                     {
@@ -237,11 +236,9 @@ public class ReceiveUserAnswer implements DivisionService {
                         @SuppressWarnings("unchecked")
                         List <Choice> CorrectChoiceList = query.getResultList(); 
                  
-                        Choice correctChoice = CorrectChoiceList.get(0);
-
                     	//Replace correct answer text in the template
                         htmlTemplate = htmlTemplate.replaceAll(CORRECT_ANSWER_CHOICE_TEXT_TAG,
-                    		correctChoice.getChoiceText());
+                        		CorrectChoiceList.get(0).getChoiceText());
                         
                         //Replace result text in the template
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_TEXT_TAG,
@@ -263,15 +260,14 @@ public class ReceiveUserAnswer implements DivisionService {
                         htmlTemplate = htmlTemplate.replaceAll(RESULT_COLOR_TAG,
                 		RESULT_CORRECT_COLOR);
                     }
-
-                    
+                
                     //Replace user's answer text in the template
                     htmlTemplate = htmlTemplate.replaceAll(USER_ANSWER_TEXT_TAG,
-                    		choice.getChoiceText());
+                    		QuestionChoiceList.get(0).getChoice().getChoiceText());
 
                     //Replace correct answer text in the template
                     htmlTemplate = htmlTemplate.replaceAll(CORRECT_ANSWER_CHOICE_TEXT_TAG,
-                    		choice.getChoiceText());
+                    		QuestionChoiceList.get(0).getChoice().getChoiceText());
                     
                     System.out.println("Done answering scheduled question - "+sched.getValue());
 
