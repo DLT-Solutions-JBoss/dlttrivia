@@ -262,7 +262,7 @@ public class ReceiveUserAnswer implements DivisionService {
                 
                     //Replace user's answer text in the template
                     htmlTemplate = htmlTemplate.replaceAll(USER_ANSWER_TEXT_TAG,
-                    		QuestionChoiceList.get(0).getChoice().getChoiceText());
+                    		ChoiceList.get(0).getChoiceText());
 
                     //Replace correct answer text in the template
                     htmlTemplate = htmlTemplate.replaceAll(CORRECT_ANSWER_CHOICE_TEXT_TAG,
@@ -271,11 +271,17 @@ public class ReceiveUserAnswer implements DivisionService {
                     //Replace summary text in the template
                     if(iResponseChoiceId == iCorrectChoiceId)
                     {
+                    	String sPoint = " points.";
+                    	if(askList.get(0).getScheduledQuestion().getQuestion().getQuestionValue() == 1)
+                    	{
+                    		sPoint = " point.";
+                    	}
+                    	
                     	htmlTemplate = htmlTemplate.replaceAll(SUMMARY_TAG,
                     			"You correctly answered this question on "+sFormattedDate + 
                     			" and earned "+
                 		askList.get(0).getScheduledQuestion().getQuestion().getQuestionValue() +
-                		        " points.");
+                		        sPoint);
                     }
                     else
                     {
