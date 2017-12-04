@@ -82,7 +82,7 @@ public class ReceiveUserAnswer implements DivisionService {
         public String getAnswer(@PathParam("askId") long iAskId, @PathParam("answerId") int iAnswerId)
         {
         	String sFormattedDate = "";
-        	SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        	SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE MMMMM yyyy HH:mm");
         	int iResponseChoiceId = 0;
         	
         	String htmlTemplate = "<!DOCTYPE html><html lang=\"en\">There was an error with your answer</html>";
