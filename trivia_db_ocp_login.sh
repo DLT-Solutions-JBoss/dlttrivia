@@ -13,4 +13,11 @@ oc project $OCP_TRIVIA_PROJECT
 # Get the Pod name where the Trivia DB is running
 export TRIVIA_DB_POD=`oc get pods -o jsonpath='{.items[*].metadata.name}' --selector deploymentConfig=trivia-mysql`
 
+# Forward the port to your local machine of the Trivia DB
+if [[ $(netstat -ltn | grep ":${TRIVIA_DB_LOCAL_PORT} " | wc -l) -eq "0" ]] ;
+then
+  oc port-forward $TRIVIA_DB_POD $TRIVIA_DB_LOCAL_PORT:3306 &
+#  wait
+fi
+
 
