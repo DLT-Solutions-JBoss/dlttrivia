@@ -4,5 +4,5 @@
 port=13306
 if [[ $(netstat -ltn | grep ":${port} " | wc -l) -eq "0" ]] ; 
 then 
-  nohup oc port-forward $TRIVIA_DB_POD $port:3306 &
+  oc port-forward $TRIVIA_DB_POD $port:3306 
 fi
