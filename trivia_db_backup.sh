@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dt=$(date '+%d/%m/%Y %H:%M:%S');
+dt=$(date '+%m/%d/%Y %H:%M:%S');
 
 echo "Starting back-up of DLT EP Trivia Database (MySQL)!"
 
