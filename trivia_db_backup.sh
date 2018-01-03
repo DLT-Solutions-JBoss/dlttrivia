@@ -28,5 +28,5 @@ echo "Updating DLTTrivia Git repo..."
 git commit -am "latest backup of DLT Trivia DB at $dt"
 
 # Push to origin
-git push --no-verify
+git push 
 
