@@ -14,13 +14,7 @@ oc project $OCP_TRIVIA_PROJECT
 export TRIVIA_DB_POD=`oc get pods -o jsonpath='{.items[*].metadata.name}' --selector deploymentConfig=trivia-mysql`
 
 # Forward the port to your local machine of the Trivia DB
-
-port=13306
-if [[ $(netstat -ltn | grep ":${port} " | wc -l) -eq "0" ]] ; 
-then 
-  oc port-forward $TRIVIA_DB_POD $port:3306 &&
-  mysqldump trivia user question choice question_choice tag question_tag contest contestant scheduled_question ask response hibernate_sequence --user=$TRIVIA_DB_USER --password=$TRIVIA_DB_PWD --host=127.0.0.1 --port=$port --no-create-info --skip-triggers --compact > ./src/main/resources/init_data_2.sql
-fi
+./trivia_db_port-forward.sh
 
 # Run mysqldump to obtain latest trivia data
 echo mysqldump trivia user question choice question_choice tag question_tag contest contestant scheduled_question ask response hibernate_sequence --user=$TRIVIA_DB_USER --password=$TRIVIA_DB_PWD --host=127.0.0.1 --port=$port --no-create-info --skip-triggers --compact 
