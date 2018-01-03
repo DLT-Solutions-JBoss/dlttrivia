@@ -19,8 +19,8 @@ export TRIVIA_DB_POD=`oc get pods -o jsonpath='{.items[*].metadata.name}' --sele
 # Forward the port to your local machine of the Trivia DB
 if [[ $(netstat -ltn | grep ":${TRIVIA_DB_LOCAL_PORT} " | wc -l) -eq "0" ]] ;
 then
-  yes "\r" | oc port-forward $TRIVIA_DB_POD $TRIVIA_DB_LOCAL_PORT:3306 & > /dev/null
-  yes "\r" | echo "Trivia DB port now forwarded from $TRIVIA_DB_LOCAL_PORT to 3306"
+  yes "" | oc port-forward $TRIVIA_DB_POD $TRIVIA_DB_LOCAL_PORT:3306 & > /dev/null
+  yes "" | echo "Trivia DB port now forwarded from $TRIVIA_DB_LOCAL_PORT to 3306"
 fi
 
 
