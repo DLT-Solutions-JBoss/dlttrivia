@@ -4,3 +4,4 @@ target
 !.settings/.jsdtscope
 .project
 .classpath
+trivia_db_backup.env
