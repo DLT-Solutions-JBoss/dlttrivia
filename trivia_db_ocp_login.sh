@@ -4,6 +4,9 @@ dt=$(date '+%m/%d/%Y %H:%M:%S');
 
 echo "Starting back-up of DLT EP Trivia Database (MySQL)!"
 
+echo "Setting environment variables"
+source ./trivia_db_backup.env
+
 # Login to OCP
 oc login $OCP_URL -u $OCP_LOGIN -p $OCP_PWD
 
@@ -17,7 +20,6 @@ export TRIVIA_DB_POD=`oc get pods -o jsonpath='{.items[*].metadata.name}' --sele
 if [[ $(netstat -ltn | grep ":${TRIVIA_DB_LOCAL_PORT} " | wc -l) -eq "0" ]] ;
 then
   oc port-forward $TRIVIA_DB_POD $TRIVIA_DB_LOCAL_PORT:3306 &
-#  wait
 fi
 
 
