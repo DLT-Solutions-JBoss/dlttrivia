@@ -96,8 +96,9 @@ public class SendTriviaQuestion implements DivisionService {
         public List<ScheduledQuestion> sendQuestion(@PathParam("contestId") int iContestId)
         {
         	//Get Question from Contest
-            Query query = emScheduledQuestion.createQuery("FROM com.dlt.division.model.ScheduledQuestion where scheduled > current_date() - 1 order by scheduled")
+            Query query = emScheduledQuestion.createQuery("FROM com.dlt.division.model.ScheduledQuestion where contest_id = ?1 and scheduled > current_date() - 1 order by scheduled")
                             .setMaxResults(1);
+            query.setParameter(1,iContestId);
             @SuppressWarnings("unchecked")
             List <ScheduledQuestion> ScheduledQuestion = query.getResultList();
             
