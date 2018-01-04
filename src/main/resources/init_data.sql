@@ -1,6 +1,6 @@
 insert into user (user_id, first_name, last_name, email, status) values (1,'Rick','Stewart', 'rick.stewart@dlt.com', TRUE);
 insert into user (user_id, first_name, last_name, email, status) values (2,'Matt','Micene', 'matt.micene@dlt.com', FALSE);
-insert into user (user_id, first_name, last_name, email, status) values (3,'Jason','Quinn', 'jason.quinn@dlt.com', FALSE);
+insert into user (user_id, first_name, last_name, email, status) values (3,'Jason','Quinn', 'jason.quinn@dlt.com', TRUE);
 insert into user (user_id, first_name, last_name, email, status) values (4,'Jake','Wasser', 'jake.wasser@dlt.com', FALSE);
 insert into user (user_id, first_name, last_name, email, status) values (5,'Tyler','Price', 'tyler.price@dlt.com', TRUE);
 insert into user (user_id, first_name, last_name, email, status) values (6,'Jonathan','Bowe', 'jonathan.bowe@dlt.com', TRUE);
@@ -8,10 +8,10 @@ insert into user (user_id, first_name, last_name, email, status) values (7,'Jenn
 insert into user (user_id, first_name, last_name, email, status) values (8,'Klint','Simpson', 'klint.simpson@dlt.com', FALSE);
 insert into user (user_id, first_name, last_name, email, status) values (9,'Joe','Perrino', 'joe.perrino@dlt.com', FALSE);
 insert into user (user_id, first_name, last_name, email, status) values (10,'Jim','Propps', 'jim.propps@dlt.com', FALSE);
-insert into user (user_id, first_name, last_name, email, status) values (11,'Jason','Schmidt', 'jason.schmidt@dlt.com', FALSE);
+insert into user (user_id, first_name, last_name, email, status) values (11,'Jason','Schmidt', 'jason.schmidt@dlt.com', TRUE);
 insert into user (user_id, first_name, last_name, email, status) values (12,'Kyle','Petrosino', 'kyle.petrosino@dlt.com', TRUE);
 insert into user (user_id, first_name, last_name, email, status) values (13,'Dana','Suarez', 'dana.suarez@dlt.com', FALSE);
-insert into user (user_id, first_name, last_name, email, status) values (14,'Erica','Gallagher', 'erica.gallagher@dlt.com', FALSE);
+insert into user (user_id, first_name, last_name, email, status) values (14,'Erica','Gallagher', 'erica.gallagher@dlt.com', TRUE);
 insert into user (user_id, first_name, last_name, email, status) values (15,'Jason','Erickson', 'jason.erickson@dlt.com', TRUE);
 insert into user (user_id, first_name, last_name, email, status) values (16,'Kevin','Corey', 'kevin.corey@dlt.com', TRUE);
 insert into user (user_id, first_name, last_name, email, status) values (17,'Samantha','Hartle', 'samantha.hartle@dlt.com', TRUE);
@@ -32,8 +32,12 @@ insert into user (user_id, first_name, last_name, email, status) values (31,'Dou
 insert into user (user_id, first_name, last_name, email, status) values (32,'Seth','Anderson', 'seth.anderson@dlt.com', TRUE);
 insert into user (user_id, first_name, last_name, email, status) values (33,'Thy','Williams', 'thy.williams@dlt.com', TRUE);
 insert into user (user_id, first_name, last_name, email, status) values (34,'Bryan','Little', 'bryan.little@dlt.com', FALSE);
-insert into user (user_id, first_name, last_name, email, status) values (35,'Danny','Climo', 'danny.climo@dlt.com', FALSE);
+insert into user (user_id, first_name, last_name, email, status) values (35,'Danny','Climo', 'danny.climo@dlt.com', TRUE);
 insert into user (user_id, first_name, last_name, email, status) values (36,'Sean','Macdonald', 'sean.macdonald@dlt.com', TRUE);
+insert into user (user_id, first_name, last_name, email, status) values (37,'Jacqueline','Cybulski', 'jacqueline.cybulski@dlt.com', TRUE);
+insert into user (user_id, first_name, last_name, email, status) values (38,'Gary','Shaffer', 'gary.shaffer@dlt.com', TRUE);
+insert into user (user_id, first_name, last_name, email, status) values (39,'Victoria','Negron', 'victoria.negron@dlt.com', TRUE);
+insert into user (user_id, first_name, last_name, email, status) values (40,'Ed','Siu', 'esiu@redhat.com', TRUE);
 
 
 insert into question (question_id, question_text, answer_text, question_value) values (1, 'How does Red Hat work collaboratively with the open source community?','Open source is a development model that takes advantage of a collaborative and community-based development paradigm. Thousands of developers build and share code, and among those contributors you will find developers representing huge organizations like IBM and Intel. This level of collaboration is one reason for the incredible quality of open source.<br>The open source development model is fueled by a community of developers around the world, each working on different projects for different purposes, whereas proprietary models are limited by budget constraints and the vision of a select few individuals. This community effort allows for rapid innovation and higher quality software as the open source model permits developers to fix the bugs where they occur, as soon as they occur.<br>Red Hat continues to acquire effective technology companies to extend our range of solutions into new fields and to strengthen our product portfolio. In the open source model, the source code is accessible. You would not want to buy a car with the hood welded shut; you would want to see the engine so that you know what you are working with. But this freedom is not available in most proprietary models. If you notice a bug in a proprietary model, at best you can document the problem, or you can create aworkaround in your own code. The workaround is not a correct fix, but it might give you the behavior you need. Unfortunately, you cannot know for sure because you cannot see the original problem, only the shadows that it casts. The cumulative result is that open source software is considered to be significantly higher quality than proprietary software.<br> Because open source is a collaborative environment, thousands of developers have contributed hundreds of thousands of lines of code to thousands of open source projects and more are being created every day.<br>Red Hat takes the best code from the community base and make it usable in enterprise environments by hardening, testing, certifying, stabilizing, and supporting it. We take the code and invest a significant portion of our revenue into making it suitable for mission-critical environments.<br> Red Hat sponsors numerous communities to act as testing grounds for what ultimately goes into our products.<br>For example, Fedora is the open source community base for Red Hat Enterprise Linux, JBoss.org is the open source base for JBoss Middleware, Gluster.org is the open source base for Red Hat Storage, and oVirt is the upstream of Red Hat Enterprise Virtualization. The Linux Foundation said it would take 11 billion dollars to create what Fedora represents today, and Fedora continues to evolve and improve.',1);
@@ -290,12 +294,47 @@ insert into contest (contest_id, contest_title) values (1,"Red Hat");
 
 insert into contestant (contestant_id, contest_id, user_id) values (1,1,1);  
 insert into contestant (contestant_id, contest_id, user_id) values (2,1,30); 
+insert into contestant (contestant_id, contest_id, user_id) values (2,1,5);
+insert into contestant (contestant_id, contest_id, user_id) values (3,1,6);
+insert into contestant (contestant_id, contest_id, user_id) values (4,1,7);
+insert into contestant (contestant_id, contest_id, user_id) values (5,1,12);
+insert into contestant (contestant_id, contest_id, user_id) values (6,1,15);
+insert into contestant (contestant_id, contest_id, user_id) values (7,1,16);
+insert into contestant (contestant_id, contest_id, user_id) values (8,1,17);
+insert into contestant (contestant_id, contest_id, user_id) values (9,1,18);
+insert into contestant (contestant_id, contest_id, user_id) values (10,1,21);
+insert into contestant (contestant_id, contest_id, user_id) values (11,1,22);
+insert into contestant (contestant_id, contest_id, user_id) values (12,1,25);
+insert into contestant (contestant_id, contest_id, user_id) values (13,1,26);
+insert into contestant (contestant_id, contest_id, user_id) values (14,1,28);
+insert into contestant (contestant_id, contest_id, user_id) values (15,1,31);
+insert into contestant (contestant_id, contest_id, user_id) values (16,1,32);
+insert into contestant (contestant_id, contest_id, user_id) values (17,1,33);
+insert into contestant (contestant_id, contest_id, user_id) values (18,1,36);
+insert into contestant (contestant_id, contest_id, user_id) values (19,1,37);
+insert into contestant (contestant_id, contest_id, user_id) values (20,1,38);
+insert into contestant (contestant_id, contest_id, user_id) values (21,1,39);
+insert into contestant (contestant_id, contest_id, user_id) values (22,1,40);
 
-insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (1,1,1,'2017-12-04',FALSE, 0);
-insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (2,1,2,'2017-12-05',FALSE, 0);
-insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (3,1,3,'2017-12-06',FALSE, 0);
-insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (4,1,4,'2017-12-07',FALSE, 0);
-insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (5,1,5,'2017-12-08',FALSE, 0);
-insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (6,1,6,'2017-12-09',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (1,1,1,'2018-01-04',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (2,1,2,'2018-01-05',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (3,1,3,'2018-01-08',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (4,1,4,'2018-01-09',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (5,1,5,'2018-01-10',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (6,1,6,'2018-01-11',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (7,1,7,'2018-01-12',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (8,1,8,'2018-01-16',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (9,1,9,'2018-01-17',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (10,1,10,'2018-01-18',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (11,1,11,'2018-01-19',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (12,1,12,'2018-01-20',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (13,1,13,'2018-01-22',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (14,1,14,'2018-01-23',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (15,1,15,'2018-01-24',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (16,1,16,'2018-01-25',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (17,1,17,'2018-01-26',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (18,1,18,'2018-01-29',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (19,1,19,'2018-01-30',FALSE, 0);
+insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (20,1,20,'2018-01-31',FALSE, 0);
 
 
