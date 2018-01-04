@@ -63,8 +63,8 @@ public class SendTriviaQuestion implements DivisionService {
 	    static final String ALPHABET             = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	    
         //Email scheduled trivia question
-        final String username = "DLT.JBoss@gmail.com";
-        final String password = "r3dh4t!@#";
+	final String username = System.getenv("DLT_JBOSS_EMAIL_USER");
+        final String password = System.getenv("DLT_JBOSS_EMAIL_PWD");
 
         //Establish empty Email property class
         Properties props = new Properties();
