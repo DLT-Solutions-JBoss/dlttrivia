@@ -231,33 +231,37 @@ public class SendTriviaQuestion implements DivisionService {
                                 emAskInsert.flush();                               
                                 entityTransaction.commit();
                                 
-                        	    //Set the Ask ID in order to establish the ability to process answer
-                        	    content = content.replaceAll(ASK_ID_TAG,
-                        			Long.toString(ask.getAskId()));
+                                //Set the Ask ID in order to establish the ability to process answer
+                                content = content.replaceAll(ASK_ID_TAG, Long.toString(ask.getAskId()));
                                 
                                 System.out.println("Ask saved successfully with ID = "+ask.getAskId());
+                                
+				//Set content to message text
+                                message.setContent(content, SMTP_MSG_TYPE);
+
+				//Send the email
+                                Transport.send(message);
+
+                                //Log that email was sent
+                                System.out.println("Scheduled Question "+
+                                sched.getValue()+ "sent to"+
+                                  contestant.getUser().getFirstName() + " " +
+                                  contestant.getUser().getLastName());
+
+                                //Email content
+                                System.out.println(content);
+
                             }
                             catch (Exception e) {
                                 if (emAskInsert != null) {
-                                    System.out.println("Ask Transaction is being rolled back.");
+                                    System.out.println("Ask Transaction is being rolled back for "+
+						     contestant.getUser().getFirstName() + 
+						       " " +
+						     contestant.getUser().getLastName());
                                     entityTransaction.rollback();
                                  }
                             }
                     			
-                    	    //Set content to message text
-                            message.setContent(content, SMTP_MSG_TYPE);
-
-                            //Send the email
-                            Transport.send(message);
-                                
-                            //Log that email was sent
-                            System.out.println("Scheduled Question "+
-                              sched.getValue()+ "sent to"+
-                              contestant.getUser().getFirstName() + " " +
-                              contestant.getUser().getLastName());
-                        
-                            //Email content
-                            System.out.println(content);
                         }
                         else
                         {

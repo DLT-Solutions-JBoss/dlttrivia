@@ -292,8 +292,7 @@ insert into question_tag (question_tag_id, question_id, tag_id) values (80,20,4)
 
 insert into contest (contest_id, contest_title) values (1,"Red Hat");
 
-insert into contestant (contestant_id, contest_id, user_id) values (1,1,1);  
-insert into contestant (contestant_id, contest_id, user_id) values (2,1,30); 
+insert into contestant (contestant_id, contest_id, user_id) values (1,1,30); 
 insert into contestant (contestant_id, contest_id, user_id) values (2,1,5);
 insert into contestant (contestant_id, contest_id, user_id) values (3,1,6);
 insert into contestant (contestant_id, contest_id, user_id) values (4,1,7);
@@ -307,14 +306,12 @@ insert into contestant (contestant_id, contest_id, user_id) values (11,1,22);
 insert into contestant (contestant_id, contest_id, user_id) values (12,1,25);
 insert into contestant (contestant_id, contest_id, user_id) values (13,1,26);
 insert into contestant (contestant_id, contest_id, user_id) values (14,1,28);
-insert into contestant (contestant_id, contest_id, user_id) values (15,1,31);
-insert into contestant (contestant_id, contest_id, user_id) values (16,1,32);
-insert into contestant (contestant_id, contest_id, user_id) values (17,1,33);
-insert into contestant (contestant_id, contest_id, user_id) values (18,1,36);
-insert into contestant (contestant_id, contest_id, user_id) values (19,1,37);
-insert into contestant (contestant_id, contest_id, user_id) values (20,1,38);
-insert into contestant (contestant_id, contest_id, user_id) values (21,1,39);
-insert into contestant (contestant_id, contest_id, user_id) values (22,1,40);
+insert into contestant (contestant_id, contest_id, user_id) values (15,1,1);  
+insert into contestant (contestant_id, contest_id, user_id) values (16,1,36);
+insert into contestant (contestant_id, contest_id, user_id) values (17,1,37);
+insert into contestant (contestant_id, contest_id, user_id) values (18,1,38);
+insert into contestant (contestant_id, contest_id, user_id) values (19,1,39);
+insert into contestant (contestant_id, contest_id, user_id) values (20,1,40);
 
 insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (1,1,1,'2018-01-04',FALSE, 0);
 insert into scheduled_question (scheduled_question_id, contest_id, question_id, scheduled, has_been_asked, value) values (2,1,2,'2018-01-05',FALSE, 0);
