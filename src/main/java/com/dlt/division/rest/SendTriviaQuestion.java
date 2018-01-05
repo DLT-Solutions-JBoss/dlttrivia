@@ -262,6 +262,10 @@ public class SendTriviaQuestion implements DivisionService {
                                     entityTransaction.rollback();
                                  }
                             }
+			    finally
+			    {
+                                emAskInsert.close();
+			    }
                     			
                         }
                         else
