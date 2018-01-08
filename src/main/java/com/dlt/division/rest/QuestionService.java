@@ -28,7 +28,7 @@ public class QuestionService implements DivisionService{
 
 
         @GET()
-        @Path("questions/{question_id}")
+        @Path("question/{question_id}")
         @Produces("application/json")
         @DivisionService(ServiceType.EP)
         public List<Question> getQuestion(@PathParam("question_id") int iQuestionId)
@@ -50,7 +50,7 @@ public class QuestionService implements DivisionService{
         {
 
                 Query query = emQuestion.createQuery("FROM com.dlt.division.model.Question where question_id " +
-				"in (select question_id from com.dlt.division.model.ScheduledQuestion where contest_id = ?1) order by question_id");
+				"in (select question_id from scheduled_question where contest_id = ?1) order by question_id");
                 query.setParameter(1,iContestId);
                 @SuppressWarnings("unchecked")
                 List <Question> question = query.getResultList();
@@ -65,7 +65,7 @@ public class QuestionService implements DivisionService{
         public List<Question> getAskedQuestions(@PathParam("contest_id") int iContestId)
         {
                 Query query = emQuestion.createQuery("FROM com.dlt.division.model.Question where question_id " +
-				"in (select question_id from com.dlt.division.model.ScheduledQuestion where has_been_asked is true and contest_id = ?1) "+
+				"in (select question_id from scheduled_question where has_been_asked is true and contest_id = ?1) "+
 				"order by question_id");
                 query.setParameter(1,iContestId);
                 @SuppressWarnings("unchecked")
