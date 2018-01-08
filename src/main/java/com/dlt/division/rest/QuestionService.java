@@ -42,6 +42,20 @@ public class QuestionService implements DivisionService{
                 return question;
         }
 
+	@GET()
+        @Path("questions")
+        @Produces("application/json")
+        @DivisionService(ServiceType.EP)
+        public List<Question> getQuestions()
+        {
+
+                Query query = emQuestion.createQuery("FROM com.dlt.division.model.Question order by question_id");
+                @SuppressWarnings("unchecked")
+                List <Question> question = query.getResultList();
+
+                return question;
+        }
+
         @GET()
         @Path("contestQuestions/{contest_id}")
         @Produces("application/json")
