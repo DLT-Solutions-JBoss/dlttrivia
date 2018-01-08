@@ -26,35 +26,11 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 <script src="js/canvasjs.min.js"></script>
-<script src="js/moment.js"></script>
 <script type="text/javascript">
 
-window.onload = function () {
-	var chart = new CanvasJS.Chart("chartContainer", {
-		theme: "theme2",//theme1
-		title:{
-			text: "Breakfast Provider Favorable Ratings"              
-		},
-		animationEnabled: true,   // change to true
-		data: [              
-		{
-			// Change type to "bar", "area", "spline", "pie",etc.
-			type: "pie",
-			dataPoints: [
-				{ label: "Bagel Cafe",  y: 90  },
-				{ label: "Anitas", y: 25  },
-				{ label: "Tropical Smoothie", y: 50  },
-				{ label: "McDonalds",  y: 10  },
-				{ label: "Chick-Fil-A",  y: 22  }
-			]
-		}
-		]
-	});
-	chart.render();
-}
-
-function loadSchedule()
+function loadQuestions()
 {
    var restStationsHttp;
 
@@ -78,45 +54,27 @@ function loadSchedule()
       {
           var jsonData = JSON.parse(restStationsHttp.responseText);
           var tbody    = '';
-          var tRowDef = '<tr>';
-          var nextUpInd = ' &lt;&lt; Next!';
-
-          var nextFriday = moment().day(5).format('YYYY-MM-DD');
 
           for (var i = 0; i < jsonData.length; i++)
           {
-              if (jsonData[i].deliveryDate === nextFriday)
-              {
-                 nextUpInd = ' &lt;&lt; Next!';
-              }
-              else
-              {
-                 nextUpInd = '';
-              }
-
-              tbody += tRowDef +
-              "<td>"+jsonData[i].deliveryDate+"</td>"+
-              "<td>"+
-
-                 "<a href='mailto:"+jsonData[i].employee.email+"?Subect=DLT%20Breakfast' target='_top'>"+
-                 jsonData[i].employee.firstName+" "+jsonData[i].employee.lastName+
-                 "</a>"+ nextUpInd +
-              "</td>"+
+              tbody += "<tr>"+
+              "<td>"+"<a href='"+jsonData[i].webSiteUrl+"'>"+jsonData[i].name+"</a></td>"+
               "</tr>";
           }
 
-          $('#schedRows').html(tbody);
+          $('#questionRows').html(tbody);
        }
     }
 
-    restStationsHttp.open("GET","/rest/EP/schedules",true);
+    restStationsHttp.open("GET","/rest/EP/questions/1",true);
     restStationsHttp.send();
  }
+
 </script>
 
   </head>
 
-  <body onload='loadSchedule()'>
+  <body onload='loadQuestions()'>
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
@@ -153,21 +111,20 @@ function loadSchedule()
             <li><a href="#">Export</a></li>
           </ul>
           <ul class="nav nav-sidebar">
-            <li><a href="/providers.html">Breakfast Providers</a></li>
+            <li><a href="/schedule.html">Breakfast Schedule</a></li>
             <li><a href="/employees.html">Employees</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h2 class="sub-header">Breakfast Schedule</h2>
+          <h2 class="sub-header">Breakfast Providers</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Assignee</th>
+                  <th>Questions</th>
                 </tr>
               </thead>
-              <tbody id='schedRows'>
+              <tbody id='questionRows'>
               </tbody>
             </table>
           </div>
